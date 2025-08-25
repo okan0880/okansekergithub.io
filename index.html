@@ -1,64 +1,63 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kayar Menü</title>
-<style>
-body {
-    margin: 0;
-    padding: 0;
-    background-color: #121212;
-    overflow-x: hidden;
-}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kayar dddddddMenü</title>
+  <style>
+    body {
+      margin: 0;
+      background: #111;
+      color: white;
+      font-family: Arial, sans-serif;
+      overflow-x: hidden;
+    }
 
-/* Yatay kayar menü */
-.slider {
-    display: flex;
-    overflow-x: scroll;
-    scroll-snap-type: x mandatory;
-    height: 100vh;
-    scrollbar-width: none; /* Firefox için */
-}
-.slider::-webkit-scrollbar {
-    display: none; /* Chrome/Safari için */
-}
+    .scroll-container {
+      display: flex;
+      overflow-x: scroll;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none; /* Firefox */
+    }
 
-.slide {
-    flex: 0 0 30vw; /* Her görsel ekran genişliğinin %30’unu kaplasın */
-    height: 100%;
-    position: relative;
-    scroll-snap-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: transform 0.5s ease;
-}
-.slide:hover {
-    transform: scale(1.1);
-}
+    .scroll-container::-webkit-scrollbar {
+      display: none; /* Chrome, Safari */
+    }
 
-.slide img {
-    height: 100%;
-    width: auto;
-    object-fit: cover;
-    filter: grayscale(100%);
-    transition: filter 0.5s ease;
-}
-.slide:hover img {
-    filter: grayscale(0%);
-}
-</style>
+    .item {
+      flex: 0 0 auto;
+      width: 250px;
+      height: 400px;
+      margin: 10px;
+      scroll-snap-align: start;
+      background-size: cover;
+      background-position: center;
+      border-radius: 10px;
+      transition: transform 0.3s ease;
+    }
+
+    .item:hover {
+      transform: scale(1.1);
+    }
+
+    /* Örnek resimler */
+    .item1 { background-image: url("https://picsum.photos/id/237/400/600"); }
+    .item2 { background-image: url("https://picsum.photos/id/1025/400/600"); }
+    .item3 { background-image: url("https://picsum.photos/id/1035/400/600"); }
+    .item4 { background-image: url("https://picsum.photos/id/1043/400/600"); }
+    .item5 { background-image: url("https://picsum.photos/id/1050/400/600"); }
+  </style>
 </head>
 <body>
+  <h2 style="text-align:center; padding:20px;">Kayar Menü</h2>
 
-<div class="slider">
-    <div class="slide"><img src="https://i.ibb.co/V0sMxvpY/1-1.jpg" alt=""></div>
-    <div class="slide"><img src="https://i.ibb.co/PZ6nysbY/savasan23.png" alt=""></div>
-    <div class="slide"><img src="https://i.ibb.co/CpcLvSsj/349494b3-6f1b-46d9-b5a0-f901fffd7ff7.png" alt=""></div>
-    <div class="slide"><img src="https://i.ibb.co/dJg2n55S/savasan24.png" alt=""></div>
-    <div class="slide"><img src="https://i.ibb.co/V7Sxhh5/bitirme.png" alt=""></div>
-</div>
-
+  <div class="scroll-container">
+    <div class="item item1"></div>
+    <div class="item item2"></div>
+    <div class="item item3"></div>
+    <div class="item item4"></div>
+    <div class="item item5"></div>
+  </div>
 </body>
 </html>
