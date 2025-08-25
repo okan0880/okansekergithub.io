@@ -1,10 +1,205 @@
 <!DOCTYPE html>
-<html>
+<html lang="tr">
 <head>
-    <title>Benim Sitem</title>
-</head>
-<body>
-    <h1>Merhaba Dünya!</h1>
-    <p>Bu benim ilk GitHub Pages sitem.</p>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Projelerim</title>
+<style>
+  body { 
+    margin: 0; 
+    padding: 0; 
+    font-family: 'Montserrat', sans-serif;
+    background-color: #ffffff;
+    color: #333333;
+  }
+
+  /* --- Genel Bölüm Ayarları --- */
+  .hero-wrap{
+    --radius: 18px; 
+    --shadow: 0 8px 25px rgba(0,0,0,.08);
+    --gradient: radial-gradient(1000px 500px at 10% -10%, rgba(99,102,241,.08), transparent 60%),
+                radial-gradient(700px 400px at 110% 10%, rgba(16,185,129,.08), transparent 60%),
+                #fafafa;
+    padding: 30px 0; 
+    background: var(--gradient);
+    border-radius: var(--radius);
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 70vh; 
+  }
+
+  .hero{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;  
+    padding: 18px; 
+    text-align: center;
+  }
+
+  .hero-content{
+    max-width: 800px; /* Maksimum genişliği artırdım */
+    background: rgba(255, 255, 255, 0.75);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: var(--radius);
+    padding: 40px; /* İç boşluğu artırdım */
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+  }
+
+  .hero-content h1{
+    margin: 0 0 15px 0; /* Boşluğu artırdım */
+    font-size: 3em; /* Font boyutunu artırdım */
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: #1a1a1a;
+  }
+  .hero-content h1 span{
+    background: linear-gradient(90deg, #6366f1, #10b981);
+    -webkit-background-clip: text; 
+    background-clip: text; 
+    color: transparent;
+  }
+
+  .hero-content p{
+    margin: 0 0 25px 0; /* Boşluğu artırdım */
+    color: #555555;
+    font-size: 1.2em; /* Font boyutunu artırdım */
+    line-height: 1.7;
+  }
+
+  .cta{ 
+    display: flex; 
+    gap: 12px; 
+    justify-content: center; 
+    flex-wrap: wrap; 
+  }
+  .btn{
+    display: inline-block;
+    padding: 12px 24px; 
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 6px 18px rgba(0,0,0,.08);
+  }
+  .btn:hover{ 
+    transform: translateY(-2px); 
+    box-shadow: 0 8px 25px rgba(0,0,0,.15);
+  }
+  .btn:active{ 
+    transform: translateY(0); 
+  }
+
+  .btn.ghost{
+    background: #ffffff;
+    color: #1a1a1a;
+  }
+  .btn.ghost:hover{
+    background: #6366f1;
+    color: #fff;
+    border-color: #6366f1;
+  }
+
+  @media (max-width: 768px){
+    .hero-wrap{ padding: 20px 0; }
+    .hero-content{ padding: 25px; }
+    .hero-content h1{ font-size: 2.5em; }
+    .hero-content p{ font-size: 1.1em; }
+  }
+
+  /* --- Modal Stilleri --- */
+  #modalBackdrop{
+    display:none;
+    position: fixed;
+    top:0; left:0;
+    width:100%; height:100%;
+    background: rgba(0,0,0,0.5);
+    z-index:999;
+  }
+  #contactModal{
+    display:none;
+    position: fixed;
+    top:50%; left:50%;
+    transform: translate(-50%, -50%);
+    width:400px; /* Modal genişliğini artırdım */
+    max-width:90%;
+    background:#ffffff;
+    color: #333333;
+    padding:30px;
+    border-radius:12px;
+    text-align:center;
+    z-index:1000;
+    box-shadow:0 10px 30px rgba(0,0,0,.3);
+    opacity:0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  #contactModal.show{
+    display:block;
+    opacity:1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  #contactModal h2{ color:#1a1a1a; }
+  #contactModal p{ margin:8px 0; color:#555555; }
+  /* Link stilini sadece linkli olanlar için koru, linki kaldırınca bu stil uygulanmaz */
+  #contactModal a{ color:#6366f1; text-decoration:none; font-weight:bold; }
+  #contactModal button{
+    margin-top:15px; padding:10px 20px; border:none; border-radius:8px; background:#6366f1; color:white; cursor:pointer;
+  }
+</style>
+
+<div class="hero-wrap">
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Merhaba, ben <span>Okan Şeker</span></h1>
+      <p>
+        Üniversite hayatım boyunca gömülü yazılım, FPGA programlama, elektronik devre tasarımı, PCB tasarımı gibi 
+        alanlarda kendimi geliştirdim.Kariyerime bu teknik alanlardan birinde devam etmeyi hedefliyorum. 
+        İletişim için her zaman ulaşabilirsin.
+      </p>
+
+      <div class="cta">
+        <a class="btn ghost" href="#" id="contactBtn">İletişime Geç</a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div id="modalBackdrop"></div>
+
+<div id="contactModal">
+  <h2>İletişim Bilgileri</h2>
+  <p>E-posta: <span>okanseker32@gmail.com</span></p>
+  <p>Telefon: <span>+90 544 344 00 08</span></p>
+  <p>LinkedIn: <span>www.linkedin.com/in/okan-seker-</span></p>
+  <button id="closeModal">Kapat</button>
+</div>
+
+<script>
+  const contactBtn = document.getElementById('contactBtn');
+  const modal = document.getElementById('contactModal');
+  const backdrop = document.getElementById('modalBackdrop');
+  const closeModal = modal.querySelector('button');
+
+  function openModal(){
+    modal.classList.add('show');
+    backdrop.style.display='block';
+  }
+  function closeModalFunc(){
+    modal.classList.remove('show');
+    setTimeout(()=>backdrop.style.display='none',300);
+  }
+
+  contactBtn.addEventListener('click', function(e){
+    e.preventDefault();
+    openModal();
+  });
+  closeModal.addEventListener('click', closeModalFunc);
+  backdrop.addEventListener('click', closeModalFunc);
+</script>
+
 </body>
 </html>
