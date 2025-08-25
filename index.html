@@ -35,10 +35,27 @@
       background-position: center;
       border-radius: 50px;
       transition: transform 0.3s ease;
+      position: relative;
+      overflow: hidden;
     }
 
     .item:hover {
       transform: scale(1.1);
+    }
+
+    /* Kart başlığı */
+    .item-title {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      background: rgba(0, 0, 0, 0.6);
+      padding: 10px;
+      font-size: 18px;
+      font-weight: bold;
+      border-top-left-radius: 50px;
+      border-top-right-radius: 50px;
     }
 
     /* Örnek resimler */
@@ -53,11 +70,11 @@
   <h2 style="text-align:center; padding:20px;">Merhaba, portföyüme hoş geldiniz!</h2>
 
   <div class="scroll-container">
-    <div class="item item1"></div>
-    <div class="item item2"></div>
-    <div class="item item3"></div>
-    <div class="item item4"></div>
-    <div class="item item5"></div>
+    <div class="item item1"><div class="item-title">HAKKIMDA</div></div>
+    <div class="item item2"><div class="item-title">PROJELER</div></div>
+    <div class="item item3"><div class="item-title">STAJ DENEYİMİ</div></div>
+    <div class="item item4"><div class="item-title">OYUNLAR</div></div>
+    <div class="item item5"><div class="item-title">İLETİŞİM</div></div>
   </div>
 </body>
 </html>
