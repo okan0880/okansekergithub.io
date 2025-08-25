@@ -52,7 +52,8 @@ body {
 
 /* --- Resim Stili --- */
 .profile-image {
-    width: 400px; /* Resmin boyutu artırıldı */
+    width: 100%;
+    max-width: 800px; /* `hero-content` ile aynı genişlikte olması için */
     height: auto;
     border-radius: 8px;
     border: 2px solid #6366f1;
@@ -61,6 +62,10 @@ body {
 }
 
 /* --- Metin İçerik Stili --- */
+.text-content {
+    width: 100%; /* Metin içeriğinin resimle aynı genişlikte olması için */
+    text-align: center;
+}
 .text-content h2 {
     margin: 0 0 15px 0;
     font-size: 3em;
@@ -186,7 +191,7 @@ body {
         padding: 25px;
     }
     .profile-image {
-        width: 100%; /* Mobil cihazlarda resmin tüm genişliği kaplamasını sağlar */
+        width: 100%;
     }
     .hero-content h2 {
         font-size: 2.5em;
