@@ -19,22 +19,10 @@ body {
 
 /* --- Üst Banner (Header) --- */
 .site-header {
-    background-color: #1c1c1c; /* Daha koyu banner rengi */
-    color: #fff;
-    padding: 20px 40px;
+    background-color: #000; /* Tamamen siyah banner */
+    padding: 40px 0; /* Boşluk artırıldı */
     border-bottom: 1px solid #333;
     text-align: center;
-}
-
-.site-header h1 {
-    margin: 0;
-    font-size: 2.5em;
-    font-weight: 800;
-}
-
-.site-header p {
-    margin: 5px 0 0;
-    color: #b0b0b0;
 }
 
 /* --- Ana İçerik Bölümü (Hero) --- */
@@ -85,6 +73,16 @@ body {
     color: #b0b0b0;
     font-size: 1.2em;
     line-height: 1.7;
+}
+
+/* --- Resim Stili --- */
+.profile-image {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%; /* Dairesel resim */
+    border: 3px solid #6366f1;
+    margin-bottom: 20px; /* Alttan boşluk */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
 }
 
 .cta {
@@ -185,10 +183,7 @@ body {
 /* Küçük Ekranlar İçin Düzenlemeler */
 @media (max-width: 768px) {
     .site-header {
-        padding: 15px 20px;
-    }
-    .site-header h1 {
-        font-size: 2em;
+        padding: 25px 20px;
     }
     .hero-content {
         padding: 25px;
@@ -205,13 +200,12 @@ body {
 <body>
 
 <header class="site-header">
-    <h1>Okan Şeker</h1>
-    <p>Gömülü Sistemler ve Elektronik Mühendisi</p>
-</header>
+    </header>
 
 <div class="hero-wrap">
     <section class="hero">
         <div class="hero-content">
+            <img class="profile-image" src="https://i.ibb.co/V0sMxvpY/1-1.jpg" alt="Okan Şeker">
             <h2>Merhaba, ben <span>Okan Şeker</span></h2>
             <p>
                 Üniversite hayatım boyunca gömülü yazılım, FPGA programlama, elektronik devre tasarımı, PCB tasarımı gibi
