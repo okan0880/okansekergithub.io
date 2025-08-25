@@ -1,288 +1,312 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Okan Şeker - Portfolyo</title>
-<style>
-/* GENEL VE RESET STILLERİ */
-body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Montserrat', sans-serif;
-    background-color: #121212;
-    color: #e0e0e0;
-    overflow-x: hidden;
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Okan Şeker - Portfolyo</title>
+    <style>
+        /* GENEL VE RESET STILLERİ */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Montserrat', sans-serif;
+            background-color: #121212;
+            color: #e0e0e0;
+            overflow: hidden;
+        }
 
-/* YAN MENÜ TASARIMI */
-.side-menu-wrap {
-    display: flex;
-    min-height: 100vh;
-    width: 100%;
-    position: relative;
-    background-color: #121212;
-}
+        /* YATAY KAYAN GALERİ KAPSAYICISI */
+        .gallery-wrap {
+            display: flex;
+            width: 100%;
+            height: 100vh;
+            overflow-x: auto;
+            overflow-y: hidden;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+        }
 
-.menu-list {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 250px;
-    background-color: #1e1e1e;
-    z-index: 100;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    padding-left: 50px;
-}
+        .gallery-wrap::-webkit-scrollbar {
+            display: none;
+        }
 
-.menu-item {
-    padding: 15px 0;
-    font-size: 1.5rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: color 0.3s;
-    color: #b0b0b0;
-}
+        /* GALERİ KARTLARI (SEKMELER) */
+        .gallery-item {
+            flex-shrink: 0;
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            scroll-snap-align: center;
+            overflow: hidden;
+        }
 
-.menu-item:hover {
-    color: #ffffff;
-}
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%);
+            transition: filter 0.5s ease-in-out;
+        }
 
-/* GÖRSEL GALERİ TASARIMI */
-.image-gallery {
-    display: flex;
-    flex-grow: 1;
-    margin-left: 250px; /* Menü genişliği kadar boşluk */
-}
+        .gallery-item:hover img {
+            filter: grayscale(0%);
+        }
 
-.image-container {
-    height: 100vh;
-    position: relative;
-    overflow: hidden;
-    transition: width 0.5s ease;
-    flex-grow: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+        .gallery-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            color: #fff;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 20px 40px;
+            border-radius: 10px;
+        }
 
-.image-container:hover {
-    width: 250%; /* Hover durumunda genişleme */
-    flex-grow: 2;
-}
+        .gallery-item:hover .gallery-content {
+            opacity: 1;
+        }
 
-.image-container img {
-    height: 100%;
-    width: auto;
-    object-fit: cover;
-    filter: grayscale(100%);
-    transition: transform 0.5s ease, filter 0.5s ease;
-}
+        .gallery-content h2 {
+            font-size: 3em;
+            margin: 0;
+        }
 
-.image-container:hover img {
-    filter: grayscale(0%);
-    transform: scale(1.1);
-}
+        .gallery-content p {
+            font-size: 1.2em;
+            margin-top: 10px;
+        }
 
-.image-caption {
-    position: absolute;
-    bottom: 20px;
-    left: 20px;
-    color: #fff;
-    background: rgba(0, 0, 0, 0.6);
-    padding: 8px 15px;
-    border-radius: 5px;
-    font-size: 1rem;
-    opacity: 0;
-    transition: opacity 0.3s;
-}
+        /* YAN MENÜ STİLİ (SOL TARAFTA) */
+        .side-menu {
+            position: fixed;
+            top: 50%;
+            left: 20px;
+            transform: translateY(-50%);
+            z-index: 100;
+        }
 
-.image-container:hover .image-caption {
-    opacity: 1;
-}
+        .menu-item {
+            display: block;
+            margin: 15px 0;
+            color: #b0b0b0;
+            text-decoration: none;
+            font-size: 1.1em;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
 
-/* MODAL STİLLERİ */
-.modal-backdrop {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.85);
-    z-index: 999;
-}
+        .menu-item:hover {
+            color: #fff;
+        }
 
-.modal-content {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: #1e1e1e;
-    border-radius: 12px;
-    padding: 30px;
-    width: 90%;
-    max-width: 600px;
-    z-index: 1000;
-    color: #e0e0e0;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    animation: fadeIn 0.3s;
-}
+        /* MODAL STİLLERİ */
+        .modal-backdrop {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 999;
+        }
 
-.modal-content.show {
-    display: block;
-}
+        .modal-content {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #1e1e1e;
+            border-radius: 12px;
+            padding: 30px;
+            width: 90%;
+            max-width: 600px;
+            z-index: 1000;
+            color: #e0e0e0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            animation: fadeIn 0.3s;
+        }
 
-.close-btn {
-    position: absolute;
-    top: 10px;
-    right: 20px;
-    font-size: 28px;
-    cursor: pointer;
-    color: #aaa;
-    transition: color 0.3s;
-}
+        .modal-content.show {
+            display: block;
+        }
 
-.close-btn:hover {
-    color: #fff;
-}
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 28px;
+            cursor: pointer;
+            color: #aaa;
+            transition: color 0.3s;
+        }
 
-/* RESPONSIVE TASARIM */
-@media (max-width: 768px) {
-    .menu-list {
-        width: 100%;
-        height: auto;
-        flex-direction: row;
-        justify-content: space-around;
-        padding: 10px 0;
-        position: relative;
-        background-color: #121212;
-    }
-    .image-gallery {
-        flex-direction: column;
-        margin-left: 0;
-        margin-top: 10px;
-    }
-    .image-container {
-        width: 100% !important;
-        height: 300px;
-    }
-    .image-container:hover {
-        width: 100% !important;
-        flex-grow: 1;
-    }
-}
-</style>
+        .close-btn:hover {
+            color: #fff;
+        }
+
+        /* RESPONSIVE TASARIM */
+        @media (max-width: 768px) {
+            .gallery-content h2 {
+                font-size: 2em;
+            }
+            .gallery-content p {
+                font-size: 1em;
+            }
+            .side-menu {
+                position: relative;
+                top: auto;
+                left: auto;
+                transform: none;
+                text-align: center;
+                margin-top: 20px;
+            }
+            .menu-item {
+                display: inline-block;
+                margin: 0 10px;
+            }
+        }
+    </style>
 </head>
 <body>
 
-<div class="side-menu-wrap">
-    <div class="menu-list">
-        <a href="#" class="menu-item" data-modal="about-modal">Hakkımda</a>
-        <a href="#" class="menu-item" data-modal="projects-modal">Projeler</a>
-        <a href="#" class="menu-item" data-modal="experience-modal">Staj Deneyimi</a>
-        <a href="#" class="menu-item" data-modal="games-modal">Oyunlar</a>
-        <a href="#" class="menu-item" data-modal="contact-modal">İletişim</a>
-    </div>
-
-    <div class="image-gallery">
-        <div class="image-container">
+    <div class="gallery-wrap">
+        <div id="about" class="gallery-item">
             <img src="https://i.ibb.co/V0sMxvpY/1-1.jpg" alt="Hakkımda">
-            <span class="image-caption">Hakkımda</span>
+            <div class="gallery-content">
+                <h2>Hakkımda</h2>
+                <p>Mühendislik alanında uzmanlaşmış, gömülü sistemler ve yazılım geliştirme yeteneklerine sahip bir profesyonel.</p>
+            </div>
         </div>
-        <div class="image-container">
+
+        <div id="projects" class="gallery-item">
             <img src="https://i.ibb.co/PZ6nysbY/savasan23.png" alt="Projeler">
-            <span class="image-caption">Projeler</span>
+            <div class="gallery-content">
+                <h2>Projeler</h2>
+                <p>Elektronik, yazılım ve görüntü işleme alanlarında çeşitli projelere imza attım.</p>
+            </div>
         </div>
-        <div class="image-container">
+
+        <div id="experience" class="gallery-item">
             <img src="https://i.ibb.co/CpcLvSsj/349494b3-6f1b-46d9-b5a0-f901fffd7ff7.png" alt="Staj Deneyimi">
-            <span class="image-caption">Staj Deneyimi</span>
+            <div class="gallery-content">
+                <h2>Staj Deneyimi</h2>
+                <p>Endüstriyel deneyimlerimle teorik bilgimi pratiğe döktüm.</p>
+            </div>
         </div>
-        <div class="image-container">
+
+        <div id="games" class="gallery-item">
             <img src="https://i.ibb.co/dJg2n55S/savasan24.png" alt="Oyunlar">
-            <span class="image-caption">Oyunlar</span>
+            <div class="gallery-content">
+                <h2>Oyunlar</h2>
+                <p>Boş zamanlarımda hobi olarak oyun geliştiriyorum.</p>
+            </div>
         </div>
-        <div class="image-container">
+
+        <div id="contact" class="gallery-item">
             <img src="https://i.ibb.co/V7Sxhh5/bitirme.png" alt="İletişim">
-            <span class="image-caption">İletişim</span>
+            <div class="gallery-content">
+                <h2>İletişim</h2>
+                <p>Benimle iletişime geçmekten çekinmeyin.</p>
+            </div>
         </div>
     </div>
-</div>
 
-<div id="modal-backdrop" class="modal-backdrop"></div>
+    <nav class="side-menu">
+        <a href="#about" class="menu-item">Hakkımda</a>
+        <a href="#projects" class="menu-item">Projeler</a>
+        <a href="#experience" class="menu-item">Staj Deneyimi</a>
+        <a href="#games" class="menu-item">Oyunlar</a>
+        <a href="#contact" class="menu-item">İletişim</a>
+    </nav>
 
-<div id="about-modal" class="modal-content">
-    <span class="close-btn">&times;</span>
-    <h2>Hakkımda</h2>
-    <p>Üniversite hayatım boyunca gömülü yazılım, FPGA programlama, elektronik devre tasarımı, PCB tasarımı gibi alanlarda kendimi geliştirdim. Kariyerime bu teknik alanlardan birinde devam etmeyi hedefliyorum. Kendime ait projeler geliştirmeye, kendimi geliştirmeye ve yeni şeyler öğrenmeye hevesliyim. İletişim için her zaman ulaşabilirsin.</p>
-</div>
+    <div id="modal-backdrop" class="modal-backdrop"></div>
 
-<div id="projects-modal" class="modal-content">
-    <span class="close-btn">&times;</span>
-    <h2>Projeler</h2>
-    <p>2025 Teknofest Hava Savunma Sistemleri Yarışması, Çoklu Kamera ile 3B Nesne Konum Tespiti, 2024 Teknofest Savaşan İHA Yarışması, İnsan Takibi Yapabilen Robotik Göz Tasarımı, Otonom Sistemler İle Görüntü Analizi gibi projelerim bulunmaktadır.</p>
-</div>
+    <div id="about-modal" class="modal-content">
+        <span class="close-btn">&times;</span>
+        <h2>Hakkımda</h2>
+        <p>Üniversite hayatım boyunca gömülü yazılım, FPGA programlama, elektronik devre tasarımı, PCB tasarımı gibi alanlarda kendimi geliştirdim. Kariyerime bu teknik alanlardan birinde devam etmeyi hedefliyorum. Kendime ait projeler geliştirmeye, kendimi geliştirmeye ve yeni şeyler öğrenmeye hevesliyim. İletişim için her zaman ulaşabilirsin.</p>
+    </div>
 
-<div id="experience-modal" class="modal-content">
-    <span class="close-btn">&times;</span>
-    <h2>Staj Deneyimi</h2>
-    <p>Burada staj deneyimlerinizi detaylı olarak açıklayabilirsiniz. Örneğin, hangi şirketlerde çalıştınız, hangi görevleri üstlendiniz ve neler öğrendiniz gibi bilgileri ekleyebilirsiniz. Bu bölümü daha sonra güncelleyebilirsiniz.</p>
-</div>
+    <div id="projects-modal" class="modal-content">
+        <span class="close-btn">&times;</span>
+        <h2>Projeler</h2>
+        <p>2025 Teknofest Hava Savunma Sistemleri Yarışması, Çoklu Kamera ile 3B Nesne Konum Tespiti, 2024 Teknofest Savaşan İHA Yarışması, İnsan Takibi Yapabilen Robotik Göz Tasarımı, Otonom Sistemler İle Görüntü Analizi gibi projelerim bulunmaktadır.</p>
+    </div>
 
-<div id="games-modal" class="modal-content">
-    <span class="close-btn">&times;</span>
-    <h2>Oyunlar</h2>
-    <p>Burada geliştirdiğiniz oyunlar veya oyun geliştirme ile ilgili deneyimlerinizden bahsedebilirsiniz. Hangi teknolojileri kullandınız, oyunların konseptleri neydi gibi detaylar ekleyebilirsiniz.</p>
-</div>
+    <div id="experience-modal" class="modal-content">
+        <span class="close-btn">&times;</span>
+        <h2>Staj Deneyimi</h2>
+        <p>Burada staj deneyimlerinizi detaylı olarak açıklayabilirsiniz. Örneğin, hangi şirketlerde çalıştınız, hangi görevleri üstlendiniz ve neler öğrendiniz gibi bilgileri ekleyebilirsiniz. Bu bölümü daha sonra güncelleyebilirsiniz.</p>
+    </div>
 
-<div id="contact-modal" class="modal-content">
-    <span class="close-btn">&times;</span>
-    <h2>İletişim</h2>
-    <p>E-posta: okanseker32@gmail.com</p>
-    <p>Telefon: +90 544 344 00 08</p>
-    <p>LinkedIn: www.linkedin.com/in/okan-seker-</p>
-</div>
+    <div id="games-modal" class="modal-content">
+        <span class="close-btn">&times;</span>
+        <h2>Oyunlar</h2>
+        <p>Burada geliştirdiğiniz oyunlar veya oyun geliştirme ile ilgili deneyimlerinizden bahsedebilirsiniz. Hangi teknolojileri kullandınız, oyunların konseptleri neydi gibi detaylar ekleyebilirsiniz.</p>
+    </div>
 
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-    const menuItems = document.querySelectorAll('.menu-item');
-    const modals = document.querySelectorAll('.modal-content');
-    const modalBackdrop = document.getElementById('modal-backdrop');
-    const closeButtons = document.querySelectorAll('.close-btn');
+    <div id="contact-modal" class="modal-content">
+        <span class="close-btn">&times;</span>
+        <h2>İletişim</h2>
+        <p>E-posta: okanseker32@gmail.com</p>
+        <p>Telefon: +90 544 344 00 08</p>
+        <p>LinkedIn: www.linkedin.com/in/okan-seker-</p>
+    </div>
 
-    menuItems.forEach(item => {
-        item.addEventListener('click', (e) => {
-            e.preventDefault();
-            const modalId = item.dataset.modal;
-            const targetModal = document.getElementById(modalId);
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuItems = document.querySelectorAll('.menu-item');
+            const galleryItems = document.querySelectorAll('.gallery-item');
+            const modals = document.querySelectorAll('.modal-content');
+            const modalBackdrop = document.getElementById('modal-backdrop');
+            const closeButtons = document.querySelectorAll('.close-btn');
 
-            modalBackdrop.style.display = 'block';
-            targetModal.classList.add('show');
+            // Menü itemlerine tıklama olayı ekleme
+            menuItems.forEach(item => {
+                item.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = item.getAttribute('href').substring(1);
+                    document.getElementById(targetId).scrollIntoView({ behavior: 'smooth' });
+                });
+            });
+
+            // Galeri itemlerine tıklama olayı ekleme
+            galleryItems.forEach(item => {
+                item.addEventListener('click', (e) => {
+                    const targetId = item.id + '-modal';
+                    const targetModal = document.getElementById(targetId);
+
+                    if (targetModal) {
+                        modalBackdrop.style.display = 'block';
+                        targetModal.classList.add('show');
+                    }
+                });
+            });
+
+            // Modal kapatma olayları
+            closeButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    btn.closest('.modal-content').classList.remove('show');
+                    setTimeout(() => {
+                        modalBackdrop.style.display = 'none';
+                    }, 300);
+                });
+            });
+
+            modalBackdrop.addEventListener('click', () => {
+                modals.forEach(modal => modal.classList.remove('show'));
+                setTimeout(() => {
+                    modalBackdrop.style.display = 'none';
+                }, 300);
+            });
         });
-    });
-
-    closeButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            btn.closest('.modal-content').classList.remove('show');
-            setTimeout(() => {
-                modalBackdrop.style.display = 'none';
-            }, 300);
-        });
-    });
-
-    modalBackdrop.addEventListener('click', () => {
-        modals.forEach(modal => modal.classList.remove('show'));
-        setTimeout(() => {
-            modalBackdrop.style.display = 'none';
-        }, 300);
-    });
-});
-</script>
+    </script>
 
 </body>
 </html>
