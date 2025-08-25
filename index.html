@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Merhaba, portföyüme hoş geldsdasdiniz!</title>
+    <title>Merhaba, portföyüme hoş geldiniz!</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
@@ -37,12 +37,17 @@
             justify-content: flex-start;
             align-items: center;
             width: 100%;
-            /* Bu satırlar, ilk ve son kartın ortalanmasını sağlar */
-            padding: 0 calc(50% - 125px); /* Kart genişliğinin yarısı */
+            padding: 0 calc(50% - 125px);
         }
 
         .scroll-container::-webkit-scrollbar {
             display: none;
+        }
+        
+        /* Anchor etiketi için stil sıfırlama */
+        a {
+            text-decoration: none;
+            color: inherit;
         }
 
         .item-wrapper {
@@ -53,12 +58,12 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            margin: 0 10px; /* Kenar boşluğunu biraz daha daraltın */
+            margin: 0 10px;
         }
 
         .item {
-            width: 90vw; /* Ekran genişliğinin %90'ını kapla */
-            max-width: 250px; /* Maksimum genişliği 250px ile sınırla */
+            width: 90vw;
+            max-width: 250px;
             height: 400px;
             background-size: cover;
             background-position: center;
@@ -98,22 +103,30 @@
                 <div class="item item1"></div>
             </div>
         </a>
-        <div class="item-wrapper">
-            <div class="card-title">Projeler</div>
-            <div class="item item2"></div>
-        </div>
-        <div class="item-wrapper">
-            <div class="card-title">Staj Deneyimi</div>
-            <div class="item item3"></div>
-        </div>
-        <div class="item-wrapper">
-            <div class="card-title">Oyunlar</div>
-            <div class="item item4"></div>
-        </div>
-        <div class="item-wrapper">
-            <div class="card-title">İletişim</div>
-            <div class="item item5"></div>
-        </div>
+        <a href="projeler.html">
+            <div class="item-wrapper">
+                <div class="card-title">Projeler</div>
+                <div class="item item2"></div>
+            </div>
+        </a>
+        <a href="staj-deneyimi.html">
+            <div class="item-wrapper">
+                <div class="card-title">Staj Deneyimi</div>
+                <div class="item item3"></div>
+            </div>
+        </a>
+        <a href="oyunlar.html">
+            <div class="item-wrapper">
+                <div class="card-title">Oyunlar</div>
+                <div class="item item4"></div>
+            </div>
+        </a>
+        <a href="iletisim.html">
+            <div class="item-wrapper">
+                <div class="card-title">İletişim</div>
+                <div class="item item5"></div>
+            </div>
+        </a>
     </div>
 </body>
 </html>
