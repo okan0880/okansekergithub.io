@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kayar dddddddMenü</title>
+  <title>Kayar Mssssenü Portfolyo</title>
   <style>
     body {
       margin: 0;
@@ -18,22 +18,26 @@
       overflow-x: scroll;
       scroll-snap-type: x mandatory;
       -webkit-overflow-scrolling: touch;
-      scrollbar-width: none; /* Firefox */
+      scrollbar-width: none;
+      padding: 30px 0;
     }
 
     .scroll-container::-webkit-scrollbar {
-      display: none; /* Chrome, Safari */
+      display: none;
     }
 
     .item {
       flex: 0 0 auto;
-      width: 250px;
+      width: 220px;
       height: 400px;
-      margin: 10px;
+      margin: 0 10px;
       scroll-snap-align: start;
       background-size: cover;
       background-position: center;
-      border-radius: 10px;
+      border-radius: 12px;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
       transition: transform 0.3s ease;
     }
 
@@ -41,23 +45,48 @@
       transform: scale(1.1);
     }
 
+    /* Dikey başlık yazısı */
+    .title {
+      position: absolute;
+      left: 10px;
+      bottom: 20px;
+      writing-mode: vertical-rl;  /* Yazıyı dikey yapar */
+      text-orientation: upright;
+      font-size: 22px;
+      font-weight: bold;
+      color: white;
+      background: rgba(0,0,0,0.5);
+      padding: 5px;
+      border-radius: 6px;
+    }
+
     /* Örnek resimler */
-    .item1 { background-image: url("https://picsum.photos/id/237/400/600"); }
-    .item2 { background-image: url("https://picsum.photos/id/1025/400/600"); }
-    .item3 { background-image: url("https://picsum.photos/id/1035/400/600"); }
-    .item4 { background-image: url("https://picsum.photos/id/1043/400/600"); }
-    .item5 { background-image: url("https://picsum.photos/id/1050/400/600"); }
+    .hakkimda { background-image: url("https://picsum.photos/id/1005/400/600"); }
+    .projeler { background-image: url("https://picsum.photos/id/1011/400/600"); }
+    .staj { background-image: url("https://picsum.photos/id/1027/400/600"); }
+    .oyunlar { background-image: url("https://picsum.photos/id/1039/400/600"); }
+    .iletisim { background-image: url("https://picsum.photos/id/1047/400/600"); }
   </style>
 </head>
 <body>
-  <h2 style="text-align:center; padding:20px;">Kayar Menü</h2>
+  <h2 style="text-align:center; padding:20px;">Portfolyo</h2>
 
   <div class="scroll-container">
-    <div class="item item1"></div>
-    <div class="item item2"></div>
-    <div class="item item3"></div>
-    <div class="item item4"></div>
-    <div class="item item5"></div>
+    <div class="item hakkimda">
+      <div class="title">Hakkımda</div>
+    </div>
+    <div class="item projeler">
+      <div class="title">Projeler</div>
+    </div>
+    <div class="item staj">
+      <div class="title">Staj Deneyimi</div>
+    </div>
+    <div class="item oyunlar">
+      <div class="title">Oyunlar</div>
+    </div>
+    <div class="item iletisim">
+      <div class="title">İletişim</div>
+    </div>
   </div>
 </body>
 </html>
