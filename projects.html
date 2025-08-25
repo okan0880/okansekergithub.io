@@ -8,8 +8,8 @@
 /* Stil Kodları */
 body {
     font-family: 'Montserrat', sans-serif;
-    background-color: #121212; /* Koyu arka plan */
-    color: #e0e0e0; /* Açık metin rengi */
+    background-color: #121212;
+    color: #e0e0e0;
     margin: 0;
     padding: 0;
 }
@@ -24,7 +24,7 @@ body {
 }
 
 .project-card {
-    background: #1e1e1e; /* Koyu kart arka planı */
+    background: #1e1e1e;
     border-radius: 20px;
     overflow: hidden;
     box-shadow: 0 8px 24px rgba(0,0,0,0.3);
@@ -33,7 +33,7 @@ body {
     display: flex;
     flex-direction: column;
     height: 380px;
-    border: 1px solid #333; /* Hafif bir kenarlık */
+    border: 1px solid #333;
 }
 
 .project-card:hover {
@@ -45,7 +45,7 @@ body {
     width: 100%;
     height: 200px;
     object-fit: cover;
-    border-bottom: 3px solid #10b981; /* Açık yeşil bir ayrım eklendi */
+    border-bottom: 3px solid #10b981;
 }
 
 .project-card .content {
@@ -59,21 +59,20 @@ body {
 
 .project-card .content h3 {
     font-size: 1.25rem;
-    color: #ffffff; /* Yazı rengi beyaz yapıldı */
+    color: #ffffff;
     margin-top: 0;
     margin-bottom: 10px;
 }
 
 .project-card .content p {
     font-size: 0.95rem;
-    color: #b0b0b0; /* Yazı rengi açık gri yapıldı */
+    color: #b0b0b0;
     line-height: 1.5;
 }
 
-/* --- Başlık Stili --- */
 .page-title {
     text-align: center;
-    color: #fff; /* Beyaz başlık */
+    color: #fff;
     margin-top: 50px;
     margin-bottom: 50px;
     font-size: 2.5rem;
@@ -81,7 +80,6 @@ body {
     letter-spacing: -1px;
 }
 
-/* --- Modal Stilleri --- */
 .modal {
     display: none;
     position: fixed;
@@ -91,14 +89,14 @@ body {
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgba(0,0,0,0.85); /* Daha koyu arka plan */
+    background-color: rgba(0,0,0,0.85);
     animation: fadeIn 0.3s forwards;
     backdrop-filter: blur(5px);
 }
 
 .modal-content {
-    background-color: #1e1e1e; /* Modal arka planı */
-    color: #e0e0e0; /* Modal metin rengi */
+    background-color: #1e1e1e;
+    color: #e0e0e0;
     margin: 5% auto;
     padding: 30px;
     border-radius: 12px;
@@ -173,7 +171,7 @@ body {
 .video-container {
     position: relative;
     width: 100%;
-    padding-bottom: 56.25%; /* 16:9 oranı */
+    padding-bottom: 56.25%;
     height: 0;
     overflow: hidden;
     border-radius: 12px;
@@ -203,7 +201,7 @@ body {
 
 <section id="projects">
     <div class="container">
-        <h2 class="page-title">Projelersss</h2>
+        <h2 class="page-title">Projeler</h2>
         <div class="projects-grid">
             <div class="project-card" data-id="hss25">
                 <img src="https://i.ibb.co/CpcLvSsj/349494b3-6f1b-46d9-b5a0-f901fffd7ff7.png" alt="2025 Teknofest Hava Savunma">
@@ -320,7 +318,6 @@ const projectData = {
     }
 };
 
-// Sayfa yüklendiğinde tüm proje kartlarını seç
 document.addEventListener('DOMContentLoaded', () => {
     const projectCards = document.querySelectorAll('.project-card');
     const modal = document.getElementById('projectModal');
