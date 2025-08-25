@@ -1,85 +1,63 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kayar Menü Portfolyo</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
-  <style>
-    body {
-      margin: 0;
-      background: #111;
-      color: white;
-      font-family: 'Poppins', sans-serif;
-      overflow-x: hidden;
-    }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kayar Menü</title>
+  <style>
+    body {
+      margin: 0;
+      background: #111;
+      color: white;
+      font-family: Arial, sans-serif;
+      overflow-x: hidden;
+    }
 
-    .scroll-container {
-      display: flex;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-      padding: 40px 0;
-      margin: 0 40px; /* Her iki taraftan boşluk ekledik */
-    }
+    .scroll-container {
+      display: flex;
+      overflow-x: scroll;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none; /* Firefox */
+    }
 
-    .scroll-container::-webkit-scrollbar {
-      display: none;
-    }
+    .scroll-container::-webkit-scrollbar {
+      display: none; /* Chrome, Safari */
+    }
 
-    .item {
-      flex: 0 0 auto;
-      width: 220px;
-      height: 400px;
-      margin: 0 10px;
-      scroll-snap-align: center; /* Öğeleri ortaya hizalar */
-      border-radius: 12px;
-      position: relative;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      background: #2f2f2f;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.5); /* Gölgelendirme efekti */
-    }
+    .item {
+      flex: 0 0 auto;
+      width: 250px;
+      height: 400px;
+      margin: 10px;
+      scroll-snap-align: start;
+      background-size: cover;
+      background-position: center;
+      border-radius: 10px;
+      transition: transform 0.3s ease;
+    }
 
-    .item:hover {
-      transform: scale(1.05); /* Daha hafif bir büyüme */
-      box-shadow: 0 15px 30px rgba(0,0,0,0.7); /* Hover'da daha belirgin gölge */
-    }
+    .item:hover {
+      transform: scale(1.1);
+    }
 
-    /* İlk ve son öğelerin kenar boşluklarını kaldırdık */
-    .item:first-child {
-      margin-left: 0;
-    }
-
-    .item:last-child {
-      margin-right: 0;
-    }
-
-    /* Dikey başlık */
-    .title {
-      writing-mode: vertical-rl;
-      text-orientation: upright;
-      font-size: 32px; /* Daha büyük yazı */
-      font-weight: 600;
-      text-transform: uppercase;
-      color: white;
-      letter-spacing: 3px; /* Harf arası boşluk */
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.5); /* Yazıya gölge */
-    }
-  </style>
+    /* Örnek resimler */
+    .item1 { background-image: url("https://picsum.photos/id/237/400/600"); }
+    .item2 { background-image: url("https://picsum.photos/id/1025/400/600"); }
+    .item3 { background-image: url("https://picsum.photos/id/1035/400/600"); }
+    .item4 { background-image: url("https://picsum.photos/id/1043/400/600"); }
+    .item5 { background-image: url("https://picsum.photos/id/1050/400/600"); }
+  </style>
 </head>
 <body>
-  <h2 style="text-align:center; padding:40px 0; font-size: 3em; color: #fff;">PORTFOLYO</h2>
+  <h2 style="text-align:center; padding:20px;">Kayar Menü</h2>
 
-  <div class="scroll-container">
-    <div class="item"><div class="title">Hakkımda</div></div>
-    <div class="item"><div class="title">Projeler</div></div>
-    <div class="item"><div class="title">Staj Deneyimi</div></div>
-    <div class="item"><div class="title">Oyunlar</div></div>
-    <div class="item"><div class="title">İletişim</div></div>
-  </div>
+  <div class="scroll-container">
+    <div class="item item1"></div>
+    <div class="item item2"></div>
+    <div class="item item3"></div>
+    <div class="item item4"></div>
+    <div class="item item5"></div>
+  </div>
 </body>
 </html>
