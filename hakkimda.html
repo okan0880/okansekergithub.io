@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merhaba, portföyüme hoş geldiniz!</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            background-color: #1E1E1E;
+            color: #D4D4D4;
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding-top: 40px;
+        }
+
+        h2 {
+            font-weight: 600;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .scroll-container {
+            display: flex;
+            overflow-x: scroll;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            justify-content: flex-start;
+            align-items: center;
+            width: 100%;
+            /* Bu satırlar, ilk ve son kartın ortalanmasını sağlar */
+            padding: 0 calc(50% - 125px); /* Kart genişliğinin yarısı */
+        }
+
+        .scroll-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .item-wrapper {
+            flex: 0 0 auto;
+            scroll-snap-align: center;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0 10px; /* Kenar boşluğunu biraz daha daraltın */
+        }
+
+        .item {
+            width: 90vw; /* Ekran genişliğinin %90'ını kapla */
+            max-width: 250px; /* Maksimum genişliği 250px ile sınırla */
+            height: 400px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 20px;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            margin-top: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            cursor: pointer;
+        }
+
+        .item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7);
+        }
+        
+        .card-title {
+            font-size: 1.2em;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+
+        .item1 { background-image: url("https://i.ibb.co/1YHcpDZH/paint-2.png"); }
+        .item2 { background-image: url("https://i.ibb.co/YT2fg7Gm/paint-4.png"); }
+        .item3 { background-image: url("https://i.ibb.co/23Y1yTw9/paint-7.png"); }
+        .item4 { background-image: url("https://i.ibb.co/Z1KnFRXS/paint-8.png"); }
+        .item5 { background-image: url("https://i.ibb.co/GQjH3nwq/paint-9.png"); }
+    </style>
+</head>
+<body>
+    <h2>Merhaba, portföyüme hoş geldiniz!</h2>
+
+    <div class="scroll-container">
+        <a href="hakkimda.html">
+            <div class="item-wrapper">
+                <div class="card-title">Hakkımda</div>
+                <div class="item item1"></div>
+            </div>
+        </a>
+        <div class="item-wrapper">
+            <div class="card-title">Projeler</div>
+            <div class="item item2"></div>
+        </div>
+        <div class="item-wrapper">
+            <div class="card-title">Staj Deneyimi</div>
+            <div class="item item3"></div>
+        </div>
+        <div class="item-wrapper">
+            <div class="card-title">Oyunlar</div>
+            <div class="item item4"></div>
+        </div>
+        <div class="item-wrapper">
+            <div class="card-title">İletişim</div>
+            <div class="item item5"></div>
+        </div>
+    </div>
+</body>
+</html>
