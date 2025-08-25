@@ -15,7 +15,7 @@
 
     .scroll-container {
       display: flex;
-      overflow-x: scroll;
+      overflow-x: auto;
       scroll-snap-type: x mandatory;
       -webkit-overflow-scrolling: touch;
       scrollbar-width: none;
@@ -30,7 +30,7 @@
       flex: 0 0 auto;
       width: 220px;
       height: 400px;
-      margin: 0 10px;
+      margin-right: 10px;   /* sadece sağa boşluk */
       scroll-snap-align: start;
       border-radius: 12px;
       position: relative;
@@ -38,6 +38,11 @@
       justify-content: center;
       align-items: center;
       transition: transform 0.3s ease;
+      background: #2f2f2f;  /* gri ton */
+    }
+
+    .item:last-child {
+      margin-right: 0; /* sağdaki boşluğu kaldır */
     }
 
     .item:hover {
@@ -52,24 +57,17 @@
       font-weight: bold;
       color: white;
     }
-
-    /* Sabit renkler */
-    .hakkimda { background: #e74c3c; }   /* kırmızı */
-    .projeler { background: #3498db; }   /* mavi */
-    .staj     { background: #2ecc71; }   /* yeşil */
-    .oyunlar  { background: #f39c12; }   /* turuncu */
-    .iletisim { background: #9b59b6; }   /* mor */
   </style>
 </head>
 <body>
   <h2 style="text-align:center; padding:20px;">Portfolyo</h2>
 
   <div class="scroll-container">
-    <div class="item hakkimda"><div class="title">Hakkımda</div></div>
-    <div class="item projeler"><div class="title">Projeler</div></div>
-    <div class="item staj"><div class="title">Staj Deneyimi</div></div>
-    <div class="item oyunlar"><div class="title">Oyunlar</div></div>
-    <div class="item iletisim"><div class="title">İletişim</div></div>
+    <div class="item"><div class="title">Hakkımda</div></div>
+    <div class="item"><div class="title">Projeler</div></div>
+    <div class="item"><div class="title">Staj Deneyimi</div></div>
+    <div class="item"><div class="title">Oyunlar</div></div>
+    <div class="item"><div class="title">İletişim</div></div>
   </div>
 </body>
 </html>
