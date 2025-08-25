@@ -19,76 +19,75 @@ body {
 
 /* --- Üst Banner (Header) --- */
 .site-header {
-    background-color: #000; /* Tamamen siyah banner */
-    padding: 40px 0; /* Boşluk artırıldı */
+    background-color: #1c1c1c; /* Renk aynı kaldı */
+    padding: 40px 0; /* Boşluk */
     border-bottom: 1px solid #333;
-    text-align: center;
 }
 
 /* --- Ana İçerik Bölümü (Hero) --- */
 .hero-wrap {
-    flex-grow: 1; /* İçeriğin dikeyde ortalanmasını sağlar */
+    flex-grow: 1;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 30px 20px;
     background: radial-gradient(circle at 10% -10%, rgba(99,102,241,.08), transparent 50%),
                 radial-gradient(circle at 110% 10%, rgba(16,185,129,.08), transparent 50%),
-                #121212; /* Gradiyentli koyu arka plan */
-}
-
-.hero {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
+                #121212;
 }
 
 .hero-content {
-    max-width: 800px;
-    background: rgba(30, 30, 30, 0.7); /* Koyu, yarı saydam arka plan */
+    max-width: 1000px; /* Genişletildi */
+    background: rgba(30, 30, 30, 0.7);
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 18px;
     padding: 40px;
     box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
     backdrop-filter: blur(10px);
+    display: flex; /* İçeriği yan yana hizalamak için flexbox kullanıldı */
+    align-items: center;
+    gap: 40px; /* Resim ve metin arasındaki boşluk */
 }
 
-.hero-content h2 {
+/* --- Resim ve Metin Düzeni --- */
+.text-content {
+    flex-grow: 1; /* Metin alanının kalan boşluğu doldurmasını sağlar */
+    text-align: left; /* Metin sola hizalandı */
+}
+
+.text-content h2 {
     margin: 0 0 15px 0;
     font-size: 3em;
     font-weight: 800;
     letter-spacing: -0.5px;
     color: #ffffff;
 }
-.hero-content h2 span {
+.text-content h2 span {
     background: linear-gradient(90deg, #6366f1, #10b981);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
 }
 
-.hero-content p {
+.text-content p {
     margin: 0 0 25px 0;
     color: #b0b0b0;
     font-size: 1.2em;
     line-height: 1.7;
 }
 
-/* --- Resim Stili --- */
 .profile-image {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%; /* Dairesel resim */
-    border: 3px solid #6366f1;
-    margin-bottom: 20px; /* Alttan boşluk */
+    width: 300px; /* Resim boyutu artırıldı */
+    height: auto;
+    border-radius: 8px; /* Köşeler hafif yuvarlatıldı */
+    border: 2px solid #6366f1;
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
 }
 
 .cta {
     display: flex;
     gap: 12px;
-    justify-content: center;
+    justify-content: flex-start; /* Butonlar sola hizalandı */
     flex-wrap: wrap;
 }
 
@@ -186,7 +185,13 @@ body {
         padding: 25px 20px;
     }
     .hero-content {
+        flex-direction: column; /* İçeriği alt alta hizala */
+        text-align: center;
         padding: 25px;
+        gap: 20px;
+    }
+    .text-content {
+        text-align: center; /* Metni ortaya hizala */
     }
     .hero-content h2 {
         font-size: 2.5em;
@@ -194,26 +199,30 @@ body {
     .hero-content p {
         font-size: 1.1em;
     }
+    .cta {
+        justify-content: center; /* Butonları ortaya hizala */
+    }
 }
 </style>
 </head>
 <body>
 
-<header class="site-header">
-    </header>
+<header class="site-header"></header>
 
 <div class="hero-wrap">
     <section class="hero">
         <div class="hero-content">
             <img class="profile-image" src="https://i.ibb.co/V0sMxvpY/1-1.jpg" alt="Okan Şeker">
-            <h2>Merhaba, ben <span>Okan Şeker</span></h2>
-            <p>
-                Üniversite hayatım boyunca gömülü yazılım, FPGA programlama, elektronik devre tasarımı, PCB tasarımı gibi
-                alanlarda kendimi geliştirdim. Kariyerime bu teknik alanlardan birinde devam etmeyi hedefliyorum.
-                İletişim için her zaman ulaşabilirsin.
-            </p>
-            <div class="cta">
-                <a class="btn ghost" href="#" id="contactBtn">İletişime Geç</a>
+            <div class="text-content">
+                <h2>Merhaba, ben <span>Okan Şeker</span></h2>
+                <p>
+                    Üniversite hayatım boyunca gömülü yazılım, FPGA programlama, elektronik devre tasarımı, PCB tasarımı gibi
+                    alanlarda kendimi geliştirdim. Kariyerime bu teknik alanlardan birinde devam etmeyi hedefliyorum.
+                    İletişim için her zaman ulaşabilirsin.
+                </p>
+                <div class="cta">
+                    <a class="btn ghost" href="#" id="contactBtn">İletişime Geç</a>
+                </div>
             </div>
         </div>
     </section>
