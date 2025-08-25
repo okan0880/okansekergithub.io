@@ -25,20 +25,17 @@
       display: none; /* Chrome, Safari */
     }
 
-    .item-wrapper {
-      flex: 0 0 auto;
-      margin: 10px;
-      scroll-snap-align: start;
-      text-align: center;
-    }
-
     .item {
+      flex: 0 0 auto;
       width: 250px;
       height: 400px;
+      margin: 10px;
+      scroll-snap-align: start;
       background-size: cover;
       background-position: center;
       border-radius: 50px;
       transition: transform 0.3s ease;
+      position: relative; /* Başlığı konumlandırmak için eklendi */
     }
 
     .item:hover {
@@ -46,9 +43,18 @@
     }
     
     .card-title {
+      position: absolute; /* Mutlak konumlandırma */
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%); /* Yatayda ortalama */
       font-size: 1.2em;
       font-weight: bold;
-      margin-bottom: 10px; /* Başlık ile kart arasına boşluk bırakır */
+      z-index: 10; /* Başlığın resmin üzerinde kalmasını sağlar */
+      background-color: rgba(0, 0, 0, 0.5); /* Okunurluğu artırmak için yarı saydam arka plan */
+      padding: 8px 15px;
+      border-radius: 20px;
+      white-space: nowrap; /* Metnin tek satırda kalmasını sağlar */
+      pointer-events: none; /* **Önemli:** Hover animasyonunun metinden etkilenmesini engeller */
     }
 
     /* Örnek resimler */
@@ -63,25 +69,20 @@
   <h2 style="text-align:center; padding:20px;">Merhaba, portföyüme hoş geldiniz!</h2>
 
   <div class="scroll-container">
-    <div class="item-wrapper">
+    <div class="item item1">
       <div class="card-title">Hakkımda</div>
-      <div class="item item1"></div>
     </div>
-    <div class="item-wrapper">
+    <div class="item item2">
       <div class="card-title">Projeler</div>
-      <div class="item item2"></div>
     </div>
-    <div class="item-wrapper">
+    <div class="item item3">
       <div class="card-title">Staj Deneyimi</div>
-      <div class="item item3"></div>
     </div>
-    <div class="item-wrapper">
+    <div class="item item4">
       <div class="card-title">Oyunlar</div>
-      <div class="item item4"></div>
     </div>
-    <div class="item-wrapper">
+    <div class="item item5">
       <div class="card-title">İletişim</div>
-      <div class="item item5"></div>
     </div>
   </div>
 </body>
