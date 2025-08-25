@@ -25,37 +25,30 @@
       display: none; /* Chrome, Safari */
     }
 
-    .item {
+    .item-wrapper {
       flex: 0 0 auto;
-      width: 250px;
-      height: 400px;
       margin: 10px;
       scroll-snap-align: start;
+      text-align: center;
+    }
+
+    .item {
+      width: 250px;
+      height: 400px;
       background-size: cover;
       background-position: center;
       border-radius: 50px;
       transition: transform 0.3s ease;
-      position: relative; /* Yeni: Başlığı konumlandırmak için eklendi */
     }
 
     .item:hover {
       transform: scale(1.1);
     }
-
-    /* Yeni: Kart başlıkları için stil */
-    .card-text {
-      position: absolute;
-      top: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      color: white;
-      font-weight: bold;
+    
+    .card-title {
       font-size: 1.2em;
-      text-align: center;
-      padding: 8px 15px;
-      border-radius: 20px;
-      background-color: rgba(0, 0, 0, 0.5); /* Yarı saydam arka plan */
-      pointer-events: none; /* Fare etkileşimini engeller, kartın hover'ı çalışmaya devam eder */
+      font-weight: bold;
+      margin-bottom: 10px; /* Başlık ile kart arasına boşluk bırakır */
     }
 
     /* Örnek resimler */
@@ -70,20 +63,25 @@
   <h2 style="text-align:center; padding:20px;">Merhaba, portföyüme hoş geldiniz!</h2>
 
   <div class="scroll-container">
-    <div class="item item1">
-      <div class="card-text">Hakkımda</div>
+    <div class="item-wrapper">
+      <div class="card-title">Hakkımda</div>
+      <div class="item item1"></div>
     </div>
-    <div class="item item2">
-      <div class="card-text">Projeler</div>
+    <div class="item-wrapper">
+      <div class="card-title">Projeler</div>
+      <div class="item item2"></div>
     </div>
-    <div class="item item3">
-      <div class="card-text">Staj Deneyimi</div>
+    <div class="item-wrapper">
+      <div class="card-title">Staj Deneyimi</div>
+      <div class="item item3"></div>
     </div>
-    <div class="item item4">
-      <div class="card-text">Oyunlar</div>
+    <div class="item-wrapper">
+      <div class="card-title">Oyunlar</div>
+      <div class="item item4"></div>
     </div>
-    <div class="item item5">
-      <div class="card-text">İletişim</div>
+    <div class="item-wrapper">
+      <div class="card-title">İletişim</div>
+      <div class="item item5"></div>
     </div>
   </div>
 </body>
