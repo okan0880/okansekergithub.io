@@ -212,52 +212,13 @@ body {
             <img class="profile-image" src="https://i.ibb.co/V0sMxvpY/1-1.jpg" alt="Okan Şeker">
             <div class="text-content">
                 <h2>Merhaba, ben <span>Okan Şeker</span></h2>
-                <p>
-                    Üniversite hayatım boyunca gömülü yazılım, FPGA programlama, elektronik devre tasarımı, PCB tasarımı gibi
-                    alanlarda kendimi geliştirdim. Kariyerime bu teknik alanlardan birinde devam etmeyi hedefliyorum.
-                    İletişim için her zaman ulaşabilirsin.
-                </p>
                 <div class="cta">
                     <a class="btn ghost" href="projects.html">Projelerim</a>
-                    <a class="btn green" href="#" id="contactBtn">İletişime Geç</a>
                 </div>
             </div>
         </div>
     </section>
 </div>
-
-<div id="modalBackdrop"></div>
-
-<div id="contactModal">
-    <h3>İletişim Bilgileri</h3>
-    <p>E-posta: <span>okanseker32@gmail.com</span></p>
-    <p>Telefon: <span>+90 544 344 00 08</span></p>
-    <p>LinkedIn: <span>www.linkedin.com/in/okan-seker-</span></p>
-    <button id="closeModal">Kapat</button>
-</div>
-
-<script>
-    const contactBtn = document.getElementById('contactBtn');
-    const modal = document.getElementById('contactModal');
-    const backdrop = document.getElementById('modalBackdrop');
-    const closeModal = modal.querySelector('button');
-
-    function openModal() {
-        modal.classList.add('show');
-        backdrop.style.display = 'block';
-    }
-    function closeModalFunc() {
-        modal.classList.remove('show');
-        setTimeout(() => backdrop.style.display = 'none', 300);
-    }
-
-    contactBtn.addEventListener('click', function(e) {
-        e.preventDefault();
-        openModal();
-    });
-    closeModal.addEventListener('click', closeModalFunc);
-    backdrop.addEventListener('click', closeModalFunc);
-</script>
 
 </body>
 </html>
