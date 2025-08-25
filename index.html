@@ -3,90 +3,54 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kayar Mssssenü Portfolyo</title>
+  <title>Kayar Menü Portfolyo</title>
   <style>
     body {
       margin: 0;
       background: #111;
       color: white;
       font-family: Arial, sans-serif;
-      overflow-x: hidden;
+      overflow: hidden; /* kaydırma olmasın */
     }
 
-    .scroll-container {
+    .container {
       display: flex;
-      overflow-x: scroll;
-      scroll-snap-type: x mandatory;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-      padding: 30px 0;
-    }
-
-    .scroll-container::-webkit-scrollbar {
-      display: none;
+      width: 100vw;
+      height: 100vh;
     }
 
     .item {
-      flex: 0 0 auto;
-      width: 220px;
-      height: 400px;
-      margin: 0 10px;
-      scroll-snap-align: start;
-      background-size: cover;
-      background-position: center;
-      border-radius: 12px;
+      flex: 1; /* her kutu eşit genişlik kaplasın */
+      display: flex;
+      justify-content: center;
+      align-items: center;
       position: relative;
-      overflow: hidden;
-      cursor: pointer;
-      transition: transform 0.3s ease;
     }
 
-    .item:hover {
-      transform: scale(1.1);
-    }
-
-    /* Dikey başlık yazısı */
+    /* Dikey yazı */
     .title {
-      position: absolute;
-      left: 10px;
-      bottom: 20px;
-      writing-mode: vertical-rl;  /* Yazıyı dikey yapar */
+      writing-mode: vertical-rl;
       text-orientation: upright;
-      font-size: 22px;
+      font-size: 28px;
       font-weight: bold;
       color: white;
-      background: rgba(0,0,0,0.5);
-      padding: 5px;
-      border-radius: 6px;
     }
 
-    /* Örnek resimler */
-    .hakkimda { background-image: url("https://picsum.photos/id/1005/400/600"); }
-    .projeler { background-image: url("https://picsum.photos/id/1011/400/600"); }
-    .staj { background-image: url("https://picsum.photos/id/1027/400/600"); }
-    .oyunlar { background-image: url("https://picsum.photos/id/1039/400/600"); }
-    .iletisim { background-image: url("https://picsum.photos/id/1047/400/600"); }
+    /* Sabit renkler */
+    .hakkimda { background: #e74c3c; }   /* kırmızı */
+    .projeler { background: #3498db; }   /* mavi */
+    .staj     { background: #2ecc71; }   /* yeşil */
+    .oyunlar  { background: #f39c12; }   /* turuncu */
+    .iletisim { background: #9b59b6; }   /* mor */
   </style>
 </head>
 <body>
-  <h2 style="text-align:center; padding:20px;">Portfolyo</h2>
-
-  <div class="scroll-container">
-    <div class="item hakkimda">
-      <div class="title">Hakkımda</div>
-    </div>
-    <div class="item projeler">
-      <div class="title">Projeler</div>
-    </div>
-    <div class="item staj">
-      <div class="title">Staj Deneyimi</div>
-    </div>
-    <div class="item oyunlar">
-      <div class="title">Oyunlar</div>
-    </div>
-    <div class="item iletisim">
-      <div class="title">İletişim</div>
-    </div>
+  <div class="container">
+    <div class="item hakkimda"><div class="title">Hakkımda</div></div>
+    <div class="item projeler"><div class="title">Projeler</div></div>
+    <div class="item staj"><div class="title">Staj Deneyimi</div></div>
+    <div class="item oyunlar"><div class="title">Oyunlar</div></div>
+    <div class="item iletisim"><div class="title">İletişim</div></div>
   </div>
 </body>
 </html>
