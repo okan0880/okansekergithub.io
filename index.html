@@ -5,258 +5,283 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Okan Şeker - Portfolyo</title>
 <style>
-/* Geniş Ekranlar İçin Genel Stil */
+/* GENEL VE RESET STILLERİ */
 body {
     margin: 0;
     padding: 0;
     font-family: 'Montserrat', sans-serif;
     background-color: #121212;
     color: #e0e0e0;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+    overflow-x: hidden;
 }
 
-/* --- Ana İçerik Bölümü (Hero) --- */
-.hero-wrap {
+/* YAN MENÜ TASARIMI */
+.side-menu-wrap {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+    position: relative;
+    background-color: #121212;
+}
+
+.menu-list {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 250px;
+    background-color: #1e1e1e;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding-left: 50px;
+}
+
+.menu-item {
+    padding: 15px 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: color 0.3s;
+    color: #b0b0b0;
+}
+
+.menu-item:hover {
+    color: #ffffff;
+}
+
+/* GÖRSEL GALERİ TASARIMI */
+.image-gallery {
+    display: flex;
+    flex-grow: 1;
+    margin-left: 250px; /* Menü genişliği kadar boşluk */
+}
+
+.image-container {
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+    transition: width 0.5s ease;
     flex-grow: 1;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 30px 20px;
-    background: radial-gradient(circle at 10% -10%, rgba(99,102,241,.08), transparent 50%),
-                radial-gradient(circle at 110% 10%, rgba(16,185,129,.08), transparent 50%),
-                #121212;
 }
 
-.hero-content {
-    max-width: 1000px;
-    background: rgba(30, 30, 30, 0.7);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 18px;
-    padding: 40px;
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(10px);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
+.image-container:hover {
+    width: 250%; /* Hover durumunda genişleme */
+    flex-grow: 2;
 }
 
-/* --- Resim Stili --- */
-.profile-image {
-    width: 100%;
-    max-width: 800px;
-    height: auto;
-    border-radius: 8px;
-    border: 2px solid #6366f1;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-    margin-bottom: 30px;
+.image-container img {
+    height: 100%;
+    width: auto;
+    object-fit: cover;
+    filter: grayscale(100%);
+    transition: transform 0.5s ease, filter 0.5s ease;
 }
 
-/* --- Metin İçerik Stili --- */
-.text-content {
-    width: 100%;
-    text-align: center;
-}
-.text-content h2 {
-    margin: 0 0 15px 0;
-    font-size: 3em;
-    font-weight: 800;
-    letter-spacing: -0.5px;
-    color: #ffffff;
-}
-.text-content h2 span {
-    background: linear-gradient(90deg, #6366f1, #10b981);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+.image-container:hover img {
+    filter: grayscale(0%);
+    transform: scale(1.1);
 }
 
-.text-content p {
-    margin: 0 0 25px 0;
-    color: #b0b0b0;
-    font-size: 1.2em;
-    line-height: 1.7;
-}
-
-.cta {
-    display: flex;
-    gap: 12px;
-    justify-content: center;
-    flex-wrap: wrap;
-}
-
-.btn {
-    display: inline-block;
-    padding: 12px 24px;
-    border-radius: 10px;
-    text-decoration: none;
-    font-weight: 600;
-    transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 6px 18px rgba(0,0,0,.15);
-}
-
-.btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(0,0,0,.25);
-}
-
-.btn:active {
-    transform: translateY(0);
-}
-
-.btn.ghost {
-    background: #252525;
+.image-caption {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
     color: #fff;
-}
-.btn.ghost:hover {
-    background: #6366f1;
-    border-color: #6366f1;
-}
-.btn.green {
-    background: #10b981;
-    color: #fff;
-    border-color: #10b981;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-size: 1rem;
+    opacity: 0;
+    transition: opacity 0.3s;
 }
 
-.btn.green:hover {
-    background: #0ea47a;
-    border-color: #0ea47a;
+.image-container:hover .image-caption {
+    opacity: 1;
 }
-/* --- Modal Stilleri --- */
-#modalBackdrop {
+
+/* MODAL STİLLERİ */
+.modal-backdrop {
     display: none;
     position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.75);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
     z-index: 999;
 }
-#contactModal {
+
+.modal-content {
     display: none;
     position: fixed;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%) scale(0.9);
-    width: 400px;
-    max-width: 90%;
-    background: #222;
-    color: #e0e0e0;
-    padding: 30px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #1e1e1e;
     border-radius: 12px;
-    text-align: center;
+    padding: 30px;
+    width: 90%;
+    max-width: 600px;
     z-index: 1000;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    opacity: 0;
-    transition: opacity 0.3s ease, transform 0.3s ease;
-}
-#contactModal.show {
-    display: block;
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
-}
-#contactModal h3 {
-    color: #fff;
-    margin-bottom: 20px;
-}
-#contactModal p {
-    margin: 8px 0;
-    color: #b0b0b0;
-}
-#contactModal a {
-    color: #10b981;
-    text-decoration: none;
-    font-weight: bold;
-}
-#contactModal button {
-    margin-top: 25px;
-    padding: 12px 24px;
-    border: none;
-    border-radius: 8px;
-    background: #6366f1;
-    color: white;
-    cursor: pointer;
-    font-weight: 600;
-    transition: background-color 0.2s ease;
-}
-#contactModal button:hover {
-    background: #5053e8;
+    color: #e0e0e0;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    animation: fadeIn 0.3s;
 }
 
-/* Küçük Ekranlar İçin Düzenlemeler */
+.modal-content.show {
+    display: block;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 28px;
+    cursor: pointer;
+    color: #aaa;
+    transition: color 0.3s;
+}
+
+.close-btn:hover {
+    color: #fff;
+}
+
+/* RESPONSIVE TASARIM */
 @media (max-width: 768px) {
-    .site-header {
-        padding: 25px 20px;
-    }
-    .hero-content {
-        padding: 25px;
-    }
-    .profile-image {
+    .menu-list {
         width: 100%;
+        height: auto;
+        flex-direction: row;
+        justify-content: space-around;
+        padding: 10px 0;
+        position: relative;
+        background-color: #121212;
     }
-    .hero-content h2 {
-        font-size: 2.5em;
+    .image-gallery {
+        flex-direction: column;
+        margin-left: 0;
+        margin-top: 10px;
     }
-    .hero-content p {
-        font-size: 1.1em;
+    .image-container {
+        width: 100% !important;
+        height: 300px;
+    }
+    .image-container:hover {
+        width: 100% !important;
+        flex-grow: 1;
     }
 }
 </style>
 </head>
 <body>
 
-<div class="hero-wrap">
-    <section class="hero">
-        <div class="hero-content">
-            <img class="profile-image" src="https://i.ibb.co/V0sMxvpY/1-1.jpg" alt="Okan Şeker">
-            <div class="text-content">
-                <h2>Merhaba, ben <span>Okan Şeker</span></h2>
-                <p>
-                    Üniversite hayatım boyunca gömülü yazılım, FPGA programlama, elektronik devre tasarımı, PCB tasarımı gibi
-                    alanlarda kendimi geliştirdim. Kariyerime bu teknik alanlardan birinde devam etmeyi hedefliyorum.
-                    İletişim için her zaman ulaşabilirsin.
-                </p>
-                <div class="cta">
-                    <a class="btn ghost" href="projects.html">Projelerim</a>
-                    <a class="btn green" href="#" id="contactBtn">İletişime Geç</a>
-                </div>
-            </div>
+<div class="side-menu-wrap">
+    <div class="menu-list">
+        <a href="#" class="menu-item" data-modal="about-modal">Hakkımda</a>
+        <a href="#" class="menu-item" data-modal="projects-modal">Projeler</a>
+        <a href="#" class="menu-item" data-modal="experience-modal">Staj Deneyimi</a>
+        <a href="#" class="menu-item" data-modal="games-modal">Oyunlar</a>
+        <a href="#" class="menu-item" data-modal="contact-modal">İletişim</a>
+    </div>
+
+    <div class="image-gallery">
+        <div class="image-container">
+            <img src="https://i.ibb.co/V0sMxvpY/1-1.jpg" alt="Hakkımda">
+            <span class="image-caption">Hakkımda</span>
         </div>
-    </section>
+        <div class="image-container">
+            <img src="https://i.ibb.co/PZ6nysbY/savasan23.png" alt="Projeler">
+            <span class="image-caption">Projeler</span>
+        </div>
+        <div class="image-container">
+            <img src="https://i.ibb.co/CpcLvSsj/349494b3-6f1b-46d9-b5a0-f901fffd7ff7.png" alt="Staj Deneyimi">
+            <span class="image-caption">Staj Deneyimi</span>
+        </div>
+        <div class="image-container">
+            <img src="https://i.ibb.co/dJg2n55S/savasan24.png" alt="Oyunlar">
+            <span class="image-caption">Oyunlar</span>
+        </div>
+        <div class="image-container">
+            <img src="https://i.ibb.co/V7Sxhh5/bitirme.png" alt="İletişim">
+            <span class="image-caption">İletişim</span>
+        </div>
+    </div>
 </div>
 
-<div id="modalBackdrop"></div>
+<div id="modal-backdrop" class="modal-backdrop"></div>
 
-<div id="contactModal">
-    <h3>İletişim Bilgileri</h3>
-    <p>E-posta: <span>okanseker32@gmail.com</span></p>
-    <p>Telefon: <span>+90 544 344 00 08</span></p>
-    <p>LinkedIn: <span>www.linkedin.com/in/okan-seker-</span></p>
-    <button id="closeModal">Kapat</button>
+<div id="about-modal" class="modal-content">
+    <span class="close-btn">&times;</span>
+    <h2>Hakkımda</h2>
+    <p>Üniversite hayatım boyunca gömülü yazılım, FPGA programlama, elektronik devre tasarımı, PCB tasarımı gibi alanlarda kendimi geliştirdim. Kariyerime bu teknik alanlardan birinde devam etmeyi hedefliyorum. Kendime ait projeler geliştirmeye, kendimi geliştirmeye ve yeni şeyler öğrenmeye hevesliyim. İletişim için her zaman ulaşabilirsin.</p>
+</div>
+
+<div id="projects-modal" class="modal-content">
+    <span class="close-btn">&times;</span>
+    <h2>Projeler</h2>
+    <p>2025 Teknofest Hava Savunma Sistemleri Yarışması, Çoklu Kamera ile 3B Nesne Konum Tespiti, 2024 Teknofest Savaşan İHA Yarışması, İnsan Takibi Yapabilen Robotik Göz Tasarımı, Otonom Sistemler İle Görüntü Analizi gibi projelerim bulunmaktadır.</p>
+</div>
+
+<div id="experience-modal" class="modal-content">
+    <span class="close-btn">&times;</span>
+    <h2>Staj Deneyimi</h2>
+    <p>Burada staj deneyimlerinizi detaylı olarak açıklayabilirsiniz. Örneğin, hangi şirketlerde çalıştınız, hangi görevleri üstlendiniz ve neler öğrendiniz gibi bilgileri ekleyebilirsiniz. Bu bölümü daha sonra güncelleyebilirsiniz.</p>
+</div>
+
+<div id="games-modal" class="modal-content">
+    <span class="close-btn">&times;</span>
+    <h2>Oyunlar</h2>
+    <p>Burada geliştirdiğiniz oyunlar veya oyun geliştirme ile ilgili deneyimlerinizden bahsedebilirsiniz. Hangi teknolojileri kullandınız, oyunların konseptleri neydi gibi detaylar ekleyebilirsiniz.</p>
+</div>
+
+<div id="contact-modal" class="modal-content">
+    <span class="close-btn">&times;</span>
+    <h2>İletişim</h2>
+    <p>E-posta: okanseker32@gmail.com</p>
+    <p>Telefon: +90 544 344 00 08</p>
+    <p>LinkedIn: www.linkedin.com/in/okan-seker-</p>
 </div>
 
 <script>
-    const contactBtn = document.getElementById('contactBtn');
-    const modal = document.getElementById('contactModal');
-    const backdrop = document.getElementById('modalBackdrop');
-    const closeModal = modal.querySelector('button');
+document.addEventListener('DOMContentLoaded', () => {
+    const menuItems = document.querySelectorAll('.menu-item');
+    const modals = document.querySelectorAll('.modal-content');
+    const modalBackdrop = document.getElementById('modal-backdrop');
+    const closeButtons = document.querySelectorAll('.close-btn');
 
-    function openModal() {
-        modal.classList.add('show');
-        backdrop.style.display = 'block';
-    }
-    function closeModalFunc() {
-        modal.classList.remove('show');
-        setTimeout(() => backdrop.style.display = 'none', 300);
-    }
+    menuItems.forEach(item => {
+        item.addEventListener('click', (e) => {
+            e.preventDefault();
+            const modalId = item.dataset.modal;
+            const targetModal = document.getElementById(modalId);
 
-    contactBtn.addEventListener('click', function(e) {
-        e.preventDefault();
-        openModal();
+            modalBackdrop.style.display = 'block';
+            targetModal.classList.add('show');
+        });
     });
-    closeModal.addEventListener('click', closeModalFunc);
-    backdrop.addEventListener('click', closeModalFunc);
+
+    closeButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            btn.closest('.modal-content').classList.remove('show');
+            setTimeout(() => {
+                modalBackdrop.style.display = 'none';
+            }, 300);
+        });
+    });
+
+    modalBackdrop.addEventListener('click', () => {
+        modals.forEach(modal => modal.classList.remove('show'));
+        setTimeout(() => {
+            modalBackdrop.style.display = 'none';
+        }, 300);
+    });
+});
 </script>
 
 </body>
