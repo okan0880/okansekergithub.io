@@ -19,8 +19,8 @@ body {
 
 /* --- Üst Banner (Header) --- */
 .site-header {
-    background-color: #1c1c1c; /* Renk aynı kaldı */
-    padding: 40px 0; /* Boşluk */
+    background-color: #1c1c1c;
+    padding: 40px 0;
     border-bottom: 1px solid #333;
 }
 
@@ -37,24 +37,30 @@ body {
 }
 
 .hero-content {
-    max-width: 1000px; /* Genişletildi */
+    max-width: 800px;
     background: rgba(30, 30, 30, 0.7);
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 18px;
     padding: 40px;
     box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
     backdrop-filter: blur(10px);
-    display: flex; /* İçeriği yan yana hizalamak için flexbox kullanıldı */
-    align-items: center;
-    gap: 40px; /* Resim ve metin arasındaki boşluk */
+    display: flex;
+    flex-direction: column; /* İçeriği alt alta hizalamak için */
+    align-items: center; /* İçeriği yatayda ortalamak için */
+    text-align: center;
 }
 
-/* --- Resim ve Metin Düzeni --- */
-.text-content {
-    flex-grow: 1; /* Metin alanının kalan boşluğu doldurmasını sağlar */
-    text-align: left; /* Metin sola hizalandı */
+/* --- Resim Stili --- */
+.profile-image {
+    width: 300px;
+    height: auto;
+    border-radius: 8px;
+    border: 2px solid #6366f1;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    margin-bottom: 30px; /* Metinle arasında boşluk bırakmak için */
 }
 
+/* --- Metin İçerik Stili --- */
 .text-content h2 {
     margin: 0 0 15px 0;
     font-size: 3em;
@@ -76,18 +82,10 @@ body {
     line-height: 1.7;
 }
 
-.profile-image {
-    width: 300px; /* Resim boyutu artırıldı */
-    height: auto;
-    border-radius: 8px; /* Köşeler hafif yuvarlatıldı */
-    border: 2px solid #6366f1;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-}
-
 .cta {
     display: flex;
     gap: 12px;
-    justify-content: flex-start; /* Butonlar sola hizalandı */
+    justify-content: center;
     flex-wrap: wrap;
 }
 
@@ -185,22 +183,13 @@ body {
         padding: 25px 20px;
     }
     .hero-content {
-        flex-direction: column; /* İçeriği alt alta hizala */
-        text-align: center;
         padding: 25px;
-        gap: 20px;
-    }
-    .text-content {
-        text-align: center; /* Metni ortaya hizala */
     }
     .hero-content h2 {
         font-size: 2.5em;
     }
     .hero-content p {
         font-size: 1.1em;
-    }
-    .cta {
-        justify-content: center; /* Butonları ortaya hizala */
     }
 }
 </style>
