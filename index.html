@@ -36,8 +36,9 @@
             scrollbar-width: none;
             justify-content: flex-start;
             align-items: center;
-            padding: 20px 0;
             width: 100%;
+            /* Bu satırlar, ilk ve son kartın ortalanmasını sağlar */
+            padding: 0 calc(50% - 125px); /* Kart genişliğinin yarısı */
         }
 
         .scroll-container::-webkit-scrollbar {
@@ -46,17 +47,18 @@
 
         .item-wrapper {
             flex: 0 0 auto;
-            margin: 0 15px;
             scroll-snap-align: center;
             text-align: center;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            margin: 0 10px; /* Kenar boşluğunu biraz daha daraltın */
         }
 
         .item {
-            width: 250px;
+            width: 90vw; /* Ekran genişliğinin %90'ını kapla */
+            max-width: 250px; /* Maksimum genişliği 250px ile sınırla */
             height: 400px;
             background-size: cover;
             background-position: center;
