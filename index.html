@@ -45,19 +45,19 @@ body {
     box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
     backdrop-filter: blur(10px);
     display: flex;
-    flex-direction: column; /* İçeriği alt alta hizalamak için */
-    align-items: center; /* İçeriği yatayda ortalamak için */
+    flex-direction: column;
+    align-items: center;
     text-align: center;
 }
 
 /* --- Resim Stili --- */
 .profile-image {
-    width: 300px;
+    width: 400px; /* Resmin boyutu artırıldı */
     height: auto;
     border-radius: 8px;
     border: 2px solid #6366f1;
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-    margin-bottom: 30px; /* Metinle arasında boşluk bırakmak için */
+    margin-bottom: 30px;
 }
 
 /* --- Metin İçerik Stili --- */
@@ -184,6 +184,9 @@ body {
     }
     .hero-content {
         padding: 25px;
+    }
+    .profile-image {
+        width: 100%; /* Mobil cihazlarda resmin tüm genişliği kaplamasını sağlar */
     }
     .hero-content h2 {
         font-size: 2.5em;
