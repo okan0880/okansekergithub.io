@@ -19,6 +19,7 @@ body {
 
 /* --- Ana İçerik Bölümü (Hero) --- */
 .hero-wrap {
+    flex-grow: 1;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -114,80 +115,18 @@ body {
     background: #6366f1;
     border-color: #6366f1;
 }
-
-/* --- Proje Bölümü Stilleri --- */
-.projects-section {
-    padding: 50px 20px;
-}
-
-.projects-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 30px;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-.project-card {
-    background: #1e1e1e;
-    border-radius: 20px;
-    overflow: hidden;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
-    transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    height: 380px;
-    border: 1px solid #333;
-}
-
-.project-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 16px 36px rgba(0,0,0,0.5);
-}
-
-.project-card img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    border-bottom: 3px solid #10b981;
-}
-
-.project-card .content {
-    padding: 20px;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    flex-grow: 1;
-}
-
-.project-card .content h3 {
-    font-size: 1.25rem;
-    color: #ffffff;
-    margin-top: 0;
-    margin-bottom: 10px;
-}
-
-.project-card .content p {
-    font-size: 0.95rem;
-    color: #b0b0b0;
-    line-height: 1.5;
-}
-
-.page-title {
-    text-align: center;
+.btn.green {
+    background: #10b981;
     color: #fff;
-    margin-top: 50px;
-    margin-bottom: 50px;
-    font-size: 2.5rem;
-    font-weight: 700;
-    letter-spacing: -1px;
+    border-color: #10b981;
 }
 
+.btn.green:hover {
+    background: #0ea47a;
+    border-color: #0ea47a;
+}
 /* --- Modal Stilleri --- */
-#modalBackdrop, .modal {
+#modalBackdrop {
     display: none;
     position: fixed;
     top: 0; left: 0;
@@ -195,14 +134,8 @@ body {
     background: rgba(0, 0, 0, 0.75);
     z-index: 999;
 }
-
-#contactModal.show, .modal.show {
-    display: block;
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
-}
-
 #contactModal {
+    display: none;
     position: fixed;
     top: 50%; left: 50%;
     transform: translate(-50%, -50%) scale(0.9);
@@ -218,110 +151,44 @@ body {
     opacity: 0;
     transition: opacity 0.3s ease, transform 0.3s ease;
 }
-
-.modal-content {
-    background-color: #1e1e1e;
-    color: #e0e0e0;
-    margin: 5% auto;
-    padding: 30px;
-    border-radius: 12px;
-    width: 90%;
-    max-width: 900px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    position: relative;
-    animation: slideIn 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
-    border: 1px solid #333;
-}
-
-.close-btn {
-    color: #e0e0e0;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    position: absolute;
-    top: 15px;
-    right: 25px;
-    transition: color 0.3s, transform 0.3s;
-}
-
-.close-btn:hover,
-.close-btn:focus {
-    color: #fff;
-    transform: rotate(90deg);
-    text-decoration: none;
-    cursor: pointer;
-}
-
-.modal-content h2 {
-    text-align: center;
-    color: #fff;
-    margin-bottom: 20px;
-    font-size: 1.8rem;
-    font-weight: 600;
-    border-bottom: 2px solid #10b981;
-    padding-bottom: 10px;
-}
-
-.modal-content p {
-    text-align: justify;
-    line-height: 1.7;
-    color: #b0b0b0;
-    margin-bottom: 20px;
-}
-
-.media-gallery {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-    margin-top: 25px;
-}
-
-.media-item {
-    position: relative;
-    overflow: hidden;
-    border-radius: 12px;
-}
-
-.media-item img {
-    width: 100%;
-    height: auto;
+#contactModal.show {
     display: block;
-    transition: transform 0.3s;
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+#contactModal h3 {
+    color: #fff;
+    margin-bottom: 20px;
+}
+#contactModal p {
+    margin: 8px 0;
+    color: #b0b0b0;
+}
+#contactModal a {
+    color: #10b981;
+    text-decoration: none;
+    font-weight: bold;
+}
+#contactModal button {
+    margin-top: 25px;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    background: #6366f1;
+    color: white;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.2s ease;
+}
+#contactModal button:hover {
+    background: #5053e8;
 }
 
-.media-item img:hover {
-    transform: scale(1.05);
-}
-
-.video-container {
-    position: relative;
-    width: 100%;
-    padding-bottom: 56.25%;
-    height: 0;
-    overflow: hidden;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
-
-.video-container iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-}
-
-@keyframes fadeIn {
-    from {opacity: 0;}
-    to {opacity: 1;}
-}
-
-@keyframes slideIn {
-    from {transform: translateY(-50px); opacity: 0;}
-    to {transform: translateY(0); opacity: 1;}
-}
-
+/* Küçük Ekranlar İçin Düzenlemeler */
 @media (max-width: 768px) {
+    .site-header {
+        padding: 25px 20px;
+    }
     .hero-content {
         padding: 25px;
     }
@@ -351,7 +218,7 @@ body {
                     İletişim için her zaman ulaşabilirsin.
                 </p>
                 <div class="cta">
-                    <a class="btn ghost" href="#projects">Projelerime Göz At</a>
+                    <a class="btn ghost" href="projects.html">Projelerim</a>
                     <a class="btn green" href="#" id="contactBtn">İletişime Geç</a>
                 </div>
             </div>
@@ -359,62 +226,8 @@ body {
     </section>
 </div>
 
-<section id="projects" class="projects-section">
-    <h2 class="page-title">Projelerim</h2>
-    <div class="projects-grid">
-        <div class="project-card" data-id="hss25">
-            <img src="https://i.ibb.co/CpcLvSsj/349494b3-6f1b-46d9-b5a0-f901fffd7ff7.png" alt="2025 Teknofest Hava Savunma">
-            <div class="content">
-                <h3>2025 Teknofest Hava Savunma Sistemleri Yarışması</h3>
-                <p></p>
-            </div>
-        </div>
-        <div class="project-card" data-id="bitirme">
-            <img src="https://i.ibb.co/V7Sxhh5/bitirme.png" alt="Çoklu Kamera ile 3B Nesne Konum Tespiti (Bitirme Projesi) ">
-            <div class="content">
-                <h3>Çoklu Kamera ile 3B Nesne Konum Tespiti (Bitirme Projesi)</h3>
-                <p></p>
-            </div>
-        </div>
-        <div class="project-card" data-id="hss24">
-            <img src="https://i.ibb.co/fVbvjPxD/hss24.png" alt="2024 Teknofest Hava Savunma">
-            <div class="content">
-                <h3>2024 Teknofest Hava Savunma Sistemleri Yarışması</h3>
-                <p></p>
-            </div>
-        </div>
-        <div class="project-card" data-id="savasan24">
-            <img src="https://i.ibb.co/dJg2n55S/savasan24.png" alt="2024 Teknofest Savaşan İHA">
-            <div class="content">
-                <h3>2024 Teknofest Savaşan İHA Yarışması</h3>
-                <p></p>
-            </div>
-        </div>
-        <div class="project-card" data-id="robotikgoz">
-            <img src="https://i.ibb.co/5XgPm5Rq/tasar-m.png" alt="Robotik Göz Tasarımı">
-            <div class="content">
-                <h3>İnsan Takibi Yapabilen Robotik Göz Tasarımı</h3>
-                <p></p>
-            </div>
-        </div>
-        <div class="project-card" data-id="savasan23">
-            <img src="https://i.ibb.co/PZ6nysbY/savasan23.png" alt="2023 Teknofest Savaşan İHA">
-            <div class="content">
-                <h3>2023 Teknofest Savaşan İHA Yarışması</h3>
-                <p></p>
-            </div>
-        </div>
-        <div class="project-card" data-id="bitirme2">
-            <img src="https://i.ibb.co/6Pqj45qg/yeni-proje.png" alt="Otonom Sistemler">
-            <div class="content">
-                <h3>Otonom Sistemler İle Görüntü Analizi</h3>
-                <p></p>
-            </div>
-        </div>
-    </div>
-</section>
-
 <div id="modalBackdrop"></div>
+
 <div id="contactModal">
     <h3>İletişim Bilgileri</h3>
     <p>E-posta: <span>okanseker32@gmail.com</span></p>
@@ -423,127 +236,27 @@ body {
     <button id="closeModal">Kapat</button>
 </div>
 
-<div id="projectModal" class="modal">
-    <div class="modal-content">
-        <span class="close-btn">&times;</span>
-        <h2 id="modal-title"></h2>
-        <p id="modal-description"></p>
-        <div class="media-gallery" id="modal-media"></div>
-    </div>
-</div>
-
 <script>
     const contactBtn = document.getElementById('contactBtn');
-    const contactModal = document.getElementById('contactModal');
-    const projectCards = document.querySelectorAll('.project-card');
-    const projectModal = document.getElementById('projectModal');
-    const modalBackdrop = document.getElementById('modalBackdrop');
-    
-    // Proje verileri
-    const projectData = {
-        'savasan23': {
-            title: '2023 Teknofest Savaşan İHA Yarışması',
-            description: 'Takımın yazılım ekibinde görev aldım. Görüntü işleme, arayüz tasarımı ve nesne tanıma algoritmaları üzerine çalışarak Python programlama dili ile projeler geliştirdim. Gazebo ve ROS üzerinde simülasyon ortamları geliştirdim.',
-            images: ['https://i.ibb.co/PZ6nysbY/savasan23.png'],
-            youtubeIds: [],
-        },
-        'robotikgoz': {
-            title: 'İnsan Takibi Yapabilen Robotik Göz Tasarımı',
-            description: 'Üniversitede tasarım dersi kapsamında bir arkadaşımla birlikte bu projeyi geliştirdim. Göz hareketlerini ve robotun duygularını ifade edebilmesini sağlayan elektronik sistemlerin gömülü yazılım geliştirme sürecini üstlendim. Ayrıca, nesne tanıma algoritmaları ile insan tespiti ve takibi üzerine çalıştım. Takip edilen nesnenin konum verilerinin bilgisayar arayüzünden mikrodenetleyiciye aktarılması için gerekli kodları yazdım.',
-            images: ['https://i.ibb.co/5XgPm5Rq/tasar-m.png', 'https://i.ibb.co/NdRHyF0g/image-15.png', 'https://i.ibb.co/5g3p6Nn3/image-14.png'],
-            youtubeIds: ['UW1aEnrinqo'],
-        },
-        'savasan24': {
-            title: '2024 Teknofest Savaşan İHA Yarışması',
-            description: 'Bir önceki yıl oluşturulan altyapı üzerine geliştirmeler yaptım ve benzer konular üzerinde çalışmaya devam ettim.',
-            images: ['https://i.ibb.co/dJg2n55S/savasan24.png', 'https://i.ibb.co/PZgwHDmg/image-18.png'],
-            youtubeIds: ['Ekm7as2zMMc', 'IOU6vndNJFo'],
-        },
-        'hss24': {
-            title: '2024 Teknofest Hava Savunma Sistemleri Yarışması',
-            description: 'Takımın yazılım ve elektronik ekibinde görev aldım. Yarışma için oluşturulan namlu sisteminin hareketini kontrol etmek ve elektronik mermi atış mekanizmasında bulunan kapasitör, bobin gibi bileşenlerin kontrolü için gerekli olan gömülü yazılımı geliştirdim. Ayrıca, sistemin elektronik bileşenlerinin projeye entegrasyonu için çalışmalar yaptım.',
-            images: ['https://i.ibb.co/fVbvjPxD/hss24.png', 'https://i.ibb.co/nqLB2KT3/image-19.png'],
-            youtubeIds: ['jt0KCsrDnJ0'],
-        },
-        'bitirme': {
-            title: 'Çoklu Kamera ile 3B Nesne Konum Tespiti (Bitirme Projesi)',
-            description: 'Üniversitedeki bitirme projesi kapsamında, iki kameradan alınan görüntülerle nesnelerin üç boyutlu konumunu hesaplayan bir sistem geliştirdim. Bu süreçte kamera kalibrasyonu, üçgenleme ve PnP yöntemlerini kullandım. Elde edilen sonuçları referans sistemle karşılaştırarak hata analizleri gerçekleştirdim. ',
-            images: [],
-            youtubeIds: ['lSaF7tYNn9Y'],
-        },
-        'hss25': {
-            title: '2025 Teknofest Hava Savunma Sistemleri Yarışması',
-            description: 'Mevcut sistem üzerinde elektronik ve yazılımsal iyileştirmeler gerçekleştirdim. Elektromanyetik sistemi geliştirerek performansının artırılmasına katkı sağladım. Namlunun hareketini sağlayan servo motorlar yerine step motorlar kullanarak sistemin daha hassas takip yapabilmesi için gerekli gömülü yazılımı geliştirdim. Ayrıca, görüntü işleme ve kontrol algoritmalarını daha stabil çalışacak şekilde optimize ettim.',
-            images: ['https://i.ibb.co/N6kv80pK/image-28.png', 'https://i.ibb.co/bg1Jx7D5/hss25.png'],
-            youtubeIds: ['MmtXF5la93w'],
-        },
-        'bitirme2': {
-            title: 'Otonom Sistemler ile Görüntü Analizi',
-            description: 'Bu proje, otonom sistemler için görüntüden anlam çıkarma ve analiz etme yeteneği üzerine odaklanmaktadır. Sistem, çevresel verileri işleyerek nesnelerin tanınmasını ve konumlarının belirlenmesini sağlar. Bu sayede, robotların veya otonom araçların karmaşık ortamlarda gezinmesine ve karar vermesine olanak tanır.',
-            images: ['https://i.ibb.co/6Pqj45qg/yeni-proje.png', 'https://i.ibb.co/R9m4HjY7/gorsel1.jpg', 'https://i.ibb.co/v3D5t21f/gorsel2.jpg'],
-            youtubeIds: ['lSaF7tYNn9Y', 'IOU6vndNJFo'],
-        }
-    };
-    
-    // İletişim Modalını Açma/Kapama
+    const modal = document.getElementById('contactModal');
+    const backdrop = document.getElementById('modalBackdrop');
+    const closeModal = modal.querySelector('button');
+
+    function openModal() {
+        modal.classList.add('show');
+        backdrop.style.display = 'block';
+    }
+    function closeModalFunc() {
+        modal.classList.remove('show');
+        setTimeout(() => backdrop.style.display = 'none', 300);
+    }
+
     contactBtn.addEventListener('click', function(e) {
         e.preventDefault();
-        contactModal.classList.add('show');
-        modalBackdrop.style.display = 'block';
+        openModal();
     });
-    document.getElementById('closeModal').addEventListener('click', () => {
-        contactModal.classList.remove('show');
-        setTimeout(() => modalBackdrop.style.display = 'none', 300);
-    });
-    modalBackdrop.addEventListener('click', () => {
-        contactModal.classList.remove('show');
-        projectModal.classList.remove('show');
-        setTimeout(() => modalBackdrop.style.display = 'none', 300);
-    });
-
-    // Proje Modalını Açma/Kapama
-    projectCards.forEach(card => {
-        card.addEventListener('click', () => {
-            const projectId = card.dataset.id;
-            const project = projectData[projectId];
-            if (project) {
-                document.getElementById('modal-title').textContent = project.title;
-                document.getElementById('modal-description').textContent = project.description;
-                const modalMedia = document.getElementById('modal-media');
-                modalMedia.innerHTML = '';
-
-                project.images.forEach(imgUrl => {
-                    const imgDiv = document.createElement('div');
-                    imgDiv.className = 'media-item';
-                    const img = document.createElement('img');
-                    img.src = imgUrl;
-                    img.alt = 'Proje Resmi';
-                    imgDiv.appendChild(img);
-                    modalMedia.appendChild(imgDiv);
-                });
-
-                project.youtubeIds.forEach(videoId => {
-                    const videoDiv = document.createElement('div');
-                    videoDiv.className = 'video-container';
-                    const iframe = document.createElement('iframe');
-                    iframe.src = `https://www.youtube.com/embed/${videoId}`;
-                    iframe.setAttribute('frameborder', '0');
-                    iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
-                    iframe.setAttribute('allowfullscreen', '');
-                    videoDiv.appendChild(iframe);
-                    modalMedia.appendChild(videoDiv);
-                });
-                
-                projectModal.classList.add('show');
-                modalBackdrop.style.display = 'block';
-            }
-        });
-    });
-
-    document.querySelector('#projectModal .close-btn').addEventListener('click', () => {
-        projectModal.classList.remove('show');
-        setTimeout(() => modalBackdrop.style.display = 'none', 300);
-    });
+    closeModal.addEventListener('click', closeModalFunc);
+    backdrop.addEventListener('click', closeModalFunc);
 </script>
 
 </body>
