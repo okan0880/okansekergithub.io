@@ -4,12 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Kayar Menü Portfolyo</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
       background: #111;
       color: white;
-      font-family: Arial, sans-serif;
+      font-family: 'Poppins', sans-serif;
       overflow-x: hidden;
     }
 
@@ -19,7 +21,7 @@
       scroll-snap-type: x mandatory;
       -webkit-overflow-scrolling: touch;
       scrollbar-width: none;
-      padding: 40px 0;
+      padding: 40px 0 40px 0; /* sadece üst-alt padding */
     }
 
     .scroll-container::-webkit-scrollbar {
@@ -30,7 +32,7 @@
       flex: 0 0 auto;
       width: 220px;
       height: 400px;
-      margin-right: 10px;   /* sadece sağa boşluk */
+      margin: 0 10px;
       scroll-snap-align: start;
       border-radius: 12px;
       position: relative;
@@ -38,11 +40,15 @@
       justify-content: center;
       align-items: center;
       transition: transform 0.3s ease;
-      background: #2f2f2f;  /* gri ton */
+      background: #2f2f2f;  /* sabit gri */
+    }
+
+    .item:first-child {
+      margin-left: 10px; /* sola boşluk */
     }
 
     .item:last-child {
-      margin-right: 0; /* sağdaki boşluğu kaldır */
+      margin-right: 10px; /* sağa boşluk */
     }
 
     .item:hover {
@@ -53,14 +59,16 @@
     .title {
       writing-mode: vertical-rl;
       text-orientation: upright;
-      font-size: 22px;
-      font-weight: bold;
+      font-size: 28px;         /* daha büyük yazı */
+      font-weight: 600;
+      text-transform: uppercase; /* büyük harf */
       color: white;
+      letter-spacing: 2px;     /* harf arası boşluk */
     }
   </style>
 </head>
 <body>
-  <h2 style="text-align:center; padding:20px;">Portfolyo</h2>
+  <h2 style="text-align:center; padding:20px;">PORTFOLYO</h2>
 
   <div class="scroll-container">
     <div class="item"><div class="title">Hakkımda</div></div>
