@@ -19,10 +19,9 @@
       scroll-snap-type: x mandatory;
       -webkit-overflow-scrolling: touch;
       scrollbar-width: none; /* Firefox */
-      /* Yeni: İçeriği yatayda ortala */
       justify-content: center; 
       align-items: center;
-      padding: 20px 0; /* Üst ve alt boşluk ekler */
+      padding: 20px 0;
     }
 
     .scroll-container::-webkit-scrollbar {
@@ -31,8 +30,8 @@
 
     .item-wrapper {
       flex: 0 0 auto;
-      margin: 0 10px; /* Sadece yatayda boşluk */
-      scroll-snap-align: center; /* Kartların ortalanmış şekilde durmasını sağlar */
+      margin: 0 10px;
+      scroll-snap-align: center;
       text-align: center;
     }
 
@@ -43,7 +42,7 @@
       background-position: center;
       border-radius: 50px;
       transition: transform 0.3s ease;
-      margin-top: 20px; /* Yeni: Kartların üstünde boşluk bırakır */
+      margin-top: 40px; /* Güncellendi: Daha fazla yukarı boşluk */
     }
 
     .item:hover {
@@ -51,7 +50,7 @@
     }
     
     .card-title {
-      font-size: 1.2em;
+      font-size: 1em; /* Güncellendi: Daha küçük font boyutu */
       font-weight: bold;
       margin-bottom: 10px;
     }
