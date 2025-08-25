@@ -10,28 +10,45 @@
       background: #111;
       color: white;
       font-family: Arial, sans-serif;
-      overflow: hidden; /* kaydırma olmasın */
+      overflow-x: hidden;
     }
 
-    .container {
+    .scroll-container {
       display: flex;
-      width: 100vw;
-      height: 100vh;
+      overflow-x: scroll;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      padding: 40px 0;
+    }
+
+    .scroll-container::-webkit-scrollbar {
+      display: none;
     }
 
     .item {
-      flex: 1; /* her kutu eşit genişlik kaplasın */
+      flex: 0 0 auto;
+      width: 220px;
+      height: 400px;
+      margin: 0 10px;
+      scroll-snap-align: start;
+      border-radius: 12px;
+      position: relative;
       display: flex;
       justify-content: center;
       align-items: center;
-      position: relative;
+      transition: transform 0.3s ease;
     }
 
-    /* Dikey yazı */
+    .item:hover {
+      transform: scale(1.1);
+    }
+
+    /* Dikey başlık */
     .title {
       writing-mode: vertical-rl;
       text-orientation: upright;
-      font-size: 28px;
+      font-size: 22px;
       font-weight: bold;
       color: white;
     }
@@ -45,7 +62,9 @@
   </style>
 </head>
 <body>
-  <div class="container">
+  <h2 style="text-align:center; padding:20px;">Portfolyo</h2>
+
+  <div class="scroll-container">
     <div class="item hakkimda"><div class="title">Hakkımda</div></div>
     <div class="item projeler"><div class="title">Projeler</div></div>
     <div class="item staj"><div class="title">Staj Deneyimi</div></div>
