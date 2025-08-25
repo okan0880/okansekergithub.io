@@ -35,27 +35,27 @@
       background-position: center;
       border-radius: 50px;
       transition: transform 0.3s ease;
-      position: relative;
-      overflow: hidden;
+      position: relative; /* Yeni: Başlığı konumlandırmak için eklendi */
     }
 
     .item:hover {
       transform: scale(1.1);
     }
 
-    /* Kart başlığı */
-    .item-title {
+    /* Yeni: Kart başlıkları için stil */
+    .card-text {
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      text-align: center;
-      background: rgba(0, 0, 0, 0.6);
-      padding: 10px;
-      font-size: 18px;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: white;
       font-weight: bold;
-      border-top-left-radius: 50px;
-      border-top-right-radius: 50px;
+      font-size: 1.2em;
+      text-align: center;
+      padding: 8px 15px;
+      border-radius: 20px;
+      background-color: rgba(0, 0, 0, 0.5); /* Yarı saydam arka plan */
+      pointer-events: none; /* Fare etkileşimini engeller, kartın hover'ı çalışmaya devam eder */
     }
 
     /* Örnek resimler */
@@ -70,11 +70,21 @@
   <h2 style="text-align:center; padding:20px;">Merhaba, portföyüme hoş geldiniz!</h2>
 
   <div class="scroll-container">
-    <div class="item item1"><div class="item-title">HAKKIMDA</div></div>
-    <div class="item item2"><div class="item-title">PROJELER</div></div>
-    <div class="item item3"><div class="item-title">STAJ DENEYİMİ</div></div>
-    <div class="item item4"><div class="item-title">OYUNLAR</div></div>
-    <div class="item item5"><div class="item-title">İLETİŞİM</div></div>
+    <div class="item item1">
+      <div class="card-text">Hakkımda</div>
+    </div>
+    <div class="item item2">
+      <div class="card-text">Projeler</div>
+    </div>
+    <div class="item item3">
+      <div class="card-text">Staj Deneyimi</div>
+    </div>
+    <div class="item item4">
+      <div class="card-text">Oyunlar</div>
+    </div>
+    <div class="item item5">
+      <div class="card-text">İletişim</div>
+    </div>
   </div>
 </body>
 </html>
