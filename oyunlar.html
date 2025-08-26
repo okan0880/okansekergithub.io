@@ -17,13 +17,18 @@
 
   .container {
     display: flex;
+    flex-direction: column;
     gap: 24px;
-    justify-content: center;
-    align-items: flex-start;
-    flex-wrap: wrap; 
     width: 100%;
     max-width: 1100px;
-    flex-direction: column; /* Kartlar alt alta */
+  }
+
+  /* Üstte yan yana oyunlar */
+  .top-row {
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+    flex-wrap: wrap;
   }
 
   .game-card {
@@ -36,14 +41,16 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 24px;
+    width: 100%;
+    max-width: 500px;
+    height: 550px; /* Tüm kartlar aynı yükseklik */
     position: relative;
   }
 
   .game-card h2{ text-align:center; color:#34d399; margin:6px 0 12px; }
 
   /* Snake */
-  #snakeCanvas{ border:3px solid #10b981; background:#0b1220; box-shadow:0 0 12px #0f766e; width:100%; max-width:400px; height:400px; }
+  #snakeCanvas{ border:3px solid #10b981; background:#0b1220; box-shadow:0 0 12px #0f766e; width:100%; height:350px; }
   .score { text-align:center; color:#86efac; margin-top:8px; font-weight:600; }
 
   .start-overlay {
@@ -78,7 +85,7 @@
     padding: 20px;
     text-align: center;
     width: 100%;
-    max-width: 500px;
+    height: 350px;
   }
   #question-box { font-size: 2rem; margin-bottom: 15px; color: #a2e2ff; }
   .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
@@ -97,8 +104,8 @@
   #timer { font-size:1.5em; margin-bottom:10px; color:#ff6b6b; }
 
   /* Küçük ekranlar için */
-  @media (max-width:860px){
-    .game-card { flex: 1 1 100%; }
+  @media (max-width:1020px){
+    .top-row { flex-direction: column; align-items: center; }
   }
 </style>
 </head>
@@ -106,25 +113,28 @@
 
 <div class="container">
 
-  <!-- Yılan Oyunu -->
-  <div class="game-card" id="snakeCard">
-    <h2>🐍 Yılan Oyunu</h2>
-    <canvas id="snakeCanvas" width="400" height="400"></canvas>
-    <div class="score">Skor: <span id="snakeScore">0</span></div>
-    <div id="snakeStartScreen" class="start-overlay">
-      <h1>Yılan Oyunu</h1>
-      <p>Tıklayın veya 'W A S D' ile başlatın</p>
+  <!-- Üstte yan yana oyunlar -->
+  <div class="top-row">
+    <!-- Yılan Oyunu -->
+    <div class="game-card" id="snakeCard">
+      <h2>🐍 Yılan Oyunu</h2>
+      <canvas id="snakeCanvas" width="400" height="350"></canvas>
+      <div class="score">Skor: <span id="snakeScore">0</span></div>
+      <div id="snakeStartScreen" class="start-overlay">
+        <h1>Yılan Oyunu</h1>
+        <p>Tıklayın veya 'W A S D' ile başlatın</p>
+      </div>
     </div>
-  </div>
 
-  <!-- Hafıza Oyunu -->
-  <div class="game-card" id="memoryCard">
-    <h2>🧠 Hatırlama Oyunu</h2>
-    <div id="memoryBoard"></div>
-    <div id="memoryMessage" style="text-align:center;margin-top:10px;color:#d1f7e0"></div>
-    <div id="memoryStartScreen" class="start-overlay">
-      <h1>Hatırlama Oyunu</h1>
-      <p>Tıklayın ve kartlarla oynayın</p>
+    <!-- Hafıza Oyunu -->
+    <div class="game-card" id="memoryCard">
+      <h2>🧠 Hatırlama Oyunu</h2>
+      <div id="memoryBoard"></div>
+      <div id="memoryMessage" style="text-align:center;margin-top:10px;color:#d1f7e0"></div>
+      <div id="memoryStartScreen" class="start-overlay">
+        <h1>Hatırlama Oyunu</h1>
+        <p>Tıklayın ve kartlarla oynayın</p>
+      </div>
     </div>
   </div>
 
@@ -146,7 +156,7 @@
 </div>
 
 <script>
-/* Yılan ve Hafıza oyunları için daha önceki kodlar */
+/* --- Ortak yardımcı --- */
 function isVisible(el){ if(!el) return false; const cs = window.getComputedStyle(el); return cs.display !== 'none' && cs.visibility !== 'hidden' && parseFloat(cs.opacity) > 0; }
 
 /* --- Yılan Oyunu --- */
