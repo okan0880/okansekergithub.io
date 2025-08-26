@@ -23,7 +23,6 @@
     max-width: 1100px;
   }
 
-  /* Üstte yan yana oyunlar */
   .top-row {
     display: flex;
     gap: 24px;
@@ -43,13 +42,12 @@
     align-items: center;
     width: 100%;
     max-width: 500px;
-    height: 550px; /* Tüm kartlar aynı yükseklik */
+    height: 550px;
     position: relative;
   }
 
   .game-card h2{ text-align:center; color:#34d399; margin:6px 0 12px; }
 
-  /* Snake */
   #snakeCanvas{ border:3px solid #10b981; background:#0b1220; box-shadow:0 0 12px #0f766e; width:100%; height:350px; }
   .score { text-align:center; color:#86efac; margin-top:8px; font-weight:600; }
 
@@ -69,7 +67,6 @@
   .start-overlay h1{ margin:0; color:#34d399; font-size:1.8rem; }
   .start-overlay p{ margin:6px 0 0; color:#c7f9de; }
 
-  /* Memory board */
   #memoryBoard { display:grid; grid-template-columns: repeat(4, 70px); gap:10px; justify-content:center; flex-grow:1; }
   .card {
     width:70px;height:70px;border-radius:10px;background:#263043;display:flex;align-items:center;justify-content:center;font-size:1.6rem;cursor:pointer;
@@ -78,7 +75,6 @@
   .card.flipped{ transform: rotateY(180deg); }
   .card.matched{ background:#10b981; cursor:default; }
 
-  /* Matematik Oyunu */
   .math-container {
     background-color: #374151;
     border-radius: 15px;
@@ -103,19 +99,42 @@
   #score-board { margin-top: 10px; font-weight:600; color:#fce700; }
   #timer { font-size:1.5em; margin-bottom:10px; color:#ff6b6b; }
 
-  /* Küçük ekranlar için */
   @media (max-width:1020px){
     .top-row { flex-direction: column; align-items: center; }
+  }
+
+  /* Müzik butonu stili */
+  #musicBtn {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    background-color: #34d399;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    font-size: 1.2rem;
+    color: #111;
+    z-index: 1000;
   }
 </style>
 </head>
 <body>
 
+<!-- Arka plan müziği -->
+<audio id="bgMusic" loop>
+  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+  Tarayıcınız audio elementini desteklemiyor.
+</audio>
+
+<!-- Müzik butonu -->
+<button id="musicBtn">🔊</button>
+
 <div class="container">
 
-  <!-- Üstte yan yana oyunlar -->
   <div class="top-row">
-    <!-- Yılan Oyunu -->
     <div class="game-card" id="snakeCard">
       <h2>🐍 Yılan Oyunu</h2>
       <canvas id="snakeCanvas" width="400" height="350"></canvas>
@@ -126,7 +145,6 @@
       </div>
     </div>
 
-    <!-- Hafıza Oyunu -->
     <div class="game-card" id="memoryCard">
       <h2>🧠 Hatırlama Oyunu</h2>
       <div id="memoryBoard"></div>
@@ -138,7 +156,6 @@
     </div>
   </div>
 
-  <!-- Matematik Oyunu -->
   <div class="game-card" id="mathCard">
     <h2>➕ Matematik Oyunu</h2>
     <div class="math-container">
@@ -229,6 +246,23 @@ function startMathGame(){ mathScore=0; scoreValue.textContent=mathScore; mathSta
 function endMathGame(){ stopMathTimer(); mathStartScreen.style.display='flex'; alert('Oyun bitti! Skorunuz: '+mathScore); }
 
 mathStartScreen.addEventListener('click', startMathGame);
+
+/* --- Müzik Butonu --- */
+const bgMusic = document.getElementById('bgMusic');
+const musicBtn = document.getElementById('musicBtn');
+let musicPlaying = false;
+
+musicBtn.addEventListener('click', () => {
+  if(!musicPlaying){
+    bgMusic.play();
+    musicBtn.textContent = "🔇";
+    musicPlaying = true;
+  } else {
+    bgMusic.pause();
+    musicBtn.textContent = "🔊";
+    musicPlaying = false;
+  }
+});
 </script>
 
 </body>
