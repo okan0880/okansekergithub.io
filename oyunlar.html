@@ -14,15 +14,23 @@
     display:flex;
     justify-content:center;
   }
+
   .container {
-    width:100%;
-    max-width:1100px;
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:24px;
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: nowrap; /* alt satıra geçmesin */
+    width: 100%;
+    max-width: 1100px;
+    overflow-x: auto; /* dar ekranlarda kaydırma */
+    padding-bottom: 10px;
   }
+
   .game-card {
-    position:relative;
+    flex: 1 1 0;
+    min-width: 350px;
+    max-width: 540px;
     background: rgba(17,24,39,0.85);
     border-radius:14px;
     padding:16px;
@@ -30,15 +38,17 @@
     border:1px solid rgba(255,255,255,0.04);
     overflow:visible;
   }
+
   .game-card h2{ text-align:center; color:#34d399; margin:6px 0 12px; }
+
   /* Snake */
   #snakeCanvas{ display:block; margin:0 auto; border:3px solid #10b981; background:#0b1220; box-shadow:0 0 12px #0f766e; }
   .score { text-align:center; color:#86efac; margin-top:8px; font-weight:600; }
 
-  /* Overlays (başlangıç ekranları) */
+  /* Overlays */
   .start-overlay {
     position:absolute;
-    inset:12px; /* overlay, kart iç kenarlarına göre */
+    inset:12px;
     display:flex;
     align-items:center;
     justify-content:center;
@@ -66,73 +76,68 @@
     position:fixed; right:18px; top:18px; z-index:200;
     background:#071224;color:#95f7c9;border:1px solid rgba(255,255,255,0.06); padding:8px 10px;border-radius:8px; cursor:pointer;
   }
-  @media (max-width:860px){ .container{ grid-template-columns:1fr; } }
 </style>
 </head>
 <body>
 
 <button id="musicControl">🔇</button>
 <audio id="bgMusic" loop>
-  <source src="https://www.bensound.com/bensound-music/bensound-funkyelement.mp3" type="audio/mpeg">
+  <source src="https://www.bensound.com/bensound-music/bensound-funkyelement.mp3" type="audio/mpeg">
 </audio>
 
 <div class="container">
 
-    <div class="game-card" id="snakeCard">
-    <h2>🐍 Yılan Oyunu</h2>
-    <canvas id="snakeCanvas" width="400" height="400"></canvas>
-    <div class="score">Skor: <span id="snakeScore">0</span></div>
+  <!-- Yılan Oyunu -->
+  <div class="game-card" id="snakeCard">
+    <h2>🐍 Yılan Oyunu</h2>
+    <canvas id="snakeCanvas" width="400" height="400"></canvas>
+    <div class="score">Skor: <span id="snakeScore">0</span></div>
+    <div id="snakeStartScreen" class="start-overlay">
+      <h1>Yılan Oyunu</h1>
+      <p>Tıklayın veya 'W A S D' ile başlatın</p>
+    </div>
+  </div>
 
-    <div id="snakeStartScreen" class="start-overlay">
-      <h1>Yılan Oyunu</h1>
-      <p>Tıklayın veya 'W A S D' ile başlatın</p>
-    </div>
-  </div>
-
-    <div class="game-card" id="memoryCard">
-    <h2>🧠 Hatırlama Oyunu</h2>
-    <div id="memoryBoard"></div>
-    <div id="memoryMessage" style="text-align:center;margin-top:10px;color:#d1f7e0"></div>
-
-    <div id="memoryStartScreen" class="start-overlay">
-      <h1>Hatırlama Oyunu</h1>
-      <p>Tıklayın ve kartlarla oynayın</p>
-    </div>
-  </div>
+  <!-- Hafıza Oyunu -->
+  <div class="game-card" id="memoryCard">
+    <h2>🧠 Hatırlama Oyunu</h2>
+    <div id="memoryBoard"></div>
+    <div id="memoryMessage" style="text-align:center;margin-top:10px;color:#d1f7e0"></div>
+    <div id="memoryStartScreen" class="start-overlay">
+      <h1>Hatırlama Oyunu</h1>
+      <p>Tıklayın ve kartlarla oynayın</p>
+    </div>
+  </div>
 
 </div>
 
 <script>
-/* ---------- Yardımcı: görünür mü? ---------- */
+/* ---------- Yardımcı Fonksiyon ---------- */
 function isVisible(el){
-  if(!el) return false;
-  const cs = window.getComputedStyle(el);
-  return cs.display !== 'none' && cs.visibility !== 'hidden' && parseFloat(cs.opacity) > 0;
+  if(!el) return false;
+  const cs = window.getComputedStyle(el);
+  return cs.display !== 'none' && cs.visibility !== 'hidden' && parseFloat(cs.opacity) > 0;
 }
 
-/* ---------- Müzik Kontrolü Düzeltmesi ---------- */
+/* ---------- Müzik Kontrol ---------- */
 const bgMusic = document.getElementById('bgMusic');
 const musicControl = document.getElementById('musicControl');
 let musicPlaying = false;
 
-// Sayfa yüklendiğinde müziği otomatik başlatmak yerine, sadece düğme durumunu ayarla
-musicControl.textContent = '🔇';
-
 musicControl.addEventListener('click', ()=> {
-  if(musicPlaying){
-    bgMusic.pause();
-    musicControl.textContent='🔇';
-    musicPlaying=false;
-  } else {
-    bgMusic.play().then(()=>{
-      musicControl.textContent = '🔊';
-      musicPlaying = true;
-    }).catch(()=>{
-      // Otomatik oynatma engellenirse hatayı yakala
-      musicControl.textContent='🔇';
-      musicPlaying=false;
-    });
-  }
+  if(musicPlaying){
+    bgMusic.pause();
+    musicControl.textContent='🔇';
+    musicPlaying=false;
+  } else {
+    bgMusic.play().then(()=>{
+      musicControl.textContent = '🔊';
+      musicPlaying = true;
+    }).catch(()=>{
+      musicControl.textContent='🔇';
+      musicPlaying=false;
+    });
+  }
 });
 
 /* ================= YILAN OYUNU ================= */
@@ -151,83 +156,76 @@ let apple = null;
 function rand(min,max){ return Math.floor(Math.random()*(max-min))+min; }
 
 function resetSnakeGame(){
-  snakeObj = { x:180, y:180, dx:grid, dy:0, cells:[], maxCells:4 };
-  apple = { x: rand(0,20)*grid, y: rand(0,20)*grid };
-  snakeScoreSpan.textContent = '0';
-  snakeRunning = true;
+  snakeObj = { x:180, y:180, dx:grid, dy:0, cells:[], maxCells:4 };
+  apple = { x: rand(0,20)*grid, y: rand(0,20)*grid };
+  snakeScoreSpan.textContent = '0';
+  snakeRunning = true;
 }
 
 function snakeLoop(){
-  requestAnimationFrame(snakeLoop);
-  if(!snakeRunning) return;
-  if(++snakeCount < (60/snakeSpeed)) return;
-  snakeCount = 0;
-  ctx.clearRect(0,0,snakeCanvas.width,snakeCanvas.height);
+  requestAnimationFrame(snakeLoop);
+  if(!snakeRunning) return;
+  if(++snakeCount < (60/snakeSpeed)) return;
+  snakeCount = 0;
+  ctx.clearRect(0,0,snakeCanvas.width,snakeCanvas.height);
 
-  snakeObj.x += snakeObj.dx; snakeObj.y += snakeObj.dy;
-  if(snakeObj.x < 0) snakeObj.x = snakeCanvas.width - grid;
-  else if(snakeObj.x >= snakeCanvas.width) snakeObj.x = 0;
-  if(snakeObj.y < 0) snakeObj.y = snakeCanvas.height - grid;
-  else if(snakeObj.y >= snakeCanvas.height) snakeObj.y = 0;
+  snakeObj.x += snakeObj.dx; snakeObj.y += snakeObj.dy;
+  if(snakeObj.x < 0) snakeObj.x = snakeCanvas.width - grid;
+  else if(snakeObj.x >= snakeCanvas.width) snakeObj.x = 0;
+  if(snakeObj.y < 0) snakeObj.y = snakeCanvas.height - grid;
+  else if(snakeObj.y >= snakeCanvas.height) snakeObj.y = 0;
 
-  snakeObj.cells.unshift({x:snakeObj.x, y:snakeObj.y});
-  if(snakeObj.cells.length > snakeObj.maxCells) snakeObj.cells.pop();
+  snakeObj.cells.unshift({x:snakeObj.x, y:snakeObj.y});
+  if(snakeObj.cells.length > snakeObj.maxCells) snakeObj.cells.pop();
 
-  ctx.fillStyle = '#ff7b72';
-  ctx.fillRect(apple.x, apple.y, grid-1, grid-1);
-  ctx.fillStyle = '#2ea043';
+  ctx.fillStyle = '#ff7b72';
+  ctx.fillRect(apple.x, apple.y, grid-1, grid-1);
+  ctx.fillStyle = '#2ea043';
 
-  snakeObj.cells.forEach(function(cell, index){
-    ctx.fillRect(cell.x, cell.y, grid-1, grid-1);
-
-    if(cell.x === apple.x && cell.y === apple.y){
-      snakeObj.maxCells++;
-      const sc = parseInt(snakeScoreSpan.textContent || '0') + 10;
-      snakeScoreSpan.textContent = sc;
-      apple.x = rand(0,20)*grid; apple.y = rand(0,20)*grid;
-    }
-
-    for(let i = index + 1; i < snakeObj.cells.length; i++){
-      if(cell.x === snakeObj.cells[i].x && cell.y === snakeObj.cells[i].y){
-        // oyun bitti
-        snakeRunning = false;
-        // overlay'ı göster
-        snakeStartScreen.style.display = 'flex';
-      }
-    }
-  });
+  snakeObj.cells.forEach(function(cell, index){
+    ctx.fillRect(cell.x, cell.y, grid-1, grid-1);
+    if(cell.x === apple.x && cell.y === apple.y){
+      snakeObj.maxCells++;
+      const sc = parseInt(snakeScoreSpan.textContent || '0') + 10;
+      snakeScoreSpan.textContent = sc;
+      apple.x = rand(0,20)*grid; apple.y = rand(0,20)*grid;
+    }
+    for(let i = index + 1; i < snakeObj.cells.length; i++){
+      if(cell.x === snakeObj.cells[i].x && cell.y === snakeObj.cells[i].y){
+        snakeRunning = false;
+        snakeStartScreen.style.display = 'flex';
+      }
+    }
+  });
 }
 
-/* Klavye: sadece yılan başlangıç ekranı görünür ve memory ekranı kapalıyken klavye ile başlatmaya izin ver */
+/* Klavye Kontrol */
 const memoryStartScreen = document.getElementById('memoryStartScreen');
 
 document.addEventListener('keydown', function(e){
-  // Eğer yılan henüz çalışmıyorsa ve yılan başlangıç ekranı görünür ve hafıza ekranı görünmüyorsa -> başlat
-  if(!snakeRunning && isVisible(snakeStartScreen) && !isVisible(memoryStartScreen)){
-    snakeStartScreen.style.display = 'none';
-    resetSnakeGame();
-    return;
-  }
-  // hareket tuşlarını işleme: sadece yılan çalışıyorsa
-  if(!snakeRunning) return;
+  if(!snakeRunning && isVisible(snakeStartScreen) && !isVisible(memoryStartScreen)){
+    snakeStartScreen.style.display = 'none';
+    resetSnakeGame();
+    return;
+  }
+  if(!snakeRunning) return;
 
-  if(e.key === 'a' || e.key === 'ArrowLeft'){ if(snakeObj.dx === 0){ snakeObj.dx = -grid; snakeObj.dy = 0; } }
-  else if(e.key === 'd' || e.key === 'ArrowRight'){ if(snakeObj.dx === 0){ snakeObj.dx = grid; snakeObj.dy = 0; } }
-  else if(e.key === 'w' || e.key === 'ArrowUp'){ if(snakeObj.dy === 0){ snakeObj.dy = -grid; snakeObj.dx = 0; } }
-  else if(e.key === 's' || e.key === 'ArrowDown'){ if(snakeObj.dy === 0){ snakeObj.dy = grid; snakeObj.dx = 0; } }
+  if(e.key === 'a' || e.key === 'ArrowLeft'){ if(snakeObj.dx === 0){ snakeObj.dx = -grid; snakeObj.dy = 0; } }
+  else if(e.key === 'd' || e.key === 'ArrowRight'){ if(snakeObj.dx === 0){ snakeObj.dx = grid; snakeObj.dy = 0; } }
+  else if(e.key === 'w' || e.key === 'ArrowUp'){ if(snakeObj.dy === 0){ snakeObj.dy = -grid; snakeObj.dx = 0; } }
+  else if(e.key === 's' || e.key === 'ArrowDown'){ if(snakeObj.dy === 0){ snakeObj.dy = grid; snakeObj.dx = 0; } }
 });
 
 snakeStartScreen.addEventListener('click', function(){
-  // tıkla ile başlat: overlay açık olduğu sürece başlat
-  if(isVisible(snakeStartScreen)){
-    snakeStartScreen.style.display = 'none';
-    resetSnakeGame();
-  }
+  if(isVisible(snakeStartScreen)){
+    snakeStartScreen.style.display = 'none';
+    resetSnakeGame();
+  }
 });
 
 requestAnimationFrame(snakeLoop);
 
-/* ================= HAFIZA (MEMORY) OYUNU ================= */
+/* ================= HAFIZA OYUNU ================= */
 const allSymbols = ['🦁','🦊','🐻','🐼','🐨','🐯','🐸','🐢'];
 let symbolsArr = [];
 let firstCard=null, secondCard=null, lockBoard=false, pairsFound=0;
@@ -238,62 +236,59 @@ const memoryMessage = document.getElementById('memoryMessage');
 function shuffle(a){ return a.sort(()=>Math.random()-0.5); }
 
 function createMemoryBoard(){
-  pairsFound = 0; memoryBoard.innerHTML=''; memoryMessage.textContent='';
-  symbolsArr = shuffle([...allSymbols, ...allSymbols]);
-  symbolsArr.forEach(sym => {
-    const card = document.createElement('div');
-    card.className = 'card';
-    card.dataset.symbol = sym;
-    card.textContent = '❓';
-    memoryBoard.appendChild(card);
+  pairsFound = 0; memoryBoard.innerHTML=''; memoryMessage.textContent='';
+  symbolsArr = shuffle([...allSymbols, ...allSymbols]);
+  symbolsArr.forEach(sym => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.dataset.symbol = sym;
+    card.textContent = '❓';
+    memoryBoard.appendChild(card);
 
-    card.addEventListener('click', function(){ 
-      if(lockBoard || card.classList.contains('matched') || card === firstCard) return;
-      // aç
-      card.textContent = sym;
-      card.classList.add('flipped');
-
-      if(!firstCard){ firstCard = card; return; }
-      secondCard = card;
-      checkMemoryMatch();
-    });
-  });
+    card.addEventListener('click', function(){ 
+      if(lockBoard || card.classList.contains('matched') || card === firstCard) return;
+      card.textContent = sym;
+      card.classList.add('flipped');
+      if(!firstCard){ firstCard = card; return; }
+      secondCard = card;
+      checkMemoryMatch();
+    });
+  });
 }
 
 function checkMemoryMatch(){
-  if(firstCard.dataset.symbol === secondCard.dataset.symbol){
-    firstCard.classList.add('matched');
-    secondCard.classList.add('matched');
-    firstCard = null; secondCard = null;
-    pairsFound++;
-    if(pairsFound === allSymbols.length){
-      memoryMessage.textContent = "🎉 Tebrikler! Tüm kartları eşleştirdiniz.";
-      // oyun bittiğinde overlay'i tekrar göster (isteğe bağlı)
-      setTimeout(()=> {
-        document.getElementById('memoryStartScreen').style.display = 'flex';
-      }, 1200);
-    }
-  } else {
-    lockBoard = true;
-    setTimeout(()=> {
-      firstCard.textContent = '❓'; secondCard.textContent = '❓';
-      firstCard.classList.remove('flipped'); secondCard.classList.remove('flipped');
-      firstCard = null; secondCard = null; lockBoard = false;
-    }, 900);
-  }
+  if(firstCard.dataset.symbol === secondCard.dataset.symbol){
+    firstCard.classList.add('matched');
+    secondCard.classList.add('matched');
+    firstCard = null; secondCard = null;
+    pairsFound++;
+    if(pairsFound === allSymbols.length){
+      memoryMessage.textContent = "🎉 Tebrikler! Tüm kartları eşleştirdiniz.";
+      setTimeout(()=> {
+        document.getElementById('memoryStartScreen').style.display = 'flex';
+      }, 1200);
+    }
+  } else {
+    lockBoard = true;
+    setTimeout(()=> {
+      firstCard.textContent = '❓'; secondCard.textContent = '❓';
+      firstCard.classList.remove('flipped'); secondCard.classList.remove('flipped');
+      firstCard = null; secondCard = null; lockBoard = false;
+    }, 900);
+  }
 }
 
-/* memory start click */
 document.getElementById('memoryStartScreen').addEventListener('click', function(){
-  if(isVisible(this)){
-    this.style.display = 'none';
-    createMemoryBoard();
-  }
+  if(isVisible(this)){
+    this.style.display = 'none';
+    createMemoryBoard();
+  }
 });
 
-/* İlk durum: overlay'ler görünsün (kullanıcının tıklamasıyla başlasın) */
+/* İlk durum */
 snakeStartScreen.style.display = 'flex';
 memoryStartScreen.style.display = 'flex';
 </script>
+
 </body>
 </html>
