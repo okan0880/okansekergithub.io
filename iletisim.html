@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>İletişim</title>
+<style>
+/* Genel Stil */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Montserrat', sans-serif;
+    background-color: #121212;
+    color: #e0e0e0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Kart Stili */
+.contact-card {
+    background: rgba(30, 30, 30, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 18px;
+    padding: 40px;
+    max-width: 500px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+}
+
+/* Başlık */
+.contact-card h2 {
+    font-size: 2.5em;
+    font-weight: 800;
+    margin-bottom: 20px;
+    color: #ffffff;
+}
+.contact-card h2 span {
+    background: linear-gradient(90deg, #6366f1, #10b981);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+/* İletişim Bilgileri */
+.contact-card p {
+    font-size: 1.2em;
+    line-height: 1.8;
+    color: #b0b0b0;
+}
+.contact-card a {
+    color: #10b981;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s ease;
+}
+.contact-card a:hover {
+    color: #0ea47a;
+}
+
+/* Buton */
+.back-btn {
+    display: inline-block;
+    margin-top: 30px;
+    padding: 12px 24px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    background: #6366f1;
+    color: #fff;
+    transition: background 0.2s ease;
+}
+.back-btn:hover {
+    background: #5053e8;
+}
+
+/* Küçük ekranlar */
+@media (max-width: 768px) {
+    .contact-card {
+        padding: 25px;
+    }
+    .contact-card h2 {
+        font-size: 2em;
+    }
+    .contact-card p {
+        font-size: 1.1em;
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="contact-card">
+    <h2>İletişim <span>Okan Şeker</span></h2>
+    <p>
+        📧 E-posta: <a href="mailto:okanseker32@gmail.com">okanseker32@gmail.com</a><br>
+        📞 Telefon: <a href="tel:+905443440008">0544 344 00 08</a><br>
+        🔗 LinkedIn: <a href="https://www.linkedin.com/in/okan-seker-" target="_blank">www.linkedin.com/in/okan-seker-</a>
+    </p>
+    <a class="back-btn" href="index.html">Ana Sayfaya Dön</a>
+</div>
+
+</body>
+</html>
