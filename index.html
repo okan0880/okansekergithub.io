@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Merhaba, portföyüme hoş geldiniz!</title>
+    <title>Merhaba, portföeeeyüme hoş geldiniz!</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
@@ -14,11 +14,17 @@
             color: #D4D4D4;
             font-family: 'Poppins', sans-serif;
             overflow-x: hidden;
+            overflow-y: scroll;     /* kaydırma açık */
+            scrollbar-width: none;  /* Firefox için gizle */
             display: flex;
             flex-direction: column;
             align-items: center;
-            min-height: 120vh;   /* ekran yüksekliğini artırdık */
-            padding: 60px 0;     /* üst ve alt boşluk */
+            min-height: 120vh;   
+            padding: 60px 0;     
+        }
+
+        body::-webkit-scrollbar {
+            display: none; /* Chrome, Safari için gizle */
         }
 
         h2 {
@@ -37,7 +43,7 @@
             justify-content: flex-start;
             align-items: center;
             width: 100%;
-            padding: 40px 0; /* dikey boşluk eklendi */
+            padding: 40px 0;
         }
 
         .scroll-container::-webkit-scrollbar {
@@ -58,7 +64,7 @@
             align-items: center;
             justify-content: center;
             margin: 0 10px;
-            padding-bottom: 40px; /* alt boşluk hover için */
+            padding-bottom: 40px;
         }
 
         .item {
