@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Okan Şeker - Portfolyo</title>
 <style>
-/* Geniş Ekranlar İçin Genel Stil */
+/* Genel Stil */
 body {
     margin: 0;
     padding: 0;
@@ -17,7 +17,7 @@ body {
     min-height: 100vh;
 }
 
-/* --- Ana İçerik Bölümü (Hero) --- */
+/* Hero Bölümü */
 .hero-wrap {
     flex-grow: 1;
     display: flex;
@@ -41,9 +41,10 @@ body {
     flex-direction: column;
     align-items: center;
     text-align: center;
+    margin-bottom: 30px;
 }
 
-/* --- Resim Stili --- */
+/* Resim Stili */
 .profile-image {
     width: 100%;
     max-width: 800px;
@@ -54,7 +55,7 @@ body {
     margin-bottom: 30px;
 }
 
-/* --- Metin İçerik Stili --- */
+/* Metin İçerik Stili */
 .text-content {
     width: 100%;
     text-align: center;
@@ -72,7 +73,6 @@ body {
     background-clip: text;
     color: transparent;
 }
-
 .text-content p {
     margin: 0 0 25px 0;
     color: #b0b0b0;
@@ -80,13 +80,13 @@ body {
     line-height: 1.7;
 }
 
+/* Buton Stili */
 .cta {
     display: flex;
     gap: 12px;
     justify-content: center;
     flex-wrap: wrap;
 }
-
 .btn {
     display: inline-block;
     padding: 12px 24px;
@@ -97,16 +97,13 @@ body {
     border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 6px 18px rgba(0,0,0,.15);
 }
-
 .btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 25px rgba(0,0,0,.25);
 }
-
 .btn:active {
     transform: translateY(0);
 }
-
 .btn.ghost {
     background: #252525;
     color: #fff;
@@ -120,12 +117,12 @@ body {
     color: #fff;
     border-color: #10b981;
 }
-
 .btn.green:hover {
     background: #0ea47a;
     border-color: #0ea47a;
 }
-/* --- Modal Stilleri --- */
+
+/* Modal Stilleri */
 #modalBackdrop {
     display: none;
     position: fixed;
@@ -184,7 +181,7 @@ body {
     background: #5053e8;
 }
 
-/* Küçük Ekranlar İçin Düzenlemeler */
+/* Küçük Ekranlar */
 @media (max-width: 768px) {
     .site-header {
         padding: 25px 20px;
@@ -208,6 +205,7 @@ body {
 
 <div class="hero-wrap">
     <section class="hero">
+        <!-- Hakkımda Kartı -->
         <div class="hero-content">
             <img class="profile-image" src="https://i.ibb.co/V0sMxvpY/1-1.jpg" alt="Okan Şeker">
             <div class="text-content">
@@ -216,6 +214,21 @@ body {
                     Üniversite hayatım boyunca gömülü yazılım, FPGA programlama, elektronik devre tasarımı, PCB tasarımı gibi
                     alanlarda kendimi geliştirdim. Kariyerime bu teknik alanlardan birinde devam etmeyi hedefliyorum.
                     İletişim için her zaman ulaşabilirsin.
+                </p>
+            </div>
+        </div>
+
+        <!-- Yetenekler Kartı -->
+        <div class="hero-content">
+            <div class="text-content">
+                <h2>Yeteneklerim</h2>
+                <p>
+                    • Gömülü Yazılım & Mikrodenetleyiciler (STM32, Arduino, ESP32)<br>
+                    • FPGA Programlama & VHDL/Verilog<br>
+                    • Elektronik Devre Tasarımı & PCB Çizimi<br>
+                    • IoT & Kablosuz İletişim Modülleri (Wi-Fi, BLE)<br>
+                    • CAD ve Mekanik Tasarım (SolidWorks)<br>
+                    • Python & C/C++ Programlama
                 </p>
             </div>
         </div>
