@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Projefffflerim</title>
+<title>Projelerim</title>
 <style>
 /* Genel Stil */
 body {
@@ -137,12 +137,15 @@ body {
     margin-top: 25px;
 }
 
+.media-item {
+    cursor: zoom-in; /* Resimlere tıklanabilir olduğunu belirtmek için */
+}
+
 .media-item img {
     width: 100%;
     height: auto;
     border-radius: 12px;
     transition: transform 0.3s;
-    cursor: pointer;
 }
 .media-item img:hover {
     transform: scale(1.05);
@@ -180,23 +183,59 @@ body {
     transform: rotate(90deg);
 }
 
-/* Image Modal (tam ekran resim) */
-#imageModal {
-    display: none;
+/* Tam Ekran Resim Modal */
+.fullscreen-image-modal {
+    display: none; /* Varsayılan olarak gizli */
     position: fixed;
-    z-index: 2000;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(0,0,0,0.9);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    z-index: 2000; /* Ana modalın üzerinde olması için daha yüksek z-index */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.95); /* Daha koyu arka plan */
+    backdrop-filter: blur(8px);
+    text-align: center; /* Resmi ortalamak için */
 }
-#imageModal img {
+
+.fullscreen-image-modal .image-content {
+    margin: auto;
+    display: block;
     max-width: 90%;
     max-height: 90%;
-    border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    object-fit: contain; /* Resmi içeriğe sığdır, kırpma yapma */
+}
+
+.fullscreen-image-modal .close-fullscreen {
+    position: absolute;
+    top: 20px;
+    right: 35px;
+    color: #fff;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.fullscreen-image-modal .close-fullscreen:hover,
+.fullscreen-image-modal .close-fullscreen:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+
+/* Responsive */
+@media (max-width: 768px) {
+    .page-title {
+        font-size: 2rem;
+        margin-top: 40px;
+        margin-bottom: 30px;
+    }
 }
 </style>
 </head>
@@ -211,11 +250,44 @@ body {
                 <h3>2025 Teknofest Hava Savunma</h3>
             </div>
         </div>
-        <!-- diğer kartlar aynı kalacak -->
+
+        <div class="project-card" data-id="bitirme">
+            <img src="https://i.ibb.co/V7Sxhh5/bitirme.png" alt="3B Nesne Konum Tespiti">
+            <div class="content">
+                <h3>Çoklu Kamera ile 3B Nesne Konum Tespiti</h3>
+            </div>
+        </div>
+
+        <div class="project-card" data-id="hss24">
+            <img src="https://i.ibb.co/fVbvjPxD/hss24.png" alt="2024 Teknofest Hava Savunma">
+            <div class="content">
+                <h3>2024 Teknofest Hava Savunma</h3>
+            </div>
+        </div>
+
+        <div class="project-card" data-id="savasan24">
+            <img src="https://i.ibb.co/dJg2n55S/savasan24.png" alt="2024 Teknofest Savaşan İHA">
+            <div class="content">
+                <h3>2024 Teknofest Savaşan İHA</h3>
+            </div>
+        </div>
+
+        <div class="project-card" data-id="robotikgoz">
+            <img src="https://i.ibb.co/5XgPm5Rq/tasar-m.png" alt="Robotik Göz">
+            <div class="content">
+                <h3>İnsan Takibi Yapabilen Robotik Göz</h3>
+            </div>
+        </div>
+
+        <div class="project-card" data-id="savasan23">
+            <img src="https://i.ibb.co/PZ6nysbY/savasan23.png" alt="2023 Teknofest Savaşan İHA">
+            <div class="content">
+                <h3>2023 Teknofest Savaşan İHA</h3>
+            </div>
+        </div>
     </div>
 </section>
 
-<!-- Proje Modal -->
 <div id="projectModal" class="modal">
     <div class="modal-content">
         <span class="close-btn">&times;</span>
@@ -225,20 +297,49 @@ body {
     </div>
 </div>
 
-<!-- Resim Modal -->
-<div id="imageModal">
-    <img id="fullImage" src="">
+<div id="fullscreenImageModal" class="fullscreen-image-modal">
+    <span class="close-fullscreen">&times;</span>
+    <img class="image-content" id="fullscreenImage">
 </div>
 
 <script>
 const projectData = {
+    'savasan23': {
+        title: '2023 Teknofest Savaşan İHA Yarışması',
+        description: 'Takımın yazılım ekibinde görev aldım. Görüntü işleme, arayüz tasarımı ve nesne tanıma algoritmaları üzerine çalışarak Python programlama dili ile projeler geliştirdim.Gazebo ve ROS üzerinde simülasyon ortamları geliştirdim.',
+        images: ['https://i.ibb.co/PZ6nysbY/savasan23.png'],
+        youtubeIds: [],
+    },
+    'robotikgoz': {
+        title: 'İnsan Takibi Yapabilen Robotik Göz Tasarımı',
+        description: 'Üniversitede tasarım dersi kapsamında bir arkadaşımla birlikte bu projeyi geliştirdim. Göz hareketlerini ve robotun duygularını ifade edebilmesini sağlayan elektronik sistemlerin gömülü yazılım geliştirme sürecini üstlendim. Ayrıca, nesne tanıma algoritmaları ile insan tespiti ve takibi üzerine çalıştım. Takip edilen nesnenin konum verilerinin bilgisayar arayüzünden mikrodenetleyiciye aktarılması için gerekli kodları yazdım.',
+        images: ['https://i.ibb.co/5XgPm5Rq/tasar-m.png', 'https://i.ibb.co/NdRHyF0g/image-15.png', 'https://i.ibb.co/5g3p6Nn3/image-14.png'],
+        youtubeIds: ['UW1aEnrinqo'],
+    },
+    'savasan24': {
+        title: '2024 Teknofest Savaşan İHA Yarışması',
+        description: 'Bir önceki yıl oluşturulan altyapı üzerine geliştirmeler yaptım ve benzer konular üzerinde çalışmaya devam ettim.',
+        images: ['https://i.ibb.co/dJg2n55S/savasan24.png', 'https://i.ibb.co/PZgwHDmg/image-18.png'],
+        youtubeIds: ['Ekm7as2zMMc', 'IOU6vndNJFo'],
+    },
+    'hss24': {
+        title: '2024 Teknofest Hava Savunma Sistemleri Yarışması',
+        description: 'Takımın yazılım ve elektronik ekibinde görev aldım. Yarışma için oluşturulan namlu sisteminin hareketini kontrol etmek ve elektronik mermi atış mekanizmasında bulunan kapasitör, bobin gibi bileşenlerin kontrolü için gerekli olan gömülü yazılımı geliştirdim. Ayrıca, sistemin elektronik bileşenlerinin projeye entegrasyonu için çalışmalar yaptım.',
+        images: ['https://i.ibb.co/fVbvjPxD/hss24.png', 'https://i.ibb.co/nqLB2KT3/image-19.png'],
+        youtubeIds: ['jt0KCsrDnJ0'],
+    },
+    'bitirme': {
+        title: 'Çoklu Kamera ile 3B Nesne Konum Tespiti',
+        description: 'Üniversitedeki bitirme projesi kapsamında, iki kameradan alınan görüntülerle nesnelerin üç boyutlu konumunu hesaplayan bir sistem geliştirdim. Bu süreçte kamera kalibrasyonu, üçgenleme ve PnP yöntemlerini kullandım. Elde edilen sonuçları referans sistemle karşılaştırarak hata analizleri gerçekleştirdim.',
+        images: ['https://i.ibb.co/V7Sxhh5/bitirme.png'], /* Bitirme projesi için bir resim ekledim, çünkü boştu */
+        youtubeIds: ['lSaF7tYNn9Y'],
+    },
     'hss25': {
         title: '2025 Teknofest Hava Savunma Sistemleri Yarışması',
-        description: 'Mevcut sistem üzerinde elektronik ve yazılımsal iyileştirmeler gerçekleştirdim.',
+        description: 'Mevcut sistem üzerinde elektronik ve yazılımsal iyileştirmeler gerçekleştirdim. Elektromanyetik sistemi geliştirerek performansının artırılmasına katkı sağladım. Namlunun hareketini sağlayan servo motorlar yerine step motorlar kullanarak sistemin daha hassas takip yapabilmesi için gerekli gömülü yazılımı geliştirdim. Ayrıca, görüntü işleme ve kontrol algoritmalarını daha stabil çalışacak şekilde optimize ettim.',
         images: ['https://i.ibb.co/bg1Jx7D5/hss25.png'],
-        youtubeIds: [],
-    }
-    // diğer projeler aynı kalacak
+        youtubeIds: ['MmtXF5la93w'],
+    },
 };
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -249,9 +350,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalDescription = document.getElementById('modal-description');
     const modalMedia = document.getElementById('modal-media');
 
-    // image modal
-    const imageModal = document.getElementById('imageModal');
-    const fullImage = document.getElementById('fullImage');
+    const fullscreenImageModal = document.getElementById('fullscreenImageModal');
+    const fullscreenImage = document.getElementById('fullscreenImage');
+    const closeFullscreenBtn = document.querySelector('.close-fullscreen');
 
     projectCards.forEach(card => {
         card.addEventListener('click', () => {
@@ -268,15 +369,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     const img = document.createElement('img');
                     img.src = imgUrl;
                     img.alt = 'Proje Resmi';
-
-                    // tıklayınca tam ekran aç
-                    img.addEventListener('click', () => {
-                        fullImage.src = imgUrl;
-                        imageModal.style.display = 'flex';
-                    });
-
                     imgDiv.appendChild(img);
                     modalMedia.appendChild(imgDiv);
+
+                    // Resme tıklanınca tam ekran açma işlevi
+                    img.addEventListener('click', (e) => {
+                        e.stopPropagation(); // Olayın modal'a yayılmasını engelle
+                        fullscreenImage.src = imgUrl;
+                        fullscreenImageModal.style.display = 'block';
+                    });
                 });
 
                 project.youtubeIds.forEach(videoId => {
@@ -284,6 +385,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     videoDiv.className = 'video-container';
                     const iframe = document.createElement('iframe');
                     iframe.src = `https://www.youtube.com/embed/${videoId}`;
+                    iframe.setAttribute('frameborder','0');
+                    iframe.setAttribute('allow','accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
                     iframe.setAttribute('allowfullscreen','');
                     videoDiv.appendChild(iframe);
                     modalMedia.appendChild(videoDiv);
@@ -295,9 +398,16 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     closeBtn.addEventListener('click', () => { modal.style.display = 'none'; });
+    window.addEventListener('click', (e) => { if(e.target === modal) modal.style.display = 'none'; });
+
+    // Tam ekran resim modalını kapatma
+    closeFullscreenBtn.addEventListener('click', () => {
+        fullscreenImageModal.style.display = 'none';
+    });
     window.addEventListener('click', (e) => {
-        if(e.target === modal) modal.style.display = 'none';
-        if(e.target === imageModal) imageModal.style.display = 'none';
+        if(e.target === fullscreenImageModal) {
+            fullscreenImageModal.style.display = 'none';
+        }
     });
 });
 </script>
