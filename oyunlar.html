@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Oyunlar</title>
+<title>Oyueenlar</title>
 <style>
   body {
     font-family: 'Poppins', sans-serif;
@@ -252,17 +252,22 @@ const bgMusic = document.getElementById('bgMusic');
 const musicBtn = document.getElementById('musicBtn');
 let musicPlaying = false;
 
-musicBtn.addEventListener('click', () => {
+musicBtn.addEventListener('click', async () => {
   if(!musicPlaying){
-    bgMusic.play();
-    musicBtn.textContent = "🔇";
-    musicPlaying = true;
+    try {
+      await bgMusic.play();  // tarayıcı izin verirse çal
+      musicBtn.textContent = "🔇";
+      musicPlaying = true;
+    } catch(err){
+      console.log("Müzik çalınamadı. Kullanıcı etkileşimi gerekli.", err);
+    }
   } else {
     bgMusic.pause();
     musicBtn.textContent = "🔊";
     musicPlaying = false;
   }
 });
+
 </script>
 
 </body>
