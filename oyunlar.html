@@ -1,199 +1,279 @@
 <!DOCTYPE html>
-<html>
+<html lang="tr">
 <head>
-  <title>Yılan Oyunu</title>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Oyunlar</title>
   <style>
-  html, body {
-    height: 100%;
-    margin: 0;
-  }
-  body {
-    background-color: #0d1117;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    font-family: 'Courier New', Courier, monospace;
-    color: #c9d1d9;
-    text-shadow: 1px 1px 2px black;
-  }
-  canvas {
-    border: 3px solid #238636;
-    background-color: #161b22;
-    box-shadow: 0 0 20px #238636;
-  }
-  #startScreen {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.75);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    cursor: pointer;
-    z-index: 10;
-  }
-  #startScreen h1 {
-    font-size: 3.5em;
-    margin-bottom: 10px;
-    color: #238636;
-    text-shadow: 0 0 10px #238636;
-  }
-  #startScreen p {
-    font-size: 1.5em;
-    color: #c9d1d9;
-  }
-  .score-display {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    font-size: 1.5em;
-    color: #238636;
-  }
+    /* Genel Arka Plan */
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #0d1117, #161b22);
+      color: #e0e0e0;
+      font-family: 'Poppins', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    /* Oyunlar konteyneri */
+    .games-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+      gap: 30px;
+      width: 100%;
+      max-width: 1200px;
+    }
+
+    /* Ortak Kart Tasarımı */
+    .game-card {
+      background: rgba(20, 20, 25, 0.85);
+      border-radius: 18px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .game-card h2 {
+      text-align: center;
+      margin-bottom: 15px;
+      font-size: 1.8rem;
+      color: #10b981;
+      text-shadow: 0 0 10px rgba(16,185,129,0.5);
+    }
+
+    /* --- Yılan Oyunu --- */
+    canvas {
+      border: 3px solid #238636;
+      background-color: #161b22;
+      box-shadow: 0 0 15px #238636;
+      display: block;
+      margin: 0 auto;
+    }
+    #snake-start {
+      position: absolute;
+      inset: 0;
+      background-color: rgba(0,0,0,0.8);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      z-index: 10;
+      border-radius: 18px;
+    }
+    #snake-start h1 {
+      font-size: 2.5em;
+      color: #238636;
+    }
+    #snake-start p {
+      font-size: 1.2em;
+      color: #ccc;
+    }
+    .snake-score {
+      text-align: center;
+      margin-top: 10px;
+      font-size: 1.2em;
+      color: #238636;
+    }
+
+    /* --- Hatırlama Oyunu --- */
+    .game-board {
+      display: grid;
+      grid-template-columns: repeat(4, 70px);
+      grid-gap: 10px;
+      justify-content: center;
+    }
+    .card {
+      width: 70px;
+      height: 70px;
+      background: #4a4a4f;
+      border-radius: 10px;
+      cursor: pointer;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.5s;
+    }
+    .card.flipped {
+      transform: rotateY(180deg);
+    }
+    .card-front, .card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 30px;
+      border-radius: 10px;
+    }
+    .card-front {
+      background: #333;
+    }
+    .card-back {
+      background: linear-gradient(45deg, #10b981, #0c7a52);
+      transform: rotateY(180deg);
+    }
+    #memory-start {
+      position: absolute;
+      inset: 0;
+      background-color: rgba(0,0,0,0.85);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      z-index: 10;
+      border-radius: 18px;
+    }
+    #memory-start h1 {
+      font-size: 2em;
+      color: #10b981;
+    }
+    #memory-start p {
+      font-size: 1.2em;
+      color: #ccc;
+    }
+    .message {
+      text-align: center;
+      margin-top: 15px;
+      font-size: 1.1em;
+      color: #f0f0f0;
+    }
   </style>
 </head>
 <body>
 
-<canvas width="400" height="400" id="game"></canvas>
+<div class="games-container">
 
-<div id="startScreen">
-  <h1>Yılan Oyunu</h1>
-  <p>Oyunu başlatmak için tıklayın</p>
+  <!-- Yılan Oyunu -->
+  <div class="game-card">
+    <h2>🐍 Yılan Oyunu</h2>
+    <canvas width="400" height="400" id="snake-canvas"></canvas>
+    <div id="snake-start">
+      <h1>Yılan Oyunu</h1>
+      <p>Başlatmak için tıkla</p>
+    </div>
+    <div class="snake-score">Skor: <span id="snake-score">0</span></div>
+  </div>
+
+  <!-- Hatırlama Oyunu -->
+  <div class="game-card">
+    <h2>🧠 Hatırlama Oyunu</h2>
+    <div class="game-board" id="memory-board"></div>
+    <div id="memory-start">
+      <h1>Hatırlama Oyunu</h1>
+      <p>Başlatmak için tıkla</p>
+    </div>
+    <div class="message" id="memory-message"></div>
+  </div>
+
 </div>
 
-<div class="score-display">Skor: <span id="score">0</span></div>
-
 <script>
-var canvas = document.getElementById('game');
-var context = canvas.getContext('2d');
-var startScreen = document.getElementById('startScreen');
-var scoreDisplay = document.getElementById('score');
-var gameRunning = false;
+/* ---------------- YILAN OYUNU ---------------- */
+var canvas = document.getElementById('snake-canvas');
+var ctx = canvas.getContext('2d');
+var snakeStart = document.getElementById('snake-start');
+var scoreDisplay = document.getElementById('snake-score');
 
 var grid = 20;
 var count = 0;
-var gameSpeed = 8; // Sabit hız değeri
-var snake = {};
-var apple = {};
-var score = 0;
+var speed = 8;
+var snake, apple, running, score;
 
-function getRandomInt(min, max) {
-  return Math.floor(Math.random() * (max - min)) + min;
-}
-
-function resetGame() {
-  snake = {
-    x: 180,
-    y: 180,
-    dx: grid,
-    dy: 0,
-    cells: [],
-    maxCells: 4
-  };
-  apple = {
-    x: getRandomInt(0, 20) * grid,
-    y: getRandomInt(0, 20) * grid
-  };
+function resetSnake() {
+  snake = {x: 180, y: 180, dx: grid, dy: 0, cells: [], maxCells: 4};
+  apple = {x: rand(0,20)*grid, y: rand(0,20)*grid};
   score = 0;
   scoreDisplay.textContent = score;
-  gameRunning = true;
+  running = true;
 }
+function rand(min,max){return Math.floor(Math.random()*(max-min))+min;}
 
-function loop() {
-  requestAnimationFrame(loop);
-
-  if (!gameRunning) {
-    return;
-  }
-
-  if (++count < (60 / gameSpeed)) {
-    return;
-  }
-  count = 0;
-
-  context.clearRect(0, 0, canvas.width, canvas.height);
-
-  snake.x += snake.dx;
-  snake.y += snake.dy;
-
-  if (snake.x < 0) {
-    snake.x = canvas.width - grid;
-  } else if (snake.x >= canvas.width) {
-    snake.x = 0;
-  }
-
-  if (snake.y < 0) {
-    snake.y = canvas.height - grid;
-  } else if (snake.y >= canvas.height) {
-    snake.y = 0;
-  }
-
-  snake.cells.unshift({x: snake.x, y: snake.y});
-
-  if (snake.cells.length > snake.maxCells) {
-    snake.cells.pop();
-  }
-
-  context.fillStyle = '#ff7b72';
-  context.fillRect(apple.x, apple.y, grid - 1, grid - 1);
-
-  context.fillStyle = '#2ea043';
-  snake.cells.forEach(function(cell, index) {
-    context.fillRect(cell.x, cell.y, grid - 1, grid - 1);
-
-    if (cell.x === apple.x && cell.y === apple.y) {
-      snake.maxCells++;
-      score += 10;
-      scoreDisplay.textContent = score;
-      
-      apple.x = getRandomInt(0, 20) * grid;
-      apple.y = getRandomInt(0, 20) * grid;
+function snakeLoop() {
+  requestAnimationFrame(snakeLoop);
+  if(!running) return;
+  if(++count < (60/speed)) return;
+  count=0;
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  snake.x+=snake.dx; snake.y+=snake.dy;
+  if(snake.x<0) snake.x=canvas.width-grid;
+  else if(snake.x>=canvas.width) snake.x=0;
+  if(snake.y<0) snake.y=canvas.height-grid;
+  else if(snake.y>=canvas.height) snake.y=0;
+  snake.cells.unshift({x:snake.x,y:snake.y});
+  if(snake.cells.length>snake.maxCells) snake.cells.pop();
+  ctx.fillStyle='#ff7b72';
+  ctx.fillRect(apple.x,apple.y,grid-1,grid-1);
+  ctx.fillStyle='#2ea043';
+  snake.cells.forEach(function(cell,i){
+    ctx.fillRect(cell.x,cell.y,grid-1,grid-1);
+    if(cell.x===apple.x && cell.y===apple.y){
+      snake.maxCells++; score+=10;
+      scoreDisplay.textContent=score;
+      apple.x=rand(0,20)*grid; apple.y=rand(0,20)*grid;
     }
-
-    for (var i = index + 1; i < snake.cells.length; i++) {
-      if (cell.x === snake.cells[i].x && cell.y === snake.cells[i].y) {
-        gameRunning = false;
-        startScreen.style.display = 'flex';
+    for(var j=i+1;j<snake.cells.length;j++){
+      if(cell.x===snake.cells[j].x && cell.y===snake.cells[j].y){
+        running=false; snakeStart.style.display='flex';
       }
     }
   });
 }
-
-document.addEventListener('keydown', function(e) {
-  if (!gameRunning) {
-    startScreen.style.display = 'none';
-    resetGame();
-    return;
-  }
-
-  if (e.key === 'a' && snake.dx === 0) {
-    snake.dx = -grid;
-    snake.dy = 0;
-  } else if (e.key === 'w' && snake.dy === 0) {
-    snake.dy = -grid;
-    snake.dx = 0;
-  } else if (e.key === 'd' && snake.dx === 0) {
-    snake.dx = grid;
-    snake.dy = 0;
-  } else if (e.key === 's' && snake.dy === 0) {
-    snake.dy = grid;
-    snake.dx = 0;
-  }
+document.addEventListener('keydown',function(e){
+  if(!running){snakeStart.style.display='none'; resetSnake(); return;}
+  if(e.key==='a'&&snake.dx===0){snake.dx=-grid;snake.dy=0;}
+  else if(e.key==='w'&&snake.dy===0){snake.dy=-grid;snake.dx=0;}
+  else if(e.key==='d'&&snake.dx===0){snake.dx=grid;snake.dy=0;}
+  else if(e.key==='s'&&snake.dy===0){snake.dy=grid;snake.dx=0;}
 });
+snakeStart.addEventListener('click',()=>{snakeStart.style.display='none';resetSnake();});
+requestAnimationFrame(snakeLoop);
 
-startScreen.addEventListener('click', function() {
-  if (!gameRunning) {
-    startScreen.style.display = 'none';
-    resetGame();
+/* ---------------- HATIRLAMA OYUNU ---------------- */
+const symbols = ['🦁','🦊','🐻','🐼','🐨','🐯','🐸','🐢'];
+const board = document.getElementById('memory-board');
+const memoryStart = document.getElementById('memory-start');
+const message = document.getElementById('memory-message');
+let first=null, second=null, lock=false, pairs=0;
+
+function shuffle(arr){return arr.sort(()=>Math.random()-0.5);}
+function createBoard(){
+  pairs=0; board.innerHTML=''; message.textContent='';
+  shuffle([...symbols,...symbols]).forEach(sym=>{
+    let card=document.createElement('div');
+    card.classList.add('card'); card.dataset.sym=sym;
+    card.innerHTML=`<div class="card-front"></div><div class="card-back">${sym}</div>`;
+    board.appendChild(card);
+    card.addEventListener('click',()=>flip(card));
+  });
+}
+function flip(card){
+  if(lock||card===first||card.classList.contains('flipped'))return;
+  card.classList.add('flipped');
+  if(!first){first=card;return;}
+  second=card; check();
+}
+function check(){
+  if(first.dataset.sym===second.dataset.sym){
+    first.removeEventListener('click',flip);
+    second.removeEventListener('click',flip);
+    first=null;second=null;pairs++;
+    if(pairs===symbols.length){message.textContent="🎉 Tebrikler!";}
+  }else{
+    lock=true;
+    setTimeout(()=>{first.classList.remove('flipped');second.classList.remove('flipped');first=null;second=null;lock=false;},1000);
   }
-});
-
-requestAnimationFrame(loop);
+}
+memoryStart.addEventListener('click',()=>{memoryStart.style.display='none';createBoard();});
 </script>
 
 </body>
