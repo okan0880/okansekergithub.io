@@ -9,51 +9,47 @@
       margin: 0;
       background: #111;
       color: white;
-      font-family: Arial, sans-serif;
-      overflow: hidden; /* Scrollbar tamamen kaldırıldı */
+      font-family: 'Arial Black', sans-serif;
+      overflow: hidden; /* Scrollbar'ı tamamen kaldırdım */
     }
 
     header {
       text-align: center;
-      padding: 30px 20px 20px; /* Üst boşluk 30px'e indirildi */
-      background: #222;
+      padding: 20px 0; /* Üst boşluğu azalttım (40px idi, 20px yaptım) */
     }
 
-    h1 {
+    header h1 {
+      font-size: 36px;
       margin: 0;
-      font-size: 2.5em;
-      letter-spacing: 2px;
     }
 
     .container {
       display: flex;
       justify-content: center;
+      flex-wrap: wrap;
+      padding: 20px;
       gap: 20px;
-      padding: 40px;
     }
 
     .card {
-      background: #333;
-      padding: 20px;
+      background: #444; /* Hepsini gri ton yaptım */
       border-radius: 10px;
+      padding: 20px;
+      width: 250px;
       text-align: center;
-      flex: 1;
-      max-width: 250px;
-      transition: transform 0.3s ease;
-    }
-
-    .card:hover {
-      transform: translateY(-10px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+      text-transform: uppercase;
+      font-size: 18px;
+      font-family: 'Verdana', sans-serif;
     }
 
     .card h2 {
-      margin-top: 0;
-      font-size: 1.5em;
+      font-size: 22px;
+      margin-bottom: 10px;
     }
 
     .card p {
-      font-size: 1em;
-      color: #bbb;
+      font-size: 16px;
     }
   </style>
 </head>
@@ -65,15 +61,15 @@
   <div class="container">
     <div class="card">
       <h2>Proje 1</h2>
-      <p>Açıklama burada yer alacak.</p>
+      <p>Açıklama metni buraya gelecek.</p>
     </div>
     <div class="card">
       <h2>Proje 2</h2>
-      <p>Açıklama burada yer alacak.</p>
+      <p>Açıklama metni buraya gelecek.</p>
     </div>
     <div class="card">
       <h2>Proje 3</h2>
-      <p>Açıklama burada yer alacak.</p>
+      <p>Açıklama metni buraya gelecek.</p>
     </div>
   </div>
 </body>
