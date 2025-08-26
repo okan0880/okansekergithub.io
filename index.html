@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anasaydfdffa</title>
+    <title>Anasayfa</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
@@ -20,6 +20,7 @@
             height: 100%;
             margin: 0;
             overflow: hidden;
+            box-sizing: border-box;
         }
 
         body {
@@ -31,6 +32,7 @@
             align-items: center;
             justify-content: center;
             padding: 20px;
+            width: 100vw;
         }
 
         h2 {
@@ -47,10 +49,11 @@
             scroll-snap-type: x mandatory;
             -webkit-overflow-scrolling: touch;
             scrollbar-width: none;
-            width: 100%;
+            width: 100vw;
             padding: 20px 0;
             justify-content: flex-start;
             align-items: center;
+            height: fit-content;
         }
 
         .scroll-container::-webkit-scrollbar {
@@ -75,7 +78,7 @@
         }
 
         .item {
-            width: 90vw;
+            width: 80vw;
             max-width: 250px;
             height: 400px;
             background-size: cover;
