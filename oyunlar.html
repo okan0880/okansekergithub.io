@@ -3,172 +3,170 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Oyunlsar</title>
+<title>Oyunlar</title>
 <style>
-  body {
-    font-family: 'Poppins', sans-serif;
-    margin: 0;
-    padding: 20px;
-    background: linear-gradient(135deg,#0f172a,#111827);
-    color:#e6eef6;
-    display:flex;
-    justify-content:center;
-  }
+  body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 20px;
+    background: linear-gradient(135deg,#0f172a,#111827);
+    color:#e6eef6;
+    display:flex;
+    justify-content:center;
+  }
 
-  .container {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-    width: 100%;
-    max-width: 1100px;
-  }
+  .container {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 100%;
+    max-width: 1100px;
+  }
 
-  .top-row {
-    display: flex;
-    gap: 24px;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
+  .top-row {
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
 
-  .game-card {
-    background: rgba(17,24,39,0.85);
-    border-radius:14px;
-    padding:16px;
-    box-shadow:0 10px 30px rgba(0,0,0,0.6);
-    border:1px solid rgba(255,255,255,0.04);
-    overflow:visible;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    max-width: 500px;
-    height: 550px;
-    position: relative;
-  }
+  .game-card {
+    background: rgba(17,24,39,0.85);
+    border-radius:14px;
+    padding:16px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.6);
+    border:1px solid rgba(255,255,255,0.04);
+    overflow:visible;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 500px;
+    height: 550px;
+    position: relative;
+  }
 
-  .game-card h2{ text-align:center; color:#34d399; margin:6px 0 12px; }
+  .game-card h2{ text-align:center; color:#34d399; margin:6px 0 12px; }
 
-  #snakeCanvas{ border:3px solid #10b981; background:#0b1220; box-shadow:0 0 12px #0f766e; width:100%; height:350px; }
-  .score { text-align:center; color:#86efac; margin-top:8px; font-weight:600; }
+  #snakeCanvas{ border:3px solid #10b981; background:#0b1220; box-shadow:0 0 12px #0f766e; width:100%; height:350px; }
+  .score { text-align:center; color:#86efac; margin-top:8px; font-weight:600; }
 
-  .start-overlay {
-    position:absolute;
-    inset:12px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    flex-direction:column;
-    background: rgba(2,6,23,0.7);
-    border-radius:10px;
-    z-index:40;
-    cursor:pointer;
-    transition: opacity .18s ease;
-  }
-  .start-overlay h1{ margin:0; color:#34d399; font-size:1.8rem; }
-  .start-overlay p{ margin:6px 0 0; color:#c7f9de; }
+  .start-overlay {
+    position:absolute;
+    inset:12px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    background: rgba(2,6,23,0.7);
+    border-radius:10px;
+    z-index:40;
+    cursor:pointer;
+    transition: opacity .18s ease;
+  }
+  .start-overlay h1{ margin:0; color:#34d399; font-size:1.8rem; }
+  .start-overlay p{ margin:6px 0 0; color:#c7f9de; }
 
-  #memoryBoard { display:grid; grid-template-columns: repeat(4, 70px); gap:10px; justify-content:center; flex-grow:1; }
-  .card {
-    width:70px;height:70px;border-radius:10px;background:#263043;display:flex;align-items:center;justify-content:center;font-size:1.6rem;cursor:pointer;
-    user-select:none; transition:transform .35s;
-  }
-  .card.flipped{ transform: rotateY(180deg); }
-  .card.matched{ background:#10b981; cursor:default; }
+  #memoryBoard { display:grid; grid-template-columns: repeat(4, 70px); gap:10px; justify-content:center; flex-grow:1; }
+  .card {
+    width:70px;height:70px;border-radius:10px;background:#263043;display:flex;align-items:center;justify-content:center;font-size:1.6rem;cursor:pointer;
+    user-select:none; transition:transform .35s;
+  }
+  .card.flipped{ transform: rotateY(180deg); }
+  .card.matched{ background:#10b981; cursor:default; }
 
-  .math-container {
-    background-color: #374151;
-    border-radius: 15px;
-    padding: 20px;
-    text-align: center;
-    width: 100%;
-    height: 350px;
-  }
-  #question-box { font-size: 2rem; margin-bottom: 15px; color: #a2e2ff; }
-  .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .option-btn {
-    background-color: #5b687c;
-    color: #fff;
-    border: none;
-    padding: 10px;
-    font-size: 1em;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s;
-  }
-  .option-btn:hover { background-color: #6d7b8d; transform: scale(1.05); }
-  #score-board { margin-top: 10px; font-weight:600; color:#fce700; }
-  #timer { font-size:1.5em; margin-bottom:10px; color:#ff6b6b; }
+  .math-container {
+    background-color: #374151;
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+    width: 100%;
+    height: 350px;
+  }
+  #question-box { font-size: 2rem; margin-bottom: 15px; color: #a2e2ff; }
+  .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .option-btn {
+    background-color: #5b687c;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    font-size: 1em;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+  }
+  .option-btn:hover { background-color: #6d7b8d; transform: scale(1.05); }
+  #score-board { margin-top: 10px; font-weight:600; color:#fce700; }
+  #timer { font-size:1.5em; margin-bottom:10px; color:#ff6b6b; }
 
-  @media (max-width:1020px){
-    .top-row { flex-direction: column; align-items: center; }
-  }
+  @media (max-width:1020px){
+    .top-row { flex-direction: column; align-items: center; }
+  }
 
-  /* Müzik butonu stili */
-  #musicBtn {
-    position: fixed;
-    top: 15px;
-    right: 15px;
-    background-color: #34d399;
-    border: none;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    cursor: pointer;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-    font-size: 1.2rem;
-    color: #111;
-    z-index: 1000;
-  }
+  /* Müzik butonu stili */
+  #musicBtn {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    background-color: #34d399;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    font-size: 1.2rem;
+    color: #111;
+    z-index: 1000;
+  }
 </style>
 </head>
 <body>
 
-<!-- Arka plan müziği -->
 <audio id="bgMusic" loop>
-  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-  Tarayıcınız audio elementini desteklemiyor.
+  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+  Tarayıcınız audio elementini desteklemiyor.
 </audio>
 
-<!-- Müzik butonu -->
 <button id="musicBtn">🔇</button>
 
 <div class="container">
 
-  <div class="top-row">
-    <div class="game-card" id="snakeCard">
-      <h2>🐍 Yılan Oyunu</h2>
-      <canvas id="snakeCanvas" width="400" height="350"></canvas>
-      <div class="score">Skor: <span id="snakeScore">0</span></div>
-      <div id="snakeStartScreen" class="start-overlay">
-        <h1>Yılan Oyunu</h1>
-        <p>Tıklayın veya 'W A S D' ile başlatın</p>
-      </div>
-    </div>
+  <div class="top-row">
+    <div class="game-card" id="snakeCard">
+      <h2>🐍 Yılan Oyunu</h2>
+      <canvas id="snakeCanvas" width="400" height="350"></canvas>
+      <div class="score">Skor: <span id="snakeScore">0</span></div>
+      <div id="snakeStartScreen" class="start-overlay">
+        <h1>Yılan Oyunu</h1>
+        <p>Tıklayın veya 'W A S D' ile başlatın</p>
+      </div>
+    </div>
 
-    <div class="game-card" id="memoryCard">
-      <h2>🧠 Hatırlama Oyunu</h2>
-      <div id="memoryBoard"></div>
-      <div id="memoryMessage" style="text-align:center;margin-top:10px;color:#d1f7e0"></div>
-      <div id="memoryStartScreen" class="start-overlay">
-        <h1>Hatırlama Oyunu</h1>
-        <p>Tıklayın ve kartlarla oynayın</p>
-      </div>
-    </div>
-  </div>
+    <div class="game-card" id="memoryCard">
+      <h2>🧠 Hatırlama Oyunu</h2>
+      <div id="memoryBoard"></div>
+      <div id="memoryMessage" style="text-align:center;margin-top:10px;color:#d1f7e0"></div>
+      <div id="memoryStartScreen" class="start-overlay">
+        <h1>Hatırlama Oyunu</h1>
+        <p>Tıklayın ve kartlarla oynayın</p>
+      </div>
+    </div>
+  </div>
 
-  <div class="game-card" id="mathCard">
-    <h2>➕ Matematik Oyunu</h2>
-    <div class="math-container">
-      <div id="timer">3</div>
-      <div id="question-box"></div>
-      <div class="options-grid" id="options-box"></div>
-      <div id="score-board">Skor: <span id="score-value">0</span></div>
-    </div>
-    <div id="mathStartScreen" class="start-overlay">
-      <h1>Matematik Yarışı</h1>
-      <p>3 saniyede soruları cevapla.<br>Başlamak için tıkla!</p>
-    </div>
-  </div>
+  <div class="game-card" id="mathCard">
+    <h2>➕ Matematik Oyunu</h2>
+    <div class="math-container">
+      <div id="timer">3</div>
+      <div id="question-box"></div>
+      <div class="options-grid" id="options-box"></div>
+      <div id="score-board">Skor: <span id="score-value">0</span></div>
+    </div>
+    <div id="mathStartScreen" class="start-overlay">
+      <h1>Matematik Yarışı</h1>
+      <p>3 saniyede soruları cevapla.<br>Başlamak için tıkla!</p>
+    </div>
+  </div>
 
 </div>
 
@@ -183,9 +181,66 @@ const snakeStartScreen = document.getElementById('snakeStartScreen');
 const snakeScoreSpan = document.getElementById('snakeScore');
 const grid = 20;
 let snakeCount = 0, snakeSpeed = 8, snakeRunning = false, snakeObj = null, apple = null;
+
 function rand(min,max){ return Math.floor(Math.random()*(max-min))+min; }
-function resetSnakeGame(){ snakeObj={x:180,y:180,dx:grid,dy:0,cells:[],maxCells:4}; apple={x:rand(0,20)*grid,y:rand(0,20)*grid}; snakeScoreSpan.textContent='0'; snakeRunning=true; }
-function snakeLoop(){ requestAnimationFrame(snakeLoop); if(!snakeRunning) return; if(++snakeCount<(60/snakeSpeed)) return; snakeCount=0; ctx.clearRect(0,0,snakeCanvas.width,snakeCanvas.height); snakeObj.x+=snakeObj.dx; snakeObj.y+=snakeObj.dy; if(snakeObj.x<0) snakeObj.x=snakeCanvas.width-grid; else if(snakeObj.x>=snakeCanvas.width) snakeObj.x=0; if(snakeObj.y<0) snakeObj.y=snakeCanvas.height-grid; else if(snakeObj.y>=snakeCanvas.height) snakeObj.y=0; snakeObj.cells.unshift({x:snakeObj.x,y:snakeObj.y}); if(snakeObj.cells.length>snakeObj.maxCells) snakeObj.cells.pop(); ctx.fillStyle='#ff7b72'; ctx.fillRect(apple.x,apple.y,grid-1,grid-1); ctx.fillStyle='#2ea043'; snakeObj.cells.forEach(function(cell,index){ ctx.fillRect(cell.x,cell.y,grid-1,grid-1); if(cell.x===apple.x&&cell.y===apple.y){ snakeObj.maxCells++; const sc=parseInt(snakeScoreSpan.textContent||'0')+10; snakeScoreSpan.textContent=sc; apple.x=rand(0,20)*grid; apple.y=rand(0,20)*grid; } for(let i=index+1;i<snakeObj.cells.length;i++){ if(cell.x===snakeObj.cells[i].x && cell.y===snakeObj.cells[i].y){ snakeRunning=false; snakeStartScreen.style.display='flex'; } } }); }
+
+function isCollidingWithSnake(x, y) {
+  for (let i = 0; i < snakeObj.cells.length; i++) {
+    if (snakeObj.cells[i].x === x && snakeObj.cells[i].y === y) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function generateNewApplePosition() {
+  let newApple;
+  do {
+    newApple = { x: rand(0, 20) * grid, y: rand(0, 20) * grid };
+  } while (isCollidingWithSnake(newApple.x, newApple.y));
+  return newApple;
+}
+
+function resetSnakeGame(){
+  snakeObj={x:180,y:180,dx:grid,dy:0,cells:[],maxCells:4};
+  apple = generateNewApplePosition();
+  snakeScoreSpan.textContent='0';
+  snakeRunning=true;
+}
+
+function snakeLoop(){
+  requestAnimationFrame(snakeLoop);
+  if(!snakeRunning) return;
+  if(++snakeCount<(60/snakeSpeed)) return;
+  snakeCount=0;
+  ctx.clearRect(0,0,snakeCanvas.width,snakeCanvas.height);
+  snakeObj.x+=snakeObj.dx;
+  snakeObj.y+=snakeObj.dy;
+  if(snakeObj.x<0) snakeObj.x=snakeCanvas.width-grid;
+  else if(snakeObj.x>=snakeCanvas.width) snakeObj.x=0;
+  if(snakeObj.y<0) snakeObj.y=snakeCanvas.height-grid;
+  else if(snakeObj.y>=snakeCanvas.height) snakeObj.y=0;
+  snakeObj.cells.unshift({x:snakeObj.x,y:snakeObj.y});
+  if(snakeObj.cells.length>snakeObj.maxCells) snakeObj.cells.pop();
+  ctx.fillStyle='#ff7b72';
+  ctx.fillRect(apple.x,apple.y,grid-1,grid-1);
+  ctx.fillStyle='#2ea043';
+  snakeObj.cells.forEach(function(cell,index){
+    ctx.fillRect(cell.x,cell.y,grid-1,grid-1);
+    if(cell.x===apple.x&&cell.y===apple.y){
+      snakeObj.maxCells++;
+      const sc=parseInt(snakeScoreSpan.textContent||'0')+10;
+      snakeScoreSpan.textContent=sc;
+      apple = generateNewApplePosition();
+    }
+    for(let i=index+1;i<snakeObj.cells.length;i++){
+      if(cell.x===snakeObj.cells[i].x && cell.y===snakeObj.cells[i].y){
+        snakeRunning=false;
+        snakeStartScreen.style.display='flex';
+      }
+    }
+  });
+}
 document.addEventListener('keydown', function(e){ if(!snakeRunning && isVisible(snakeStartScreen)) { snakeStartScreen.style.display='none'; resetSnakeGame(); return; } if(!snakeRunning) return; if(e.key==='a'||e.key==='ArrowLeft'){ if(snakeObj.dx===0){ snakeObj.dx=-grid; snakeObj.dy=0; } } else if(e.key==='d'||e.key==='ArrowRight'){ if(snakeObj.dx===0){ snakeObj.dx=grid; snakeObj.dy=0; } } else if(e.key==='w'||e.key==='ArrowUp'){ if(snakeObj.dy===0){ snakeObj.dy=-grid; snakeObj.dx=0; } } else if(e.key==='s'||e.key==='ArrowDown'){ if(snakeObj.dy===0){ snakeObj.dy=grid; snakeObj.dx=0; } } });
 snakeStartScreen.addEventListener('click',()=>{ if(isVisible(snakeStartScreen)){ snakeStartScreen.style.display='none'; resetSnakeGame(); } });
 requestAnimationFrame(snakeLoop);
@@ -212,29 +267,29 @@ let mathScore=0, correctAnswer, timer, timeLeft=3;
 function getRandomInt(min,max){ return Math.floor(Math.random()*(max-min+1))+min; }
 
 function generateMathQuestion(){
-  optionsBox.innerHTML='';
-  let num1=getRandomInt(1,20);
-  let num2=getRandomInt(1,20);
-  const operator=Math.random()<0.5?'+':'-';
-  if(operator==='-'){ if(num1<num2)[num1,num2]=[num2,num1]; correctAnswer=num1-num2; questionBox.textContent=`${num1} - ${num2}`; }
-  else{ correctAnswer=num1+num2; questionBox.textContent=`${num1} + ${num2}`; }
-  const options=new Set(); options.add(correctAnswer);
-  while(options.size<4){
-    let wrongAnswer=getRandomInt(correctAnswer-10, correctAnswer+10);
-    if(wrongAnswer!==correctAnswer && wrongAnswer>=0) options.add(wrongAnswer);
-  }
-  Array.from(options).sort(()=>Math.random()-0.5).forEach(option=>{
-    const btn=document.createElement('button');
-    btn.className='option-btn'; btn.textContent=option; btn.addEventListener('click',()=>checkMathAnswer(option));
-    optionsBox.appendChild(btn);
-  });
-  startMathTimer();
+  optionsBox.innerHTML='';
+  let num1=getRandomInt(1,20);
+  let num2=getRandomInt(1,20);
+  const operator=Math.random()<0.5?'+':'-';
+  if(operator==='-'){ if(num1<num2)[num1,num2]=[num2,num1]; correctAnswer=num1-num2; questionBox.textContent=`${num1} - ${num2}`; }
+  else{ correctAnswer=num1+num2; questionBox.textContent=`${num1} + ${num2}`; }
+  const options=new Set(); options.add(correctAnswer);
+  while(options.size<4){
+    let wrongAnswer=getRandomInt(correctAnswer-10, correctAnswer+10);
+    if(wrongAnswer!==correctAnswer && wrongAnswer>=0) options.add(wrongAnswer);
+  }
+  Array.from(options).sort(()=>Math.random()-0.5).forEach(option=>{
+    const btn=document.createElement('button');
+    btn.className='option-btn'; btn.textContent=option; btn.addEventListener('click',()=>checkMathAnswer(option));
+    optionsBox.appendChild(btn);
+  });
+  startMathTimer();
 }
 
 function checkMathAnswer(selected){
-  stopMathTimer();
-  if(parseInt(selected)===correctAnswer){ mathScore++; scoreValue.textContent=mathScore; generateMathQuestion(); }
-  else{ endMathGame(); }
+  stopMathTimer();
+  if(parseInt(selected)===correctAnswer){ mathScore++; scoreValue.textContent=mathScore; generateMathQuestion(); }
+  else{ endMathGame(); }
 }
 
 function startMathTimer(){ timeLeft=3; timerDisplay.textContent=timeLeft; timer=setInterval(()=>{ timeLeft--; timerDisplay.textContent=timeLeft; if(timeLeft<=0) endMathGame(); },1000); }
@@ -253,19 +308,19 @@ const musicBtn = document.getElementById('musicBtn');
 let musicPlaying = false;
 
 musicBtn.addEventListener('click', async () => {
-  if(!musicPlaying){
-    try {
-      await bgMusic.play();  // tarayıcı izin verirse çal
-      musicBtn.textContent = "🔊";
-      musicPlaying = true;
-    } catch(err){
-      console.log("Müzik çalınamadı. Kullanıcı etkileşimi gerekli.", err);
-    }
-  } else {
-    bgMusic.pause();
-    musicBtn.textContent = "🔇";
-    musicPlaying = false;
-  }
+  if(!musicPlaying){
+    try {
+      await bgMusic.play();
+      musicBtn.textContent = "🔊";
+      musicPlaying = true;
+    } catch(err){
+      console.log("Müzik çalınamadı. Kullanıcı etkileşimi gerekli.", err);
+    }
+  } else {
+    bgMusic.pause();
+    musicBtn.textContent = "🔇";
+    musicPlaying = false;
+  }
 });
 
 </script>
