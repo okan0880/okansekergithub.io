@@ -1,328 +1,289 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Oyunlar</title>
-    <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            margin: 20px;
-            background: linear-gradient(135deg, #0f172a, #111827);
-            color: #e6eef6;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Oyunlar</title>
+<style>
+  body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 20px;
+    background: linear-gradient(135deg,#0f172a,#111827);
+    color:#e6eef6;
+    display:flex;
+    justify-content:center;
+  }
 
-        .game-container {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(400px, 1fr)); /* Force a 2-column layout */
-            gap: 24px;
-            justify-items: center;
-            align-items: start;
-        }
+  .container {
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap; /* Mobilde alt alta geçiş için */
+    width: 100%;
+    max-width: 1100px;
+  }
 
-        .game-card {
-            position: relative;
-            width: 100%;
-            max-width: 450px;
-            background: rgba(17, 24, 39, 0.85);
-            border-radius: 14px;
-            padding: 16px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            overflow: visible;
-        }
+  .game-card {
+    flex: 1 1 45%; /* Yan yana ve eşit genişlik */
+    min-width: 300px; /* Küçük ekranlar için minimum genişlik */
+    background: rgba(17,24,39,0.85);
+    border-radius:14px;
+    padding:16px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.6);
+    border:1px solid rgba(255,255,255,0.04);
+    overflow:visible;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 550px; /* Kart yüksekliği eşit */
+    position: relative;
+  }
 
-        .game-card h2 {
-            text-align: center;
-            color: #34d399;
-            margin: 6px 0 12px;
-        }
+  .game-card h2{ text-align:center; color:#34d399; margin:6px 0 12px; }
 
-        /* Snake */
-        #snakeCanvas {
-            display: block;
-            margin: 0 auto;
-            border: 3px solid #10b981;
-            background: #0b1220;
-            box-shadow: 0 0 12px #0f766e;
-        }
+  /* Snake */
+  #snakeCanvas{ border:3px solid #10b981; background:#0b1220; box-shadow:0 0 12px #0f766e; }
+  .score { text-align:center; color:#86efac; margin-top:8px; font-weight:600; }
 
-        .score {
-            text-align: center;
-            color: #86efac;
-            margin-top: 8px;
-            font-weight: 600;
-        }
+  /* Overlays */
+  .start-overlay {
+    position:absolute;
+    inset:12px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    background: rgba(2,6,23,0.7);
+    border-radius:10px;
+    z-index:40;
+    cursor:pointer;
+    transition: opacity .18s ease;
+  }
+  .start-overlay h1{ margin:0; color:#34d399; font-size:1.8rem; }
+  .start-overlay p{ margin:6px 0 0; color:#c7f9de; }
 
-        .start-overlay {
-            position: absolute;
-            inset: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            background: rgba(2, 6, 23, 0.7);
-            border-radius: 10px;
-            z-index: 40;
-            cursor: pointer;
-            transition: opacity .18s ease;
-        }
+  /* Memory board */
+  #memoryBoard { display:grid; grid-template-columns: repeat(4, 70px); gap:10px; justify-content:center; flex-grow:1; }
+  .card {
+    width:70px;height:70px;border-radius:10px;background:#263043;display:flex;align-items:center;justify-content:center;font-size:1.6rem;cursor:pointer;
+    user-select:none; transition:transform .35s;
+  }
+  .card.flipped{ transform: rotateY(180deg); }
+  .card.matched{ background:#10b981; cursor:default; }
 
-        .start-overlay h1 {
-            margin: 0;
-            color: #34d399;
-            font-size: 1.8rem;
-        }
+  /* Music control */
+  #musicControl {
+    position:fixed; right:18px; top:18px; z-index:200;
+    background:#071224;color:#95f7c9;border:1px solid rgba(255,255,255,0.06); padding:8px 10px;border-radius:8px; cursor:pointer;
+  }
 
-        .start-overlay p {
-            margin: 6px 0 0;
-            color: #c7f9de;
-        }
-
-        /* Memory */
-        #memoryBoard {
-            display: grid;
-            grid-template-columns: repeat(4, 70px);
-            gap: 10px;
-            justify-content: center;
-        }
-
-        .card {
-            width: 70px;
-            height: 70px;
-            border-radius: 10px;
-            background: #263043;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.6rem;
-            cursor: pointer;
-            user-select: none;
-            transition: transform .35s;
-        }
-
-        .card.flipped {
-            transform: rotateY(180deg);
-        }
-
-        .card.matched {
-            background: #10b981;
-            cursor: default;
-        }
-
-        /* Ninja Fruit */
-        #gameCanvas {
-            width: 100%;
-            height: 400px;
-            background: #0d1117;
-            display: block;
-        }
-
-        #score {
-            position: absolute;
-            right: 20px;
-            top: 20px;
-            font-size: 1.5em;
-            color: #f1c40f;
-        }
-
-        #message {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-            color: #fff;
-        }
-
-        #blade {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            pointer-events: none;
-            box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.5);
-        }
-
-        /* Matematik */
-        .math-container {
-            display: none;
-            background-color: #374151;
-            border-radius: 15px;
-            padding: 20px;
-            text-align: center;
-        }
-
-        .math-container h2 {
-            color: #a2e2ff;
-            margin-bottom: 10px;
-        }
-
-        .options-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-
-        .option-btn {
-            background-color: #5b687c;
-            color: #fff;
-            border: none;
-            padding: 10px;
-            font-size: 1em;
-            border-radius: 8px;
-            cursor: pointer;
-        }
-
-        .start-btn {
-            background-color: #2ecc71;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            font-size: 1em;
-            border-radius: 10px;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-
-        @media (max-width: 900px) {
-            .game-container {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+  /* Küçük ekranlarda kartlar alt alta */
+  @media (max-width:860px){
+    .game-card { flex: 1 1 100%; }
+  }
+</style>
 </head>
 <body>
 
-<div class="game-container">
-    <div class="game-card" id="snakeCard">
-        <h2>🐍 Yılan Oyunu</h2>
-        <canvas id="snakeCanvas" width="400" height="400"></canvas>
-        <div class="score">Skor: <span id="snakeScore">0</span></div>
-        <div id="snakeStartScreen" class="start-overlay">
-            <h1>Yılan Oyunu</h1>
-            <p>Tıklayın veya 'W A S D' ile başlatın</p>
-        </div>
-    </div>
+<button id="musicControl">🔇</button>
+<audio id="bgMusic" loop>
+  <source src="https://www.bensound.com/bensound-music/bensound-funkyelement.mp3" type="audio/mpeg">
+</audio>
 
-    <div class="game-card" id="memoryCard">
-        <h2>🧠 Hafıza Oyunu</h2>
-        <div id="memoryBoard"></div>
-        <div id="memoryMessage" style="text-align:center;margin-top:10px;color:#d1f7e0"></div>
-        <div id="memoryStartScreen" class="start-overlay">
-            <h1>Hafıza Oyunu</h1>
-            <p>Tıklayın ve kartlarla oynayın</p>
-        </div>
-    </div>
+<div class="container">
 
-    <div class="game-card" id="ninjaCard">
-        <h2>🍉 Ninja Fruit</h2>
-        <canvas id="gameCanvas"></canvas>
-        <div id="score">0</div>
-        <div id="message">
-            <h1>Meyve Kesme Oyunu</h1>
-            <p>Oyunu başlatmak için tıklayın</p>
-        </div>
-        <div id="blade"></div>
+  <!-- Yılan Oyunu -->
+  <div class="game-card" id="snakeCard">
+    <h2>🐍 Yılan Oyunu</h2>
+    <canvas id="snakeCanvas" width="400" height="400"></canvas>
+    <div class="score">Skor: <span id="snakeScore">0</span></div>
+    <div id="snakeStartScreen" class="start-overlay">
+      <h1>Yılan Oyunu</h1>
+      <p>Tıklayın veya 'W A S D' ile başlatın</p>
     </div>
+  </div>
 
-    <div class="game-card math-container" id="mathCard">
-        <h2>🧮 Matematik Oyunu</h2>
-        <div id="mathStartScreen">
-            <button class="start-btn" id="mathStartBtn">Oyunu Başlat</button>
-        </div>
-        <div id="mathGame" style="display:none;">
-            <div id="question-box"></div>
-            <div class="options-grid" id="options-box"></div>
-            <div id="score-board">Skor: <span id="score-value">0</span></div>
-        </div>
+  <!-- Hafıza Oyunu -->
+  <div class="game-card" id="memoryCard">
+    <h2>🧠 Hatırlama Oyunu</h2>
+    <div id="memoryBoard"></div>
+    <div id="memoryMessage" style="text-align:center;margin-top:10px;color:#d1f7e0"></div>
+    <div id="memoryStartScreen" class="start-overlay">
+      <h1>Hatırlama Oyunu</h1>
+      <p>Tıklayın ve kartlarla oynayın</p>
     </div>
+  </div>
+
 </div>
 
 <script>
-    /* ========== Yılan ve Hafıza Oyunları JS ========== */
-    // Kodları önceki senin verdiğin şekilde buraya ekleyebilirsin
-    // snake ve memory oyunu scriptleri
-</script>
+function isVisible(el){
+  if(!el) return false;
+  const cs = window.getComputedStyle(el);
+  return cs.display !== 'none' && cs.visibility !== 'hidden' && parseFloat(cs.opacity) > 0;
+}
 
-<script>
-    /* ========== Ninja Fruit Oyunu JS ========== */
-    // Kodları önceki Ninja Fruit scripti buraya ekleyebilirsin
-</script>
+const bgMusic = document.getElementById('bgMusic');
+const musicControl = document.getElementById('musicControl');
+let musicPlaying = false;
 
-<script>
-    /* ========== Matematik Oyunu JS ========== */
-    const mathCard = document.getElementById('mathCard');
-    const mathStartBtn = document.getElementById('mathStartBtn');
-    const mathGame = document.getElementById('mathGame');
-    const questionBox = document.getElementById('question-box');
-    const optionsBox = document.getElementById('options-box');
-    const scoreValue = document.getElementById('score-value');
+musicControl.addEventListener('click', ()=> {
+  if(musicPlaying){
+    bgMusic.pause();
+    musicControl.textContent='🔇';
+    musicPlaying=false;
+  } else {
+    bgMusic.play().then(()=>{
+      musicControl.textContent = '🔊';
+      musicPlaying = true;
+    }).catch(()=>{
+      musicControl.textContent='🔇';
+      musicPlaying=false;
+    });
+  }
+});
 
-    let score = 0;
-    let correctAnswer;
+/* Yılan Oyunu */
+const snakeCanvas = document.getElementById('snakeCanvas');
+const ctx = snakeCanvas.getContext('2d');
+const snakeStartScreen = document.getElementById('snakeStartScreen');
+const snakeScoreSpan = document.getElementById('snakeScore');
+const grid = 20;
+let snakeCount = 0, snakeSpeed = 8, snakeRunning = false, snakeObj = null, apple = null;
 
-    function getRandomInt(min, max) {
-        return Math.floor(Math.random() * (max - min + 1)) + min;
+function rand(min,max){ return Math.floor(Math.random()*(max-min))+min; }
+
+function resetSnakeGame(){
+  snakeObj = { x:180, y:180, dx:grid, dy:0, cells:[], maxCells:4 };
+  apple = { x: rand(0,20)*grid, y: rand(0,20)*grid };
+  snakeScoreSpan.textContent = '0';
+  snakeRunning = true;
+}
+
+function snakeLoop(){
+  requestAnimationFrame(snakeLoop);
+  if(!snakeRunning) return;
+  if(++snakeCount < (60/snakeSpeed)) return;
+  snakeCount = 0;
+  ctx.clearRect(0,0,snakeCanvas.width,snakeCanvas.height);
+
+  snakeObj.x += snakeObj.dx; snakeObj.y += snakeObj.dy;
+  if(snakeObj.x < 0) snakeObj.x = snakeCanvas.width - grid;
+  else if(snakeObj.x >= snakeCanvas.width) snakeObj.x = 0;
+  if(snakeObj.y < 0) snakeObj.y = snakeCanvas.height - grid;
+  else if(snakeObj.y >= snakeCanvas.height) snakeObj.y = 0;
+
+  snakeObj.cells.unshift({x:snakeObj.x, y:snakeObj.y});
+  if(snakeObj.cells.length > snakeObj.maxCells) snakeObj.cells.pop();
+
+  ctx.fillStyle = '#ff7b72';
+  ctx.fillRect(apple.x, apple.y, grid-1, grid-1);
+  ctx.fillStyle = '#2ea043';
+
+  snakeObj.cells.forEach(function(cell, index){
+    ctx.fillRect(cell.x, cell.y, grid-1, grid-1);
+    if(cell.x === apple.x && cell.y === apple.y){
+      snakeObj.maxCells++;
+      const sc = parseInt(snakeScoreSpan.textContent || '0') + 10;
+      snakeScoreSpan.textContent = sc;
+      apple.x = rand(0,20)*grid; apple.y = rand(0,20)*grid;
     }
-
-    function generateQuestion() {
-        optionsBox.innerHTML = '';
-        let num1 = getRandomInt(1, 20);
-        let num2 = getRandomInt(1, 20);
-        const operator = Math.random() < 0.5 ? '+' : '-';
-        if (operator === '-') {
-            if (num1 < num2) [num1, num2] = [num2, num1];
-            correctAnswer = num1 - num2;
-            questionBox.textContent = `${num1} - ${num2}`;
-        } else {
-            correctAnswer = num1 + num2;
-            questionBox.textContent = `${num1} + ${num2}`;
-        }
-
-        const options = new Set();
-        options.add(correctAnswer);
-        while (options.size < 4) {
-            let wrong = getRandomInt(correctAnswer - 10, correctAnswer + 10);
-            if (wrong !== correctAnswer && wrong >= 0) options.add(wrong);
-        }
-        Array.from(options).sort(() => Math.random() - 0.5).forEach(opt => {
-            const btn = document.createElement('button');
-            btn.className = 'option-btn';
-            btn.textContent = opt;
-            btn.addEventListener('click', () => checkAnswer(opt));
-            optionsBox.appendChild(btn);
-        });
+    for(let i = index + 1; i < snakeObj.cells.length; i++){
+      if(cell.x === snakeObj.cells[i].x && cell.y === snakeObj.cells[i].y){
+        snakeRunning = false;
+        snakeStartScreen.style.display = 'flex';
+      }
     }
+  });
+}
 
-    function checkAnswer(selected) {
-        if (parseInt(selected) === correctAnswer) {
-            score++;
-            scoreValue.textContent = score;
-            generateQuestion();
-        } else {
-            endGame();
-        }
+const memoryStartScreen = document.getElementById('memoryStartScreen');
+document.addEventListener('keydown', function(e){
+  if(!snakeRunning && isVisible(snakeStartScreen) && !isVisible(memoryStartScreen)){
+    snakeStartScreen.style.display = 'none';
+    resetSnakeGame();
+    return;
+  }
+  if(!snakeRunning) return;
+
+  if(e.key === 'a' || e.key === 'ArrowLeft'){ if(snakeObj.dx === 0){ snakeObj.dx = -grid; snakeObj.dy = 0; } }
+  else if(e.key === 'd' || e.key === 'ArrowRight'){ if(snakeObj.dx === 0){ snakeObj.dx = grid; snakeObj.dy = 0; } }
+  else if(e.key === 'w' || e.key === 'ArrowUp'){ if(snakeObj.dy === 0){ snakeObj.dy = -grid; snakeObj.dx = 0; } }
+  else if(e.key === 's' || e.key === 'ArrowDown'){ if(snakeObj.dy === 0){ snakeObj.dy = grid; snakeObj.dx = 0; } }
+});
+
+snakeStartScreen.addEventListener('click', function(){
+  if(isVisible(snakeStartScreen)){
+    snakeStartScreen.style.display = 'none';
+    resetSnakeGame();
+  }
+});
+
+requestAnimationFrame(snakeLoop);
+
+/* Hafıza Oyunu */
+const allSymbols = ['🦁','🦊','🐻','🐼','🐨','🐯','🐸','🐢'];
+let symbolsArr = [], firstCard=null, secondCard=null, lockBoard=false, pairsFound=0;
+const memoryBoard = document.getElementById('memoryBoard');
+const memoryMessage = document.getElementById('memoryMessage');
+
+function shuffle(a){ return a.sort(()=>Math.random()-0.5); }
+
+function createMemoryBoard(){
+  pairsFound = 0; memoryBoard.innerHTML=''; memoryMessage.textContent='';
+  symbolsArr = shuffle([...allSymbols, ...allSymbols]);
+  symbolsArr.forEach(sym => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.dataset.symbol = sym;
+    card.textContent = '❓';
+    memoryBoard.appendChild(card);
+
+    card.addEventListener('click', function(){ 
+      if(lockBoard || card.classList.contains('matched') || card === firstCard) return;
+      card.textContent = sym;
+      card.classList.add('flipped');
+      if(!firstCard){ firstCard = card; return; }
+      secondCard = card;
+      checkMemoryMatch();
+    });
+  });
+}
+
+function checkMemoryMatch(){
+  if(firstCard.dataset.symbol === secondCard.dataset.symbol){
+    firstCard.classList.add('matched');
+    secondCard.classList.add('matched');
+    firstCard = null; secondCard = null;
+    pairsFound++;
+    if(pairsFound === allSymbols.length){
+      memoryMessage.textContent = "🎉 Tebrikler! Tüm kartları eşleştirdiniz.";
+      setTimeout(()=> {
+        document.getElementById('memoryStartScreen').style.display = 'flex';
+      }, 1200);
     }
+  } else {
+    lockBoard = true;
+    setTimeout(()=> {
+      firstCard.textContent = '❓'; secondCard.textContent = '❓';
+      firstCard.classList.remove('flipped'); secondCard.classList.remove('flipped');
+      firstCard = null; secondCard = null; lockBoard = false;
+    }, 900);
+  }
+}
 
-    function startMathGame() {
-        score = 0;
-        scoreValue.textContent = score;
-        mathStartBtn.parentElement.style.display = 'none';
-        mathGame.style.display = 'block';
-        generateQuestion();
-    }
+document.getElementById('memoryStartScreen').addEventListener('click', function(){
+  if(isVisible(this)){
+    this.style.display = 'none';
+    createMemoryBoard();
+  }
+});
 
-    function endGame() {
-        mathGame.style.display = 'none';
-        mathStartBtn.parentElement.style.display = 'block';
-    }
-
-    mathStartBtn.addEventListener('click', startMathGame);
+/* İlk durum */
+snakeStartScreen.style.display = 'flex';
+memoryStartScreen.style.display = 'flex';
 </script>
 </body>
 </html>
