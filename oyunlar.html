@@ -1,208 +1,290 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Oyunlar ve Müzik</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Oyunlar</title>
 <style>
-body {
-  font-family: 'Poppins', sans-serif;
-  margin:0; padding:0;
-  background:#0d1117;
-  color:#c9d1d9;
-}
-#musicControl {
-  position: fixed;
-  top: 15px;
-  right: 15px;
-  font-size: 2em;
-  cursor: pointer;
-  z-index: 50;
-}
-section {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 50px;
-  padding: 20px;
-}
-canvas {
-  border: 3px solid #238636;
-  background-color: #161b22;
-  box-shadow: 0 0 20px #238636;
-}
-.game-container {
-  padding:20px;
-  background: rgba(30,30,35,0.85);
-  border-radius:20px;
-  border:2px solid #5a5a5a;
-  position: relative; /* BURASI ÖNEMLİ */
-}
-h2 {text-align:center; color:#10b981;}
-.game-board {
-  display:grid;
-  grid-template-columns: repeat(4, 80px);
-  gap:10px;
-  position: relative; /* kartların grid içinde düzgün yerleşmesi için */
-}
-.card { 
-  width:80px; height:80px; border-radius:12px; 
-  display:flex; justify-content:center; align-items:center; font-size:30px; cursor:pointer; 
-  perspective:1000px; position: relative; /* absolute kaldırıldı */
-}
-.card-front, .card-back { 
-  position: absolute; width:100%; height:100%; backface-visibility:hidden; display:flex; justify-content:center; align-items:center; border-radius:12px; 
-}
-.card-front { background:#4a4a4f; border:3px solid #6a6a6f; }
-.card-back { background:linear-gradient(45deg,#10b981,#0c7a52); transform:rotateY(180deg); }
-.card.flipped { transform:rotateY(180deg); transition: transform 0.6s; }
+  body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 20px;
+    background: linear-gradient(135deg,#0f172a,#111827);
+    color:#e6eef6;
+    display:flex;
+    justify-content:center;
+  }
+  .container {
+    width:100%;
+    max-width:1100px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:24px;
+  }
+  .game-card {
+    position:relative;
+    background: rgba(17,24,39,0.85);
+    border-radius:14px;
+    padding:16px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.6);
+    border:1px solid rgba(255,255,255,0.04);
+    overflow:visible;
+  }
+  .game-card h2{ text-align:center; color:#34d399; margin:6px 0 12px; }
+  /* Snake */
+  #snakeCanvas{ display:block; margin:0 auto; border:3px solid #10b981; background:#0b1220; box-shadow:0 0 12px #0f766e; }
+  .score { text-align:center; color:#86efac; margin-top:8px; font-weight:600; }
 
-#startScreenSnake, #startScreenMemory {
-  position:absolute; top:0; left:0; width:100%; height:100%; 
-  background: rgba(0,0,0,0.75); display:flex; flex-direction:column; justify-content:center; align-items:center; 
-  cursor:pointer; z-index:10; color:#c9d1d9; text-align:center;
-}
-#startScreenSnake.hidden, #startScreenMemory.hidden { display:none; }
-.score-display { position:absolute; top:15px; left:15px; font-size:1.5em; color:#238636; }
-.message { margin-top:10px; text-align:center; font-size:1.2em; color:#e0e0e0; }
+  /* Overlays (başlangıç ekranları) */
+  .start-overlay {
+    position:absolute;
+    inset:12px; /* overlay, kart iç kenarlarına göre */
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    background: rgba(2,6,23,0.7);
+    border-radius:10px;
+    z-index:40;
+    cursor:pointer;
+    transition: opacity .18s ease;
+  }
+  .start-overlay h1{ margin:0; color:#34d399; font-size:1.8rem; }
+  .start-overlay p{ margin:6px 0 0; color:#c7f9de; }
+
+  /* Memory board */
+  #memoryBoard { display:grid; grid-template-columns: repeat(4, 70px); gap:10px; justify-content:center; }
+  .card {
+    width:70px;height:70px;border-radius:10px;background:#263043;display:flex;align-items:center;justify-content:center;font-size:1.6rem;cursor:pointer;
+    user-select:none; transition:transform .35s;
+  }
+  .card.flipped{ transform: rotateY(180deg); }
+  .card.matched{ background:#10b981; cursor:default; }
+
+  /* Music control */
+  #musicControl {
+    position:fixed; right:18px; top:18px; z-index:200;
+    background:#071224;color:#95f7c9;border:1px solid rgba(255,255,255,0.06); padding:8px 10px;border-radius:8px; cursor:pointer;
+  }
+  @media (max-width:860px){ .container{ grid-template-columns:1fr; } }
 </style>
 </head>
 <body>
 
-<div id="musicControl">🔇</div>
+<button id="musicControl">🔊</button>
+<audio id="bgMusic" loop>
+  <source src="https://www.bensound.com/bensound-music/bensound-funkyelement.mp3" type="audio/mpeg">
+</audio>
 
-<section>
-  <!-- Yılan Oyunu -->
-  <div style="position:relative;">
-    <canvas width="400" height="400" id="snakeGame"></canvas>
-    <div id="startScreenSnake">
+<div class="container">
+
+  <!-- Snake Card -->
+  <div class="game-card" id="snakeCard">
+    <h2>🐍 Yılan Oyunu</h2>
+    <canvas id="snakeCanvas" width="400" height="400"></canvas>
+    <div class="score">Skor: <span id="snakeScore">0</span></div>
+
+    <div id="snakeStartScreen" class="start-overlay">
       <h1>Yılan Oyunu</h1>
-      <p>Oyunu başlatmak için tıklayın</p>
+      <p>Tıklayın veya 'W A S D' ile başlatın</p>
     </div>
-    <div class="score-display">Skor: <span id="snakeScore">0</span></div>
   </div>
 
-  <!-- Hatırlama Oyunu -->
-  <div class="game-container">
-    <h2>Hatırlama Oyunu</h2>
-    <div class="game-board" id="memoryBoard"></div>
-    <div class="message" id="memoryMessage"></div>
-    <div id="startScreenMemory">
+  <!-- Memory Card -->
+  <div class="game-card" id="memoryCard">
+    <h2>🧠 Hatırlama Oyunu</h2>
+    <div id="memoryBoard"></div>
+    <div id="memoryMessage" style="text-align:center;margin-top:10px;color:#d1f7e0"></div>
+
+    <div id="memoryStartScreen" class="start-overlay">
       <h1>Hatırlama Oyunu</h1>
-      <p>Oyunu başlatmak için tıklayın</p>
+      <p>Tıklayın ve kartlarla oynayın</p>
     </div>
   </div>
-</section>
 
-<audio id="bgMusic" loop src="https://www.bensound.com/bensound-music/bensound-energy.mp3"></audio>
+</div>
 
 <script>
-// MÜZİK KONTROLÜ
+/* ---------- Yardımcı: görünür mü? ---------- */
+function isVisible(el){
+  if(!el) return false;
+  const cs = window.getComputedStyle(el);
+  return cs.display !== 'none' && cs.visibility !== 'hidden' && parseFloat(cs.opacity) > 0;
+}
+
+/* ---------- Müzik Kontrolü ---------- */
 const bgMusic = document.getElementById('bgMusic');
 const musicControl = document.getElementById('musicControl');
 let musicPlaying = false;
-musicControl.addEventListener('click', () => {
-  if(!musicPlaying){
-    bgMusic.play().then(()=>{ musicPlaying=true; musicControl.textContent='🔊'; }).catch(()=>{});
-  } else {
-    bgMusic.pause();
-    musicPlaying=false;
-    musicControl.textContent='🔇';
-  }
+function tryPlayMusic(){
+  bgMusic.play().then(()=>{ musicPlaying = true; musicControl.textContent = '🔊'; })
+    .catch(()=>{ /* autoplay engellenirse kullanıcı düğmesiyle açabilir */ musicPlaying=false; musicControl.textContent='🔇'; });
+}
+tryPlayMusic();
+musicControl.addEventListener('click', ()=> {
+  if(musicPlaying){ bgMusic.pause(); musicControl.textContent='🔇'; musicPlaying=false; }
+  else { bgMusic.play(); musicControl.textContent='🔊'; musicPlaying=true; }
 });
 
-// -------------------- YILAN OYUNU --------------------
-var canvas = document.getElementById('snakeGame');
-var ctx = canvas.getContext('2d');
-var startScreenSnake = document.getElementById('startScreenSnake');
-var scoreDisplay = document.getElementById('snakeScore');
-var gameRunningSnake = false;
-var grid=20, count=0, gameSpeed=8;
-var snake={}, apple={}, score=0;
-function getRandomInt(min,max){ return Math.floor(Math.random()*(max-min))+min; }
+/* ================= YILAN OYUNU ================= */
+const snakeCanvas = document.getElementById('snakeCanvas');
+const ctx = snakeCanvas.getContext('2d');
+const snakeStartScreen = document.getElementById('snakeStartScreen');
+const snakeScoreSpan = document.getElementById('snakeScore');
+
+const grid = 20;
+let snakeCount = 0;
+let snakeSpeed = 8;
+let snakeRunning = false;
+let snakeObj = null;
+let apple = null;
+
+function rand(min,max){ return Math.floor(Math.random()*(max-min))+min; }
+
 function resetSnakeGame(){
-  snake={x:180,y:180,dx:grid,dy:0,cells:[],maxCells:4};
-  apple={x:getRandomInt(0,20)*grid, y:getRandomInt(0,20)*grid};
-  score=0;
-  scoreDisplay.textContent=score;
-  gameRunningSnake = true;
+  snakeObj = { x:180, y:180, dx:grid, dy:0, cells:[], maxCells:4 };
+  apple = { x: rand(0,20)*grid, y: rand(0,20)*grid };
+  snakeScoreSpan.textContent = '0';
+  snakeRunning = true;
 }
-function loopSnake(){
-  requestAnimationFrame(loopSnake);
-  if(!gameRunningSnake) return;
-  if(++count < (60/gameSpeed)) return;
-  count=0;
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  snake.x+=snake.dx; snake.y+=snake.dy;
-  if(snake.x<0) snake.x=canvas.width-grid;
-  else if(snake.x>=canvas.width) snake.x=0;
-  if(snake.y<0) snake.y=canvas.height-grid;
-  else if(snake.y>=canvas.height) snake.y=0;
-  snake.cells.unshift({x:snake.x, y:snake.y});
-  if(snake.cells.length>snake.maxCells) snake.cells.pop();
-  ctx.fillStyle='#ff7b72'; ctx.fillRect(apple.x,apple.y,grid-1,grid-1);
-  ctx.fillStyle='#2ea043';
-  snake.cells.forEach(function(cell,index){
-    ctx.fillRect(cell.x,cell.y,grid-1,grid-1);
-    if(cell.x===apple.x && cell.y===apple.y){
-      snake.maxCells++; score+=10; scoreDisplay.textContent=score;
-      apple.x=getRandomInt(0,20)*grid; apple.y=getRandomInt(0,20)*grid;
+
+function snakeLoop(){
+  requestAnimationFrame(snakeLoop);
+  if(!snakeRunning) return;
+  if(++snakeCount < (60/snakeSpeed)) return;
+  snakeCount = 0;
+  ctx.clearRect(0,0,snakeCanvas.width,snakeCanvas.height);
+
+  snakeObj.x += snakeObj.dx; snakeObj.y += snakeObj.dy;
+  if(snakeObj.x < 0) snakeObj.x = snakeCanvas.width - grid;
+  else if(snakeObj.x >= snakeCanvas.width) snakeObj.x = 0;
+  if(snakeObj.y < 0) snakeObj.y = snakeCanvas.height - grid;
+  else if(snakeObj.y >= snakeCanvas.height) snakeObj.y = 0;
+
+  snakeObj.cells.unshift({x:snakeObj.x, y:snakeObj.y});
+  if(snakeObj.cells.length > snakeObj.maxCells) snakeObj.cells.pop();
+
+  ctx.fillStyle = '#ff7b72';
+  ctx.fillRect(apple.x, apple.y, grid-1, grid-1);
+  ctx.fillStyle = '#2ea043';
+
+  snakeObj.cells.forEach(function(cell, index){
+    ctx.fillRect(cell.x, cell.y, grid-1, grid-1);
+
+    if(cell.x === apple.x && cell.y === apple.y){
+      snakeObj.maxCells++;
+      const sc = parseInt(snakeScoreSpan.textContent || '0') + 10;
+      snakeScoreSpan.textContent = sc;
+      apple.x = rand(0,20)*grid; apple.y = rand(0,20)*grid;
     }
-    for(var i=index+1;i<snake.cells.length;i++){
-      if(cell.x===snake.cells[i].x && cell.y===snake.cells[i].y){
-        gameRunningSnake=false;
-        startScreenSnake.style.display='flex';
+
+    for(let i = index + 1; i < snakeObj.cells.length; i++){
+      if(cell.x === snakeObj.cells[i].x && cell.y === snakeObj.cells[i].y){
+        // oyun bitti
+        snakeRunning = false;
+        // overlay'ı göster
+        snakeStartScreen.style.display = 'flex';
       }
     }
   });
 }
+
+/* Klavye: sadece yılan başlangıç ekranı görünür ve memory ekranı kapalıyken klavye ile başlatmaya izin ver */
+const memoryStartScreen = document.getElementById('memoryStartScreen');
+
 document.addEventListener('keydown', function(e){
-  if(!gameRunningSnake){ startScreenSnake.style.display='none'; resetSnakeGame(); return; }
-  if(e.key==='a' && snake.dx===0){ snake.dx=-grid; snake.dy=0; }
-  else if(e.key==='w' && snake.dy===0){ snake.dy=-grid; snake.dx=0; }
-  else if(e.key==='d' && snake.dx===0){ snake.dx=grid; snake.dy=0; }
-  else if(e.key==='s' && snake.dy===0){ snake.dy=grid; snake.dx=0; }
+  // Eğer yılan henüz çalışmıyorsa ve yılan başlangıç ekranı görünür ve hafıza ekranı görünmüyorsa -> başlat
+  if(!snakeRunning && isVisible(snakeStartScreen) && !isVisible(memoryStartScreen)){
+    snakeStartScreen.style.display = 'none';
+    resetSnakeGame();
+    return;
+  }
+  // hareket tuşlarını işleme: sadece yılan çalışıyorsa
+  if(!snakeRunning) return;
+
+  if(e.key === 'a' || e.key === 'ArrowLeft'){ if(snakeObj.dx === 0){ snakeObj.dx = -grid; snakeObj.dy = 0; } }
+  else if(e.key === 'd' || e.key === 'ArrowRight'){ if(snakeObj.dx === 0){ snakeObj.dx = grid; snakeObj.dy = 0; } }
+  else if(e.key === 'w' || e.key === 'ArrowUp'){ if(snakeObj.dy === 0){ snakeObj.dy = -grid; snakeObj.dx = 0; } }
+  else if(e.key === 's' || e.key === 'ArrowDown'){ if(snakeObj.dy === 0){ snakeObj.dy = grid; snakeObj.dx = 0; } }
 });
-startScreenSnake.addEventListener('click', ()=>{ startScreenSnake.style.display='none'; resetSnakeGame(); });
 
-// -------------------- HATIRLAMA OYUNU --------------------
-const allSymbols=['🦁','🦊','🐻','🐼','🐨','🐯','🐸','🐢'];
-const symbols=[...allSymbols,...allSymbols];
+snakeStartScreen.addEventListener('click', function(){
+  // tıkla ile başlat: overlay açık olduğu sürece başlat
+  if(isVisible(snakeStartScreen)){
+    snakeStartScreen.style.display = 'none';
+    resetSnakeGame();
+  }
+});
+
+requestAnimationFrame(snakeLoop);
+
+/* ================= HAFIZA (MEMORY) OYUNU ================= */
+const allSymbols = ['🦁','🦊','🐻','🐼','🐨','🐯','🐸','🐢'];
+let symbolsArr = [];
 let firstCard=null, secondCard=null, lockBoard=false, pairsFound=0;
-const board=document.getElementById('memoryBoard');
-const message=document.getElementById('memoryMessage');
-const startScreenMemory=document.getElementById('startScreenMemory');
 
-function shuffle(array){ return array.sort(()=>Math.random()-0.5); }
+const memoryBoard = document.getElementById('memoryBoard');
+const memoryMessage = document.getElementById('memoryMessage');
+
+function shuffle(a){ return a.sort(()=>Math.random()-0.5); }
+
 function createMemoryBoard(){
-  pairsFound=0; board.innerHTML='';
-  shuffle(symbols).forEach(symbol=>{
-    const card=document.createElement('div');
-    card.classList.add('card'); card.dataset.symbol=symbol;
-    card.innerHTML=`<div class="card-front"></div><div class="card-back">${symbol}</div>`;
-    board.appendChild(card);
-    card.addEventListener('click', flipCard);
+  pairsFound = 0; memoryBoard.innerHTML=''; memoryMessage.textContent='';
+  symbolsArr = shuffle([...allSymbols, ...allSymbols]);
+  symbolsArr.forEach(sym => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.dataset.symbol = sym;
+    card.textContent = '❓';
+    memoryBoard.appendChild(card);
+
+    card.addEventListener('click', function(){ 
+      if(lockBoard || card.classList.contains('matched') || card === firstCard) return;
+      // aç
+      card.textContent = sym;
+      card.classList.add('flipped');
+
+      if(!firstCard){ firstCard = card; return; }
+      secondCard = card;
+      checkMemoryMatch();
+    });
   });
 }
-function flipCard(){ if(lockBoard||this===firstCard) return; this.classList.add('flipped');
-  if(!firstCard){ firstCard=this; return; }
-  secondCard=this; checkForMatch();
-}
-function checkForMatch(){
-  let isMatch=firstCard.dataset.symbol===secondCard.dataset.symbol;
-  if(isMatch){ disableCards(); pairsFound++; checkWin(); } else{ unflipCards(); }
-}
-function disableCards(){ firstCard.removeEventListener('click',flipCard); secondCard.removeEventListener('click',flipCard); resetBoard(); }
-function unflipCards(){ lockBoard=true; setTimeout(()=>{ firstCard.classList.remove('flipped'); secondCard.classList.remove('flipped'); resetBoard(); },1000); }
-function resetBoard(){ [firstCard,secondCard,lockBoard]=[null,null,false]; }
-function checkWin(){ if(pairsFound===symbols.length/2){ message.textContent="Tebrikler! Tüm kartları eşleştirdiniz 🎉";
-  setTimeout(()=>{ startScreenMemory.classList.remove('hidden'); },3000); } }
-function startMemoryGame(){ startScreenMemory.classList.add('hidden'); createMemoryBoard(); message.textContent=''; }
-startScreenMemory.addEventListener('click', startMemoryGame);
 
-// -------------------- BAŞLAT --------------------
-loopSnake();
+function checkMemoryMatch(){
+  if(firstCard.dataset.symbol === secondCard.dataset.symbol){
+    firstCard.classList.add('matched');
+    secondCard.classList.add('matched');
+    firstCard = null; secondCard = null;
+    pairsFound++;
+    if(pairsFound === allSymbols.length){
+      memoryMessage.textContent = "🎉 Tebrikler! Tüm kartları eşleştirdiniz.";
+      // oyun bittiğinde overlay'i tekrar göster (isteğe bağlı)
+      setTimeout(()=> {
+        document.getElementById('memoryStartScreen').style.display = 'flex';
+      }, 1200);
+    }
+  } else {
+    lockBoard = true;
+    setTimeout(()=> {
+      firstCard.textContent = '❓'; secondCard.textContent = '❓';
+      firstCard.classList.remove('flipped'); secondCard.classList.remove('flipped');
+      firstCard = null; secondCard = null; lockBoard = false;
+    }, 900);
+  }
+}
+
+/* memory start click */
+document.getElementById('memoryStartScreen').addEventListener('click', function(){
+  if(isVisible(this)){
+    this.style.display = 'none';
+    createMemoryBoard();
+  }
+});
+
+/* İlk durum: overlay'ler görünsün (kullanıcının tıklamasıyla başlasın) */
+snakeStartScreen.style.display = 'flex';
+memoryStartScreen.style.display = 'flex';
 </script>
-
 </body>
 </html>
