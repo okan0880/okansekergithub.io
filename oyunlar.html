@@ -20,17 +20,14 @@
     gap: 24px;
     justify-content: center;
     align-items: flex-start;
-    flex-wrap: nowrap;
+    flex-wrap: wrap; /* Mobilde alt alta geçiş için */
     width: 100%;
     max-width: 1100px;
-    overflow-x: auto;
-    padding-bottom: 10px;
   }
 
   .game-card {
-    flex: 1 1 0;
-    min-width: 350px;
-    max-width: 540px;
+    flex: 1 1 45%; /* Yan yana ve eşit genişlik */
+    min-width: 300px; /* Küçük ekranlar için minimum genişlik */
     background: rgba(17,24,39,0.85);
     border-radius:14px;
     padding:16px;
@@ -40,13 +37,14 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 550px; /* kart yüksekliği eşit */
+    height: 550px; /* Kart yüksekliği eşit */
+    position: relative;
   }
 
   .game-card h2{ text-align:center; color:#34d399; margin:6px 0 12px; }
 
   /* Snake */
-  #snakeCanvas{ border:3px solid #10b981; background:#0b1220; box-shadow:0 0 12px #0f766e; flex-shrink:0; }
+  #snakeCanvas{ border:3px solid #10b981; background:#0b1220; box-shadow:0 0 12px #0f766e; }
   .score { text-align:center; color:#86efac; margin-top:8px; font-weight:600; }
 
   /* Overlays */
@@ -79,6 +77,11 @@
   #musicControl {
     position:fixed; right:18px; top:18px; z-index:200;
     background:#071224;color:#95f7c9;border:1px solid rgba(255,255,255,0.06); padding:8px 10px;border-radius:8px; cursor:pointer;
+  }
+
+  /* Küçük ekranlarda kartlar alt alta */
+  @media (max-width:860px){
+    .game-card { flex: 1 1 100%; }
   }
 </style>
 </head>
@@ -176,4 +179,111 @@ function snakeLoop(){
   if(snakeObj.cells.length > snakeObj.maxCells) snakeObj.cells.pop();
 
   ctx.fillStyle = '#ff7b72';
-  ctx.fillRect(apple.x, apple.y, grid-1, grid-1
+  ctx.fillRect(apple.x, apple.y, grid-1, grid-1);
+  ctx.fillStyle = '#2ea043';
+
+  snakeObj.cells.forEach(function(cell, index){
+    ctx.fillRect(cell.x, cell.y, grid-1, grid-1);
+    if(cell.x === apple.x && cell.y === apple.y){
+      snakeObj.maxCells++;
+      const sc = parseInt(snakeScoreSpan.textContent || '0') + 10;
+      snakeScoreSpan.textContent = sc;
+      apple.x = rand(0,20)*grid; apple.y = rand(0,20)*grid;
+    }
+    for(let i = index + 1; i < snakeObj.cells.length; i++){
+      if(cell.x === snakeObj.cells[i].x && cell.y === snakeObj.cells[i].y){
+        snakeRunning = false;
+        snakeStartScreen.style.display = 'flex';
+      }
+    }
+  });
+}
+
+const memoryStartScreen = document.getElementById('memoryStartScreen');
+document.addEventListener('keydown', function(e){
+  if(!snakeRunning && isVisible(snakeStartScreen) && !isVisible(memoryStartScreen)){
+    snakeStartScreen.style.display = 'none';
+    resetSnakeGame();
+    return;
+  }
+  if(!snakeRunning) return;
+
+  if(e.key === 'a' || e.key === 'ArrowLeft'){ if(snakeObj.dx === 0){ snakeObj.dx = -grid; snakeObj.dy = 0; } }
+  else if(e.key === 'd' || e.key === 'ArrowRight'){ if(snakeObj.dx === 0){ snakeObj.dx = grid; snakeObj.dy = 0; } }
+  else if(e.key === 'w' || e.key === 'ArrowUp'){ if(snakeObj.dy === 0){ snakeObj.dy = -grid; snakeObj.dx = 0; } }
+  else if(e.key === 's' || e.key === 'ArrowDown'){ if(snakeObj.dy === 0){ snakeObj.dy = grid; snakeObj.dx = 0; } }
+});
+
+snakeStartScreen.addEventListener('click', function(){
+  if(isVisible(snakeStartScreen)){
+    snakeStartScreen.style.display = 'none';
+    resetSnakeGame();
+  }
+});
+
+requestAnimationFrame(snakeLoop);
+
+/* Hafıza Oyunu */
+const allSymbols = ['🦁','🦊','🐻','🐼','🐨','🐯','🐸','🐢'];
+let symbolsArr = [], firstCard=null, secondCard=null, lockBoard=false, pairsFound=0;
+const memoryBoard = document.getElementById('memoryBoard');
+const memoryMessage = document.getElementById('memoryMessage');
+
+function shuffle(a){ return a.sort(()=>Math.random()-0.5); }
+
+function createMemoryBoard(){
+  pairsFound = 0; memoryBoard.innerHTML=''; memoryMessage.textContent='';
+  symbolsArr = shuffle([...allSymbols, ...allSymbols]);
+  symbolsArr.forEach(sym => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.dataset.symbol = sym;
+    card.textContent = '❓';
+    memoryBoard.appendChild(card);
+
+    card.addEventListener('click', function(){ 
+      if(lockBoard || card.classList.contains('matched') || card === firstCard) return;
+      card.textContent = sym;
+      card.classList.add('flipped');
+      if(!firstCard){ firstCard = card; return; }
+      secondCard = card;
+      checkMemoryMatch();
+    });
+  });
+}
+
+function checkMemoryMatch(){
+  if(firstCard.dataset.symbol === secondCard.dataset.symbol){
+    firstCard.classList.add('matched');
+    secondCard.classList.add('matched');
+    firstCard = null; secondCard = null;
+    pairsFound++;
+    if(pairsFound === allSymbols.length){
+      memoryMessage.textContent = "🎉 Tebrikler! Tüm kartları eşleştirdiniz.";
+      setTimeout(()=> {
+        document.getElementById('memoryStartScreen').style.display = 'flex';
+      }, 1200);
+    }
+  } else {
+    lockBoard = true;
+    setTimeout(()=> {
+      firstCard.textContent = '❓'; secondCard.textContent = '❓';
+      firstCard.classList.remove('flipped'); secondCard.classList.remove('flipped');
+      firstCard = null; secondCard = null; lockBoard = false;
+    }, 900);
+  }
+}
+
+document.getElementById('memoryStartScreen').addEventListener('click', function(){
+  if(isVisible(this)){
+    this.style.display = 'none';
+    createMemoryBoard();
+  }
+});
+
+/* İlk durum */
+snakeStartScreen.style.display = 'flex';
+memoryStartScreen.style.display = 'flex';
+</script>
+</body>
+</html>
