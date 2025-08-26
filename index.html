@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Merhaba, portföyüme howwwş geldiniz!</title>
+    <title>Merhaba, portföyüme hoş geldiniz!</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
@@ -17,8 +17,8 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            min-height: 100vh;
-            padding-top: 40px;
+            min-height: 120vh;   /* ekran yüksekliğini artırdık */
+            padding: 60px 0;     /* üst ve alt boşluk */
         }
 
         h2 {
@@ -37,14 +37,13 @@
             justify-content: flex-start;
             align-items: center;
             width: 100%;
-            padding: 0 calc(50% - 125px);
+            padding: 40px 0; /* dikey boşluk eklendi */
         }
 
         .scroll-container::-webkit-scrollbar {
             display: none;
         }
         
-        /* Tüm bağlantıların varsayılan stilini kaldırır */
         a {
             text-decoration: none;
             color: inherit;
@@ -59,12 +58,13 @@
             align-items: center;
             justify-content: center;
             margin: 0 10px;
+            padding-bottom: 40px; /* alt boşluk hover için */
         }
 
         .item {
             width: 90vw;
             max-width: 250px;
-            height: 350px;
+            height: 400px;
             background-size: cover;
             background-position: center;
             border-radius: 20px;
