@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Staj Deneyimi</title>
+<style>
+/* Genel Stil */
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #121212;
+    color: #e0e0e0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Container */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Başlık */
+.section-title {
+    text-align: center;
+    color: #fff;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    font-size: 2.5rem;
+    font-weight: 700;
+    letter-spacing: -1px;
+}
+
+/* Kart */
+.internship-card {
+    background: #1e1e1e;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    padding: 30px;
+    border: 1px solid #333;
+    transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.4s;
+}
+
+.internship-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 16px 36px rgba(0,0,0,0.5);
+}
+
+.internship-card h3 {
+    font-size: 1.8rem;
+    color: #10b981;
+    margin-top: 0;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #10b981;
+    padding-bottom: 10px;
+}
+
+.internship-card p {
+    font-size: 1rem;
+    color: #b0b0b0;
+    line-height: 1.7;
+    margin-bottom: 20px;
+}
+
+/* Medya Grid */
+.media-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.media-grid img {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.media-grid img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.4);
+}
+
+/* Video */
+.video-container-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.video-container {
+    position: relative;
+    width: 100%;
+    max-width: 700px;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+}
+
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* Modal */
+#modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.85);
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 0.3s forwards;
+    backdrop-filter: blur(5px);
+}
+
+#modal-img {
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    animation: zoomIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+@keyframes zoomIn {
+    from {transform: scale(0.8);}
+    to {transform: scale(1);}
+}
+</style>
+</head>
+<body>
+
+<section id="internship">
+    <div class="container">
+        <h2 class="section-title">Staj Deneyimi</h2>
+        
+        <div class="internship-card">
+            <h3>FCM MOBILITY Firmasında Staj Süreci</h3>
+            <p>
+                Elektrikli araç projesinde aracın verilerinin mobil uygulamaya aktarılması için kullanılacak elektronik kart tasarımı üzerinde çalıştım. Aynı zamanda aracın bazı mekanik parçalarının CAD çizimlerini gerçekleştirdim. Mekanik parça tasarımı, üretim ve montaj süreçlerinde görev aldım. Ayrıca geliştirme kartı kullanarak pedal asistan sistemi, LCD ekran üzerinde veri görüntüleme gibi uygulamalar için gömülü yazılım geliştirdim.
+            </p>
+
+            <div class="media-grid">
+                <img src="https://i.ibb.co/QvZZGWPx/image-26.png" alt="Staj Resmi 1" onclick="openModal(this.src)">
+                <img src="https://i.ibb.co/mFdzmFDm/image-25.png" alt="Staj Resmi 2" onclick="openModal(this.src)">
+                <img src="https://i.ibb.co/21yvPxkQ/image-22.png" alt="Staj Resmi 3" onclick="openModal(this.src)">
+                <img src="https://i.ibb.co/ksQcCyxR/image-21.png" alt="Staj Resmi 4" onclick="openModal(this.src)">
+                <img src="https://i.ibb.co/6099Fb7d/image-24.png" alt="Staj Resmi 5" onclick="openModal(this.src)">
+                <img src="https://i.ibb.co/Nn1kpyGM/image-23.png" alt="Staj Resmi 6" onclick="openModal(this.src)">
+            </div>
+
+            <div class="video-container-wrapper">
+                <div class="video-container">
+                    <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7353293320095174656?collapsed=1"
+                            title="FCM Mobility Staj Deneyimi"
+                            allowfullscreen>
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Modal -->
+<div id="modal" onclick="closeModal()">
+    <img id="modal-img" src="">
+</div>
+
+<script>
+function openModal(src) {
+    const modal = document.getElementById('modal');
+    const modalImg = document.getElementById('modal-img');
+    modal.style.display = 'flex';
+    modalImg.src = src;
+}
+
+function closeModal() {
+    document.getElementById('modal').style.display = 'none';
+}
+</script>
+
+</body>
+</html>
