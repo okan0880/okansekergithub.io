@@ -1,136 +1,80 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Merhaba, portföyüme hoş geldiniz!</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-    <style>
-        html, body {
-            height: 100%;
-            margin: 0;
-            overflow-y: hidden; /* dikey scroll tamamen kapalı */
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Merhaba, portföyüme hoş geldiniz!</title>
+  <style>
+    body {
+      margin: 0;
+      background: #111;
+      color: white;
+      font-family: Arial, sans-serif;
+      overflow: hidden; /* Scrollbar tamamen kaldırıldı */
+    }
 
-        body {
-            background-color: #1E1E1E;
-            color: #D4D4D4;
-            font-family: 'Poppins', sans-serif;
-            overflow-x: hidden;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 60px 0;
-        }
+    header {
+      text-align: center;
+      padding: 30px 20px 20px; /* Üst boşluk 30px'e indirildi */
+      background: #222;
+    }
 
-        h2 {
-            font-weight: 600;
-            font-size: 2.5em;
-            margin-bottom: 20px;
-            text-align: center;
-        }
+    h1 {
+      margin: 0;
+      font-size: 2.5em;
+      letter-spacing: 2px;
+    }
 
-        .scroll-container {
-            display: flex;
-            overflow-x: scroll;
-            scroll-snap-type: x mandatory;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
-            justify-content: flex-start;
-            align-items: center;
-            width: 100%;
-            padding: 40px 0;
-        }
+    .container {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      padding: 40px;
+    }
 
-        .scroll-container::-webkit-scrollbar {
-            display: none; /* yatay scroll da gizli */
-        }
-        
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
+    .card {
+      background: #333;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      flex: 1;
+      max-width: 250px;
+      transition: transform 0.3s ease;
+    }
 
-        .item-wrapper {
-            flex: 0 0 auto;
-            scroll-snap-align: center;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            margin: 0 10px;
-            padding-bottom: 40px;
-        }
+    .card:hover {
+      transform: translateY(-10px);
+    }
 
-        .item {
-            width: 90vw;
-            max-width: 250px;
-            height: 400px;
-            background-size: cover;
-            background-position: center;
-            border-radius: 20px;
-            transition: transform 0.4s ease, box-shadow 0.4s ease;
-            margin-top: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            cursor: pointer;
-        }
+    .card h2 {
+      margin-top: 0;
+      font-size: 1.5em;
+    }
 
-        .item:hover {
-            transform: scale(1.05);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7);
-        }
-        
-        .card-title {
-            font-size: 1.2em;
-            font-weight: 600;
-            margin-bottom: 15px;
-            color: #fff;
-        }
-
-        .item1 { background-image: url("https://i.ibb.co/1YHcpDZH/paint-2.png"); }
-        .item2 { background-image: url("https://i.ibb.co/YT2fg7Gm/paint-4.png"); }
-        .item3 { background-image: url("https://i.ibb.co/23Y1yTw9/paint-7.png"); }
-        .item4 { background-image: url("https://i.ibb.co/Z1KnFRXS/paint-8.png"); }
-        .item5 { background-image: url("https://i.ibb.co/GQjH3nwq/paint-9.png"); }
-    </style>
+    .card p {
+      font-size: 1em;
+      color: #bbb;
+    }
+  </style>
 </head>
 <body>
-    <h2>Merhaba, portföyüme hoş geldiniz!</h2>
+  <header>
+    <h1>Merhaba, portföyüme hoş geldiniz!</h1>
+  </header>
 
-    <div class="scroll-container">
-        <a href="hakkimda.html">
-            <div class="item-wrapper">
-                <div class="card-title">Hakkımda</div>
-                <div class="item item1"></div>
-            </div>
-        </a>
-        <a href="projects.html">
-            <div class="item-wrapper">
-                <div class="card-title">Projeler</div>
-                <div class="item item2"></div>
-            </div>
-        </a>
-        <a href="staj-deneyimi.html">
-            <div class="item-wrapper">
-                <div class="card-title">Staj Deneyimi</div>
-                <div class="item item3"></div>
-            </div>
-        </a>
-        <a href="oyunlar.html">
-            <div class="item-wrapper">
-                <div class="card-title">Oyunlar</div>
-                <div class="item item4"></div>
-            </div>
-        </a>
-        <a href="iletisim.html">
-            <div class="item-wrapper">
-                <div class="card-title">İletişim</div>
-                <div class="item item5"></div>
-            </div>
-        </a>
+  <div class="container">
+    <div class="card">
+      <h2>Proje 1</h2>
+      <p>Açıklama burada yer alacak.</p>
     </div>
+    <div class="card">
+      <h2>Proje 2</h2>
+      <p>Açıklama burada yer alacak.</p>
+    </div>
+    <div class="card">
+      <h2>Proje 3</h2>
+      <p>Açıklama burada yer alacak.</p>
+    </div>
+  </div>
 </body>
 </html>
